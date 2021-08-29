@@ -1,2 +1,3 @@
-# moonbeam-dashboard
-Dashboard for moonbeam network using Covalent API
+# Moonbeam-dashboard
+
+**Dashboard for moonbeam network using Covalent API**
