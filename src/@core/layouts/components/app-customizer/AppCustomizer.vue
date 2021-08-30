@@ -10,21 +10,36 @@
     <!-- /Toggler -->
 
     <!-- Header -->
-    <div class="customizer-section d-flex justify-content-between align-items-center">
+    <div
+      class="customizer-section d-flex justify-content-between align-items-center"
+    >
       <div>
         <h4 class="text-uppercase mb-0">Theme Customizer</h4>
         <small>Customize &amp; Preview in Real Time</small>
       </div>
-      <feather-icon icon="XIcon" size="18" class="cursor-pointer" @click="isCustomizerOpen = !isCustomizerOpen" />
+      <feather-icon
+        icon="XIcon"
+        size="18"
+        class="cursor-pointer"
+        @click="isCustomizerOpen = !isCustomizerOpen"
+      />
     </div>
     <!-- Header -->
 
-    <vue-perfect-scrollbar :settings="perfectScrollbarSettings" class="ps-customizer-area scroll-area">
+    <vue-perfect-scrollbar
+      :settings="perfectScrollbarSettings"
+      class="ps-customizer-area scroll-area"
+    >
       <!-- Skin, RTL, Router Animation -->
       <div class="customizer-section">
         <!-- Skin -->
         <b-form-group label="Skin">
-          <b-form-radio-group id="skin-radio-group" v-model="skin" name="skin" :options="skinOptions" />
+          <b-form-radio-group
+            id="skin-radio-group"
+            v-model="skin"
+            name="skin"
+            :options="skinOptions"
+          />
         </b-form-group>
 
         <!-- Skin -->
@@ -39,7 +54,13 @@
 
         <!-- RTL -->
         <b-form-group label="RTL" label-cols="10">
-          <b-form-checkbox v-model="isRTL" class="mr-0 mt-50" name="is-rtl" switch inline />
+          <b-form-checkbox
+            v-model="isRTL"
+            class="mr-0 mt-50"
+            name="is-rtl"
+            switch
+            inline
+          />
         </b-form-group>
 
         <!-- Router Transition -->
@@ -60,11 +81,18 @@
       <div class="customizer-section">
         <!-- Layout Type -->
         <b-form-group label="Menu Layout">
-          <b-form-radio-group v-model="layoutType" name="layout-type" :options="layoutTypeOptions" />
+          <b-form-radio-group
+            v-model="layoutType"
+            name="layout-type"
+            :options="layoutTypeOptions"
+          />
         </b-form-group>
 
         <!-- Collapsible -->
-        <div v-if="layoutType === 'vertical'" class="d-flex justify-content-between align-items-center mt-2">
+        <div
+          v-if="layoutType === 'vertical'"
+          class="d-flex justify-content-between align-items-center mt-2"
+        >
           <span class="font-weight-bold">Menu Collapsed</span>
           <b-form-checkbox
             v-model="isVerticalMenuCollapsed"
@@ -78,7 +106,13 @@
         <!-- Menu Visiblity -->
         <div class="d-flex justify-content-between align-items-center mt-2">
           <span class="font-weight-bold">Menu Hidden</span>
-          <b-form-checkbox v-model="isNavMenuHidden" name="is-menu-visible" class="mr-0" switch inline />
+          <b-form-checkbox
+            v-model="isNavMenuHidden"
+            name="is-menu-visible"
+            class="mr-0"
+            switch
+            inline
+          />
         </div>
       </div>
 
@@ -93,15 +127,21 @@
             :class="[
               `bg-${color}`,
               { 'border border-light': !index },
-              { 'mark-active': navbarBackgroundColor === color },
+              { 'mark-active': navbarBackgroundColor === color }
             ]"
             @click="navbarBackgroundColor = color"
           />
         </b-form-group>
 
         <!-- Navbar Type -->
-        <b-form-group :label="layoutType === 'vertical' ? 'Navbar Type' : 'Menu Type'">
-          <b-form-radio-group v-model="navbarType" name="navbar-type" :options="navbarTypes" />
+        <b-form-group
+          :label="layoutType === 'vertical' ? 'Navbar Type' : 'Menu Type'"
+        >
+          <b-form-radio-group
+            v-model="navbarType"
+            name="navbar-type"
+            :options="navbarTypes"
+          />
         </b-form-group>
       </div>
 
@@ -109,14 +149,11 @@
       <div class="customizer-section">
         <!-- Footer Type -->
         <b-form-group label="Footer Type">
-          <b-form-radio-group v-model="footerType" name="footer-type" :options="footerTypes" />
-        </b-form-group>
-      </div>
-
-      <!-- SECTION: Cache -->
-      <div class="customizer-section">
-        <b-form-group label="Homepage Cache">
-          <ui-button :loading="isLoading" variant="danger" @click="flushCache"> Flash </ui-button>
+          <b-form-radio-group
+            v-model="footerType"
+            name="footer-type"
+            :options="footerTypes"
+          />
         </b-form-group>
       </div>
     </vue-perfect-scrollbar>
@@ -124,11 +161,16 @@
 </template>
 
 <script>
-import { BLink, BFormRadioGroup, BFormGroup, BFormCheckbox } from "bootstrap-vue"
-import vSelect from "vue-select"
-import VuePerfectScrollbar from "vue-perfect-scrollbar"
-import useAppCustomizer from "./useAppCustomizer"
-import { mapGetters } from "vuex"
+import {
+  BLink,
+  BFormRadioGroup,
+  BFormGroup,
+  BFormCheckbox
+} from 'bootstrap-vue'
+import vSelect from 'vue-select'
+import VuePerfectScrollbar from 'vue-perfect-scrollbar'
+import useAppCustomizer from './useAppCustomizer'
+import { mapGetters } from 'vuex'
 export default {
   components: {
     // BSV
@@ -139,18 +181,9 @@ export default {
 
     // 3rd party
     vSelect,
-    VuePerfectScrollbar,
+    VuePerfectScrollbar
   },
-  computed: {
-    isLoading() {
-      return this.$store.getters["service/isLoading"]("clearHomePageCache")
-    },
-  },
-  methods: {
-    async flushCache() {
-      await this.$store.dispatch("service/clearHomePageCache")
-    },
-  },
+
   setup() {
     const {
       // Vertical Menu
@@ -189,23 +222,25 @@ export default {
 
       // Footer
       footerTypes,
-      footerType,
+      footerType
     } = useAppCustomizer()
 
-    if (layoutType.value === "horizontal") {
+    if (layoutType.value === 'horizontal') {
       // Remove semi-dark skin option in horizontal layout
-      const skinSemiDarkIndex = skinOptions.findIndex((s) => s.value === "semi-dark")
+      const skinSemiDarkIndex = skinOptions.findIndex(
+        (s) => s.value === 'semi-dark'
+      )
       delete skinOptions[skinSemiDarkIndex]
 
       // Remove menu hidden radio in horizontal layout => As we already have switch for it
-      const menuHiddneIndex = navbarTypes.findIndex((t) => t.value === "hidden")
+      const menuHiddneIndex = navbarTypes.findIndex((t) => t.value === 'hidden')
       delete navbarTypes[menuHiddneIndex]
     }
 
     // Perfect Scrollbar
     const perfectScrollbarSettings = {
       maxScrollbarLength: 60,
-      wheelPropagation: false,
+      wheelPropagation: false
     }
 
     return {
@@ -248,19 +283,19 @@ export default {
       footerType,
 
       // Perfect Scrollbar
-      perfectScrollbarSettings,
+      perfectScrollbarSettings
     }
-  },
+  }
 }
 </script>
 
 <style lang="scss">
-@import "@core/scss/vue/libs/vue-select.scss";
+@import '@core/scss/vue/libs/vue-select.scss';
 </style>
 
 <style lang="scss" scoped>
-@import "~@core/scss/base/bootstrap-extended/include";
-@import "~@core/scss/base/components/variables-dark";
+@import '~@core/scss/base/bootstrap-extended/include';
+@import '~@core/scss/base/components/variables-dark';
 
 .customizer-section {
   padding: 1.5rem;

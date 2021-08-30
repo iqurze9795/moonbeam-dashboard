@@ -1,23 +1,19 @@
 <template>
-  <div>
-    {{ feeds }}
-  </div>
+  <div>hello this is store</div>
 </template>
 <script lang="ts">
-import Vue from "vue"
-import { Component } from "vue-property-decorator"
-import { Action, Getter } from "vuex-class"
-@Component({ name: "store" })
+import Vue from 'vue'
+import { Component } from 'vue-property-decorator'
+import { Action, Getter } from 'vuex-class'
+@Component({ name: 'store' })
 export default class Store extends Vue {
-  @Action("couponBanner/fetchCouponBanners")
-  private fetchFeeds
-  @Getter("couponBanner/couponBanners")
-  private FEEDS
-  get feeds() {
-    return this.FEEDS
-  }
+  @Action('classA/getUserBalances')
+  private getUserBalances
+
   async mounted() {
-    this.fetchFeeds()
+    await this.getUserBalances({
+      address: '0x08B40414525687731C23F430CEBb424b332b3d35'
+    })
   }
 }
 </script>
