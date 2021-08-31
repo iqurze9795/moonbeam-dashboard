@@ -80,8 +80,6 @@ import Component from 'vue-class-component'
   }
 })
 export default class CoinHoldingList extends Vue {
-  @Action('classA/getUserBalances')
-  private requestUserBalances
   @Getter('classA/userBalances')
   private balances
 
@@ -126,11 +124,6 @@ export default class CoinHoldingList extends Vue {
       { key: 'quoteRate24H', label: 'Price 24H' },
       { key: 'change', label: 'Change' }
     ]
-  }
-  async mounted() {
-    await this.requestUserBalances({
-      address: '0xa6bf7fcebc4b4148c0c54324b190aaa7a779362e'
-    })
   }
 
   // {
