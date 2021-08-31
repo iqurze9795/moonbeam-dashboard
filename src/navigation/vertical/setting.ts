@@ -1,13 +1,13 @@
 export default [
   {
-    header: "Admin Management",
+    header: "Moonbeam Portfolio traking",
   },
   {
-    title: "Users",
-    icon: "ShieldIcon",
+    title: "Dashboard",
+    icon: "ActivityIcon",
   },
   {
-    title: "Groups",
-    icon: "ServerIcon",
+    title: "Transaction",
+    icon: "TrendingUpIcon",
   },
 ]

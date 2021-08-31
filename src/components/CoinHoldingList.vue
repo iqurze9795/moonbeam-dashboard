@@ -1,33 +1,34 @@
 <template>
   <b-card v-if="balanceItem" no-body class="card-company-table">
-    <b-table :items="balanceItem" responsive :fields="fields" class="mb-0">
+    <b-table
+      :items="balanceItem"
+      :busy="isLoading"
+      responsive
+      :fields="fields"
+      show-empty
+      class="mb-0"
+    >
+      <template #table-busy>
+        <div class="view-state loading">
+          <div class="text-center text-danger">
+            <b-spinner class="align-middle mr-1"></b-spinner>
+            <strong>Loading...</strong>
+          </div>
+        </div>
+      </template>
+
+      <template #empty>
+        <div class="view-state empty">No data found.</div>
+      </template>
       <!-- company -->
       <template #cell(logoUrl)="{ value }">
         <div class="d-flex align-items-center">
           <div class="img-container">
             <img :src="value" />
           </div>
-          <div>
-            <!-- <div class="font-weight-bolder">
-              {{ data.item.title }}
-            </div>
-            <div class="font-small-2 text-muted">
-              {{ data.item.subtitle }}
-            </div> -->
-          </div>
+          <div></div>
         </div>
       </template>
-
-      <!-- category -->
-      <template #cell(category)="data">
-        <div class="d-flex align-items-center">
-          <b-avatar class="mr-1" :variant="data.item.avatarColor">
-            <feather-icon size="18" :icon="data.item.avatarIcon" />
-          </b-avatar>
-          <span>{{ data.item.avatarTitle }}</span>
-        </div>
-      </template>
-      <!-- views -->
       <template #cell(label)="{ value }">
         <div class="d-flex flex-column">
           <span class="font-weight-bolder mb-25">{{ value.name }}</span>
@@ -62,7 +63,7 @@
 </template>
 
 <script lang="ts">
-import { BCard, BTable, BAvatar, BImg } from 'bootstrap-vue'
+import { BCard, BTable, BSpinner, BAvatar, BImg } from 'bootstrap-vue'
 import { Action, Getter } from 'vuex-class'
 import { get } from 'lodash'
 import { convertToHumanUnit, bigNumber, percentChange } from '@/utils/helpers'
@@ -74,6 +75,7 @@ import Component from 'vue-class-component'
     BCard,
     BTable,
     BAvatar,
+    BSpinner,
     BImg
   }
 })
@@ -83,19 +85,25 @@ export default class CoinHoldingList extends Vue {
   @Getter('classA/userBalances')
   private balances
 
+  get isLoading() {
+    return this.$store.getters['service/isLoading']('classA/getUserBalance')
+  }
   get balanceItem() {
     return get(this.balances, ['items'], [])
       .filter((item) => {
         return item.quoteRate && parseInt(item.balance) > 0
       })
       .map((item) => {
-        console.log('item::', item)
         return {
           ...item,
           label: {
             name: item.contractName,
             type: item.contractTickerSymbol
           },
+          logoUrl:
+            item.logoUrl === ''
+              ? require('@/assets/images/icons/notfound.png')
+              : item.logoUrl,
           balance: `${convertToHumanUnit(item.balance, item.contractDecimals)}`,
           quoteRate: bigNumber(item.quoteRate),
           quoteRate24H: bigNumber(item.quoteRate24H),
@@ -164,6 +172,16 @@ export default class CoinHoldingList extends Vue {
     object-fit: cover;
     width: 100%;
     height: 100%;
+  }
+}
+.view-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &.loading,
+  &.empty {
+    height: 300px;
   }
 }
 </style>

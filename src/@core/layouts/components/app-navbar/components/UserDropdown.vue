@@ -7,13 +7,13 @@
     <template #button-content>
       <div class="d-sm-flex d-none user-nav">
         <p class="user-name font-weight-bolder mb-0">
-          {{ userData.fullName || userData.username }}
+          Moonbeam Alpha
         </p>
-        <span class="user-status">{{ userData.role }}</span>
+        <span class="user-status">Chain ID: 1287</span>
       </div>
       <b-avatar
         size="40"
-        :src="userData.avatar"
+        src="@/assets/images/icons/moonbeam-logo.png"
         variant="light-primary"
         badge
         class="badge-minimal"
