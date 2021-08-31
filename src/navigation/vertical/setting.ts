@@ -8,6 +8,14 @@ export default [
   },
   {
     title: "Transaction",
-    icon: "TrendingUpIcon",
+    icon: "SendIcon",
+  },
+  {
+    title: "NFT",
+    icon: "ImageIcon",
+  },
+  {
+    title: "Block",
+    icon: "PackageIcon",
   },
 ]
