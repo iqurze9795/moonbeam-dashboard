@@ -17,3 +17,12 @@ export const convertToHumanUnit = (value: number, digit: number) => {
   const div = value / (Math.pow(10, digit))
   return new BigNumber(div).toFormat(2)
 }
+
+export const bigNumber = (value) => {
+  return new BigNumber(value).toFormat(2)
+}
+
+export const percentChange = (pre, current) => {
+  const percent = (current - pre) * 100 / current
+  return new BigNumber(percent).toFormat(2)
+}

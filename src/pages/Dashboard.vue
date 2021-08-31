@@ -46,18 +46,7 @@ import CoinAllocation from '@/components/CoinAllocation.vue'
   }
 })
 export default class Home extends Vue {
-  @Action('classA/getUserBalances')
-  private requestUserBalances
-  @Getter('classA/userBalances')
-  private balances
-  get balanceItem() {
-    return get(this.balances, ['items'], [])
-  }
-  async mounted() {
-    await this.requestUserBalances({
-      address: '0xa6bf7fcebc4b4148c0c54324b190aaa7a779362e'
-    })
-  }
+  
 }
 </script>
 
