@@ -10,7 +10,7 @@ export default {
   },
   getters: {
     userBalances: (state) => {
-      return get(state, "userBalances", [])
+      return get(state, "balances", [])
     },
     isError: (state) => {
       return get(state, "isError", false)
@@ -20,8 +20,8 @@ export default {
     },
   },
   mutations: {
-    userBalances(state, { balances, address }) {
-      Vue.set(state, `${address}.balance`, balances)
+    userBalances(state, { balances }) {
+      Vue.set(state, 'balances', balances)
     },
     isError(state, isError) {
       Vue.set(state, "isError", isError)
@@ -43,9 +43,8 @@ export default {
       const action = async () => {
         try {
           const resp = await classAService.getTokenBalanceForAddress({ address })
-          console.log("resp:::", resp)
           if (!resp.isError) {
-            commit("userBalances", { balances: resp, address })
+            commit("userBalances", { balances: get(resp, ["data"]) })
           }
         }
         catch (e) {

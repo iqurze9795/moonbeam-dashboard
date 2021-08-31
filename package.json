@@ -26,6 +26,7 @@
     "apollo-link-http": "^1.5.17",
     "axios": "0.21.1",
     "axios-mock-adapter": "1.19.0",
+    "bignumber.js": "^9.0.1",
     "bootstrap": "4.5.2",
     "bootstrap-vue": "2.21.1",
     "camelcase-keys": "^6.2.2",

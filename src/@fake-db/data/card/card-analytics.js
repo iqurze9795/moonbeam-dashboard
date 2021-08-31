@@ -39,22 +39,22 @@ const data = {
     lastDays: ["Last 28 Days", "Last Month", "Last Year"],
     chartInfo: [
       {
-        icon: "MonitorIcon",
-        name: "Desktop",
+        icon: "https://logos.covalenthq.com/tokens/0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee.png",
+        name: "ETH",
         iconColor: "text-primary",
         usage: 58.6,
         upDown: 2,
       },
       {
-        icon: "TabletIcon",
-        name: "Mobile",
+        icon: "https://logos.covalenthq.com/tokens/0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48.png",
+        name: "USD Coin",
         iconColor: "text-warning",
         usage: 34.9,
         upDown: 8,
       },
       {
-        icon: "TabletIcon",
-        name: "Tablet",
+        icon: "https://logos.covalenthq.com/tokens/0xbcca60bb61934080951369a648fb03df4f96263c.png",
+        name: "Aave",
         iconColor: "text-danger",
         usage: 6.5,
         upDown: -5,

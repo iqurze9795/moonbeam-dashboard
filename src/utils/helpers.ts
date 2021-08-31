@@ -1,6 +1,6 @@
 import dayjs from "dayjs"
 import _ from "lodash"
-
+import BigNumber from 'bignumber.js'
 export const flow = (fns) => {
   return _.flow([...fns])
 }
@@ -12,3 +12,8 @@ export const dateFormat = (value, template = "YYYY-MM-DD HH:mm") => {
 }
 
 export const defaultValue = (value, defaultValue = "-") => _.defaultTo(value, defaultValue)
+
+export const convertToHumanUnit = (value: number, digit: number) => {
+  const div = value / (Math.pow(10, digit))
+  return new BigNumber(div).toFormat(2)
+}

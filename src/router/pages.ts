@@ -50,6 +50,6 @@ export default [
   {
     path: "/",
     name: "home",
-    component: () => import("@/pages/store.vue"),
+    component: () => import("@/pages/Dashboard.vue"),
   },
 ]
