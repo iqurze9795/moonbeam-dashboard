@@ -37,7 +37,7 @@ export default {
       default: ''
     },
     rank: {
-      type: String,
+      type: [Number, String],
       default: ''
     }
   },

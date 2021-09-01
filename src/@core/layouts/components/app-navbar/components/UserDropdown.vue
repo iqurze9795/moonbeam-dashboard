@@ -19,7 +19,7 @@
         class="badge-minimal"
         badge-variant="success"
       >
-        <feather-icon v-if="!userData.fullName" icon="UserIcon" size="22" />
+        <!-- <feather-icon v-if="!userData.fullName" icon="UserIcon" size="22" /> -->
       </b-avatar>
     </template>
 
@@ -78,10 +78,10 @@
       </b-dropdown-item>
     </template>
 
-    <b-dropdown-item link-class="d-flex align-items-center" @click="logout">
+    <!-- <b-dropdown-item link-class="d-flex align-items-center" @click="logout">
       <feather-icon size="16" icon="LogOutIcon" class="mr-50" />
       <span>Logout</span>
-    </b-dropdown-item>
+    </b-dropdown-item> -->
   </b-nav-item-dropdown>
 </template>
 

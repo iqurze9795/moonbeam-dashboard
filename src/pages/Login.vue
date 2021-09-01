@@ -154,12 +154,12 @@
 </template>
 
 <script>
-import useJwt from "@/auth/jwt/useJwt"
-import { getHomeRouteForLoggedInUser } from "@/auth/utils"
-import store from "@/store"
-import ToastificationContent from "@core/components/toastification/ToastificationContent.vue"
-import { togglePasswordVisibility } from "@core/mixins/ui/forms"
-import { email, required } from "@validations"
+import useJwt from '@/auth/jwt/useJwt'
+import { getHomeRouteForLoggedInUser } from '@/auth/utils'
+import store from '@/store'
+import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
+import { togglePasswordVisibility } from '@core/mixins/ui/forms'
+import { email, required } from '@validations'
 import {
   BAlert,
   BButton,
@@ -175,14 +175,14 @@ import {
   BInputGroupAppend,
   BLink,
   BRow,
-  VBTooltip,
-} from "bootstrap-vue"
+  VBTooltip
+} from 'bootstrap-vue'
 /* eslint-disable global-require */
-import { ValidationObserver, ValidationProvider } from "vee-validate"
+import { ValidationObserver, ValidationProvider } from 'vee-validate'
 
 export default {
   directives: {
-    "b-tooltip": VBTooltip,
+    'b-tooltip': VBTooltip
   },
   components: {
     BAlert,
@@ -200,34 +200,34 @@ export default {
     BForm,
     BButton,
     ValidationProvider,
-    ValidationObserver,
+    ValidationObserver
   },
   mixins: [togglePasswordVisibility],
   data() {
     return {
-      status: "",
-      password: "",
-      userEmail: "",
-      sideImg: require("@/assets/images/pages/login-page.png"),
+      status: '',
+      password: '',
+      userEmail: '',
+      sideImg: require('@/assets/images/pages/login-page.png'),
 
       // validation rules
       required,
       email,
-      error: "",
+      error: ''
     }
   },
   computed: {
     passwordToggleIcon() {
-      return this.passwordFieldType === "password" ? "EyeIcon" : "EyeOffIcon"
+      return this.passwordFieldType === 'password' ? 'EyeIcon' : 'EyeOffIcon'
     },
     imgUrl() {
-      if (store.state.appConfig.layout.skin === "dark") {
+      if (store.state.appConfig.layout.skin === 'dark') {
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.sideImg = require("@/assets/images/pages/login-page.png")
+        this.sideImg = require('@/assets/images/pages/login-page.png')
         return this.sideImg
       }
       return this.sideImg
-    },
+    }
   },
   methods: {
     login() {
@@ -236,22 +236,22 @@ export default {
           useJwt
             .login({
               email: this.userEmail,
-              password: this.password,
+              password: this.password
             })
             .then((response) => {
-              this.error = ""
+              this.error = ''
               const { userData } = response.data
               useJwt.setToken(response.data.accessToken)
               useJwt.setRefreshToken(response.data.refreshToken)
-              localStorage.setItem("userData", JSON.stringify(userData))
+              localStorage.setItem('userData', JSON.stringify(userData))
               this.$ability.update(userData.ability)
 
               // ? This is just for demo purpose as well.
               // ? Because we are showing eCommerce app's cart items count in navbar
-              this.$store.commit(
-                "app-ecommerce/UPDATE_CART_ITEMS_COUNT",
-                userData.extras.eCommerceCartItemsCount
-              )
+              // this.$store.commit(
+              //   'app-ecommerce/UPDATE_CART_ITEMS_COUNT',
+              //   userData.extras.eCommerceCartItemsCount
+              // )
 
               // ? This is just for demo purpose. Don't think CASL is role based in this case, we used role in if condition just for ease
               this.$router
@@ -259,15 +259,15 @@ export default {
                 .then(() => {
                   this.$toast({
                     component: ToastificationContent,
-                    position: "top-right",
+                    position: 'top-right',
                     props: {
                       title: `Welcome ${
                         userData.fullName || userData.username
                       }`,
-                      icon: "CoffeeIcon",
-                      variant: "success",
-                      text: `You have successfully logged in as ${userData.role}. Now you can start to explore!`,
-                    },
+                      icon: 'CoffeeIcon',
+                      variant: 'success',
+                      text: `You have successfully logged in as ${userData.role}. Now you can start to explore!`
+                    }
                   })
                 })
                 .catch((error) => {
@@ -279,13 +279,13 @@ export default {
             })
         }
       })
-    },
-  },
+    }
+  }
 }
 </script>
 
 <style lang="scss">
-@import "@core/scss/vue/pages/page-auth.scss";
+@import '@core/scss/vue/pages/page-auth.scss';
 .brand-logo {
   img {
     width: 100px;
