@@ -26,7 +26,6 @@
           <div class="img-container">
             <img :src="value" />
           </div>
-          <div></div>
         </div>
       </template>
       <template #cell(label)="{ value }">

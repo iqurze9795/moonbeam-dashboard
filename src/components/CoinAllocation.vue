@@ -2,19 +2,6 @@
   <b-card no-body>
     <b-card-header>
       <b-card-title>Coin Allocation</b-card-title>
-      <b-dropdown
-        text="Last 7 Days"
-        variant="transparent"
-        class="chart-dropdown"
-        right
-        no-caret
-        toggle-class="p-0 mb-25"
-        size="sm"
-      >
-        <b-dropdown-item v-for="day in chartData.lastDays" :key="day">
-          {{ day }}
-        </b-dropdown-item>
-      </b-dropdown>
     </b-card-header>
 
     <b-card-body>
@@ -23,8 +10,8 @@
         type="donut"
         height="300"
         class="my-1"
-        :options="sessionsByDeviceDonut.chartOptions"
-        :series="sessionsByDeviceDonut.series"
+        :options="chartOptions"
+        :series="series"
       />
 
       <!-- chart info -->
@@ -52,7 +39,7 @@
   </b-card>
 </template>
 
-<script>
+<script lang="ts">
 import {
   BCard,
   BCardHeader,
@@ -64,8 +51,10 @@ import {
 } from 'bootstrap-vue'
 import VueApexCharts from 'vue-apexcharts'
 import { $themeColors } from '@themeConfig'
+import Component from 'vue-class-component'
+import Vue from 'vue'
 
-export default {
+@Component({
   components: {
     BCard,
     BCardHeader,
@@ -75,38 +64,53 @@ export default {
     BCardBody,
     VueApexCharts,
     BImg
-  },
-  data() {
-    return {
-      chartData: {},
-      sessionsByDeviceDonut: {
-        series: [58.6, 34.9, 6.5],
-        chartOptions: {
-          chart: {
-            toolbar: {
-              show: false
-            }
-          },
-          labels: ['ETH', 'Moonbeam', 'Moonriver'],
-          dataLabels: {
-            enabled: false
-          },
-          legend: { show: false },
-          comparedResult: [2, -3, 8],
-          stroke: { width: 0 },
-          colors: [
-            $themeColors.primary,
-            $themeColors.warning,
-            $themeColors.danger
-          ]
-        }
+  }
+})
+export default class CoinAllocation extends Vue {
+  private series = [58.6, 34.9, 6.5]
+  private chartOptions = {
+    chart: {
+      toolbar: {
+        show: false
       }
-    }
-  },
-  created() {
-    this.$http.get('/card/card-analytics/sessions-device').then((res) => {
-      this.chartData = res.data
-    })
+    },
+    labels: ['ETH', 'Moonbeam', 'Moonriver'],
+    dataLabels: {
+      enabled: false
+    },
+    legend: { show: false },
+    comparedResult: [2, -3, 8],
+    stroke: { width: 0 },
+    colors: [$themeColors.primary, $themeColors.warning, $themeColors.danger]
+  }
+  private chartData = {
+    lastDays: ['Last 28 Days', 'Last Month', 'Last Year'],
+    chartInfo: [
+      {
+        icon:
+          'https://logos.covalenthq.com/tokens/0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee.png',
+        name: 'ETH',
+        iconColor: 'text-primary',
+        usage: 58.6,
+        upDown: 2
+      },
+      {
+        icon:
+          'https://logos.covalenthq.com/tokens/0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48.png',
+        name: 'USD Coin',
+        iconColor: 'text-warning',
+        usage: 34.9,
+        upDown: 8
+      },
+      {
+        icon:
+          'https://logos.covalenthq.com/tokens/0xbcca60bb61934080951369a648fb03df4f96263c.png',
+        name: 'Aave',
+        iconColor: 'text-danger',
+        usage: 6.5,
+        upDown: -5
+      }
+    ]
   }
 }
 </script>

@@ -11,6 +11,11 @@
 
     <b-row class="match-height">
       <b-col lg="12">
+        <coin-price />
+      </b-col>
+    </b-row>
+    <b-row class="match-height">
+      <b-col lg="12">
         <profit-loss />
       </b-col>
     </b-row>
@@ -30,6 +35,7 @@ import Transition from '@/components/Transaction.vue'
 import ProfitLoss from '@/components/ProfitLoss.vue'
 import CoinHolding from '@/components/CoinHoldingList.vue'
 import CoinAllocation from '@/components/CoinAllocation.vue'
+import CoinPrice from '@/components/CoinPrice.vue'
 
 @Component({
   components: {
@@ -38,7 +44,8 @@ import CoinAllocation from '@/components/CoinAllocation.vue'
     Transition,
     ProfitLoss,
     CoinHolding,
-    CoinAllocation
+    CoinAllocation,
+    CoinPrice
   }
 })
 export default class Home extends Vue {}

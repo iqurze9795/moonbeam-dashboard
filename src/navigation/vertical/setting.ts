@@ -5,6 +5,7 @@ export default [
   {
     title: "Dashboard",
     icon: "ActivityIcon",
+    route: "home",
   },
   {
     title: "Transaction",

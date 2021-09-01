@@ -2,8 +2,8 @@
   <b-card no-body>
     <b-card-header class="align-items-baseline">
       <div>
-        <b-card-title class="mb-25"> Sales </b-card-title>
-        <b-card-text class="mb-0"> 2020 Total Sales: 12.84k </b-card-text>
+        <b-card-title class="mb-25">Portfolio Value</b-card-title>
+        <b-card-text class="mb-0"> Balance: 12,840$ </b-card-text>
       </div>
       <feather-icon
         icon="SettingsIcon"
@@ -74,7 +74,12 @@ export default {
               205,
               305,
               240,
-              0
+              110,
+              255,
+              205,
+              305,
+              240,
+              255
             ]
           }
         ],
@@ -138,7 +143,38 @@ export default {
             axisTicks: {
               show: false
             },
-            categories: ['2', '5', '8'],
+            categories: [
+              '01',
+              '02',
+              '03',
+              '04',
+              '05',
+              '06',
+              '07',
+              '08',
+              '09',
+              '10',
+              '11',
+              '12',
+              '13',
+              '14',
+              '15',
+              '16',
+              '17',
+              '18',
+              '19',
+              '20',
+              '21',
+              '22',
+              '23',
+              '24',
+              '25',
+              '26',
+              '27',
+              '28',
+              '29',
+              '30'
+            ],
             axisBorder: {
               show: false
             },
