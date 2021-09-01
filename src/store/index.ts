@@ -7,6 +7,7 @@ import appConfig from "./app-config"
 import verticalMenu from "./vertical-menu"
 import service from "./service"
 import classA from "./classA"
+import coinGecko from './coin-gecko'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -16,7 +17,7 @@ export default new Vuex.Store({
     verticalMenu,
     service,
     classA,
-
+    coinGecko
   },
   strict: !!process.env.DEV,
 })

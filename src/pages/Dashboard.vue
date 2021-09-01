@@ -11,7 +11,7 @@
 
     <b-row class="match-height">
       <b-col lg="12">
-        <coin-price />
+        <trending-coin />
       </b-col>
     </b-row>
     <b-row class="match-height">
@@ -35,7 +35,7 @@ import Transition from '@/components/Transaction.vue'
 import ProfitLoss from '@/components/ProfitLoss.vue'
 import CoinHolding from '@/components/CoinHoldingList.vue'
 import CoinAllocation from '@/components/CoinAllocation.vue'
-import CoinPrice from '@/components/CoinPrice.vue'
+import TrendingCoin from '@/components/TrendingCoin.vue'
 
 @Component({
   components: {
@@ -45,7 +45,7 @@ import CoinPrice from '@/components/CoinPrice.vue'
     ProfitLoss,
     CoinHolding,
     CoinAllocation,
-    CoinPrice
+    TrendingCoin
   }
 })
 export default class Home extends Vue {}

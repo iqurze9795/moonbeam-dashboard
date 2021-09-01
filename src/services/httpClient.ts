@@ -9,7 +9,12 @@ const covalentApi = axios.create({
   }
 })
 
-const services = [covalentApi]
+const coinGeckoApi = axios.create({
+  baseURL: config.coinGeckoHost,
+
+})
+
+const services = [covalentApi, coinGeckoApi]
 services.forEach((service) => {
   service.interceptors.response.use(
     (response) => ({
@@ -20,4 +25,4 @@ services.forEach((service) => {
   )
 })
 
-export { covalentApi }
+export { covalentApi, coinGeckoApi }
