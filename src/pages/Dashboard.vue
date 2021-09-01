@@ -5,7 +5,12 @@
         <coin-allocation />
       </b-col>
       <b-col lg="4" sm="12">
-        <transition />
+        <b-row>
+          <coin-price />
+        </b-row>
+        <b-row>
+          <coin-price />
+        </b-row>
       </b-col>
     </b-row>
 
@@ -14,11 +19,11 @@
         <trending-coin />
       </b-col>
     </b-row>
-    <b-row class="match-height">
+    <!-- <b-row class="match-height">
       <b-col lg="12">
         <profit-loss />
       </b-col>
-    </b-row>
+    </b-row> -->
 
     <b-row class="match-height">
       <b-col lg="12">
@@ -31,7 +36,7 @@
 <script lang="ts">
 import { BRow, BCol } from 'bootstrap-vue'
 import { Component, Vue } from 'vue-property-decorator'
-import Transition from '@/components/Transaction.vue'
+import CoinPrice from '@/components/CoinPrice.vue'
 import ProfitLoss from '@/components/ProfitLoss.vue'
 import CoinHolding from '@/components/CoinHoldingList.vue'
 import CoinAllocation from '@/components/CoinAllocation.vue'
@@ -41,7 +46,7 @@ import TrendingCoin from '@/components/TrendingCoin.vue'
   components: {
     BCol,
     BRow,
-    Transition,
+    CoinPrice,
     ProfitLoss,
     CoinHolding,
     CoinAllocation,
