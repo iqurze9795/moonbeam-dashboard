@@ -44,7 +44,6 @@ export default {
         try {
           const resp = await coinGeckoService.getTrending()
           const btcResp = await coinGeckoService.getBitCoinPrice()
-          console.log("bitCoinPrice::", btcResp)
           const formated = get(camelcaseKeys(resp, { deep: true }), ["data", "coins"], []).map(coin => {
             const { item } = coin
             const btcPrice = get(btcResp, ["data", "bitcoin", "usd"], 0)
@@ -54,7 +53,6 @@ export default {
               price
             }
           })
-          console.log(formated)
           commit("trending", formated)
 
         }

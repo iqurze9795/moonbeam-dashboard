@@ -8,15 +8,21 @@ export default [
     route: "home",
   },
   {
+    header: "Comming soon",
+  },
+  {
     title: "Transaction",
     icon: "SendIcon",
+    disabled: true
   },
   {
     title: "NFT",
     icon: "ImageIcon",
+    disabled: true
   },
   {
     title: "Block",
     icon: "PackageIcon",
+    disabled: true
   },
 ]

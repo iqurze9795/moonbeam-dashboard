@@ -1,7 +1,8 @@
 <template>
-  <b-card v-if="balanceItem" no-body class="card-company-table">
+  <b-card v-if="balances" no-body class="card-company-table">
+    <b-card-header> <h4>Wallet Holding</h4> </b-card-header>
     <b-table
-      :items="balanceItem"
+      :items="balances"
       :busy="isLoading"
       responsive
       :fields="fields"
@@ -63,9 +64,7 @@
 
 <script lang="ts">
 import { BCard, BTable, BSpinner, BAvatar, BImg } from 'bootstrap-vue'
-import { Action, Getter } from 'vuex-class'
-import { get } from 'lodash'
-import { convertToHumanUnit, bigNumber, percentChange } from '@/utils/helpers'
+import { Getter } from 'vuex-class'
 import Vue from 'vue'
 import Component from 'vue-class-component'
 
@@ -84,33 +83,6 @@ export default class CoinHoldingList extends Vue {
 
   get isLoading() {
     return this.$store.getters['service/isLoading']('classA/getUserBalance')
-  }
-  get balanceItem() {
-    return get(this.balances, ['items'], [])
-      .filter((item) => {
-        return item.quoteRate && parseInt(item.balance) > 0
-      })
-      .map((item) => {
-        return {
-          ...item,
-          label: {
-            name: item.contractName,
-            type: item.contractTickerSymbol
-          },
-          logoUrl:
-            item.logoUrl === ''
-              ? require('@/assets/images/icons/notfound.png')
-              : item.logoUrl,
-          balance: `${convertToHumanUnit(item.balance, item.contractDecimals)}`,
-          quoteRate: bigNumber(item.quoteRate),
-          quoteRate24H: bigNumber(item.quoteRate24H),
-          change: percentChange(item.quoteRate24H, item.quoteRate),
-          value: convertToHumanUnit(
-            item.balance * item.quoteRate,
-            item.contractDecimals
-          )
-        }
-      })
   }
 
   get fields() {

@@ -48,20 +48,6 @@
           time="1 hour ago"
           variant="success"
         />
-        <app-timeline-item
-          title="Product Design"
-          subtitle="Product design added in workflow"
-          icon="GridIcon"
-          time="1 hour ago"
-          variant="success"
-        />
-        <app-timeline-item
-          title="Product Design"
-          subtitle="Product design added in workflow"
-          icon="GridIcon"
-          time="1 hour ago"
-          variant="success"
-        />
       </app-timeline>
       <!--/ timeline -->
     </b-card-body>

@@ -36,8 +36,9 @@ export default class TrendingCoin extends Vue {
 
   get swiperOptions() {
     return {
-      slidesPerView: 5,
+      slidesPerView: 4,
       spaceBetween: 50,
+      loop: true,
       autoplay: {
         delay: 2500,
         disableOnInteraction: false

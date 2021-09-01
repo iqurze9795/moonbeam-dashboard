@@ -1,10 +1,10 @@
 <template>
   <section id="dashboard-analytics">
     <b-row class="match-height">
-      <b-col lg="6" md="12">
+      <b-col lg="8" md="12">
         <coin-allocation />
       </b-col>
-      <b-col lg="6" sm="12">
+      <b-col lg="4" sm="12">
         <transition />
       </b-col>
     </b-row>
