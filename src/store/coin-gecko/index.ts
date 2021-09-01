@@ -43,8 +43,19 @@ export default {
       const action = async () => {
         try {
           const resp = await coinGeckoService.getTrending()
-          console.log("resp", resp)
-          commit("trending", get(resp, ["data", "coins"]))
+          const btcResp = await coinGeckoService.getBitCoinPrice()
+          console.log("bitCoinPrice::", btcResp)
+          const formated = get(camelcaseKeys(resp, { deep: true }), ["data", "coins"], []).map(coin => {
+            const { item } = coin
+            const btcPrice = get(btcResp, ["data", "bitcoin", "usd"], 0)
+            const price = item.priceBtc * btcPrice
+            return {
+              ...item,
+              price
+            }
+          })
+          console.log(formated)
+          commit("trending", formated)
 
         }
         catch (e) {

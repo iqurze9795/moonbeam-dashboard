@@ -4,9 +4,10 @@
     <swiper class="swiper-responsive-breakpoints" :options="swiperOptions">
       <swiper-slide v-for="(data, index) in trending" :key="index">
         <coin-card
-          :icon="data.item.small"
-          :price="data.item.price_btc"
-          :symbol="data.item.symbol"
+          :icon="data.small"
+          :price="data.price"
+          :symbol="data.symbol"
+          :rank="data.marketCapRank"
         />
       </swiper-slide>
     </swiper>
