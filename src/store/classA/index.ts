@@ -56,10 +56,11 @@ export default {
       const totalValue = balances.reduce((sum, next) => {
         return sum + next.quote
       }, 0)
+      balances = balances.filter((item) => {
+        return item.quoteRate && parseInt(item.balance) > 0
+      })
       if (balances.length >= 6) {
-        balances = balances.filter((item) => {
-          return item.quoteRate && parseInt(item.balance) > 0
-        }).splice(0, 6)
+        balances = balances.splice(0, 6)
       }
       const topHolds = balances.map((item) => {
         return {

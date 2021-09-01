@@ -147,7 +147,7 @@ export default class CoinAllocation extends Vue {
 
   &.loading,
   &.empty {
-    height: 300px;
+    height: 380px;
   }
 }
 </style>

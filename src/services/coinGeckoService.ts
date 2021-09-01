@@ -5,8 +5,12 @@ export const coinGeckoService = {
     const resp = await coinGeckoApi.get(`/search/trending`)
     return resp
   },
-  getBitCoinPrice: async () => {
-    const resp = await coinGeckoApi.get(`simple/price?ids=bitcoin&vs_currencies=usd`)
+  getCoinPrice: async ({ coin }) => {
+    const resp = await coinGeckoApi.get(`simple/price?ids=${coin}&vs_currencies=usd`)
+    return resp
+  },
+  getCoinPriceHistory: async ({ coin }) => {
+    const resp = await coinGeckoApi.get(`coins/${coin}/market_chart?vs_currency=usd&days=1`)
     return resp
   }
 }

@@ -1,14 +1,33 @@
 <template>
   <b-card no-body>
     <b-card-body class="pb-0">
-      <b-avatar class="mb-1" :variant="`light-${color}`" size="45">
-        <feather-icon size="21" :icon="icon" />
-      </b-avatar>
+      <b-row>
+        <b-col>
+          <div class="img-container pr-2">
+            <img :src="icon" />
+          </div>
+        </b-col>
+      </b-row>
+      <b-row class="pl-1">
+        <b-col class="d-flex justify-content-end">
+          <p
+            class="mb-25 font-weight-bolder price"
+            :class="change < 0 ? 'text-danger' : 'text-success'"
+          >
+            ${{ price }}
+          </p>
+          <feather-icon
+            v-if="price !== 'N/A'"
+            size="1.5x"
+            :icon="change < 0 ? 'ChevronsDownIcon' : 'ChevronsUpIcon'"
+            :class="change < 0 ? 'text-danger ml-1' : 'text-success ml-1'"
+          />
+        </b-col>
+      </b-row>
+
       <div class="truncate">
-        <h2 class="mb-25 font-weight-bolder">
-          {{ statistic }}
-        </h2>
-        <span>{{ statisticTitle }}</span>
+        <h2 class="mb-25 font-weight-bolder">{{ name }}</h2>
+        <span>{{ symbol }}</span>
       </div>
     </b-card-body>
 
@@ -23,45 +42,49 @@
 </template>
 
 <script>
-import { BCard, BCardBody, BAvatar } from 'bootstrap-vue'
+import { BCard, BCardBody } from 'bootstrap-vue'
 import VueApexCharts from 'vue-apexcharts'
-import { $themeColors } from '@themeConfig'
 export default {
   components: {
     VueApexCharts,
     BCard,
-    BCardBody,
-    BAvatar
+    BCardBody
   },
   props: {
     chartColor: {
       type: String,
-      required: true,
       default: () => '#FF0B97'
     },
     icon: {
       type: String,
       required: true,
-      default: () => 'PackageIcon'
+      default: () => ''
     },
-    statistic: {
+    name: {
       type: [Number, String],
       required: true
     },
-    statisticTitle: {
-      type: String,
-      default: '38400'
+    price: {
+      type: [Number, String],
+      default: 'N/A'
     },
     color: {
       type: String,
       default: 'primary'
     },
+    symbol: {
+      type: String,
+      default: '-'
+    },
+    change: {
+      type: [Number, String]
+    },
     chartData: {
       type: Array,
       default: () => [
         {
-          name: 'Orders',
-          data: [10, 15, 8, 15, 7, 12, 8]
+          name: 'N/A',
+          data: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
         }
       ]
     },
@@ -147,3 +170,25 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.img-container {
+  width: 60px !important;
+  height: 60px !important;
+  display: inline-block;
+  border-radius: 100%;
+  overflow: hidden;
+  &:not(:first-child) {
+    margin-left: -15px;
+  }
+
+  > img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+}
+.price {
+  font-size: 30px;
+}
+</style>
