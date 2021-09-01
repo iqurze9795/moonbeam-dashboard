@@ -6,36 +6,49 @@
 
     <b-card-body>
       <!-- apex chart -->
-      <b-row>
-        <b-col md="8" lg="8">
-          <vue-apex-charts
-            type="donut"
-            height="330"
-            class="my-1"
-            :options="chartOptions"
-            :series="series"
-          />
-        </b-col>
-
-        <b-col class="pt-4">
-          <!-- chart info -->
-          <div
-            v-for="(data, index) in topHolds"
-            :key="index"
-            class="d-flex justify-content-between"
-            :class="index === topHolds.length - 1 ? 'mb-0' : 'mb-1'"
-          >
-            <div class="series-info d-flex align-items-center">
-              <div class="img-container">
-                <img :src="data.logoUrl" />
-              </div>
-              <span class="font-weight-bolder ml-75 mr-25"
-                >{{ data.label.symbol }} ({{ data.percent }}%)</span
-              >
-            </div>
+      <template v-if="isLoading">
+        <div class="view-state loading">
+          <div class="text-center text-danger">
+            <b-spinner class="align-middle mr-1"></b-spinner>
+            <strong>Loading...</strong>
           </div>
-        </b-col>
-      </b-row>
+        </div>
+      </template>
+      <div v-else>
+        <b-row v-if="topHolds.length > 0">
+          <b-col md="8" lg="8">
+            <vue-apex-charts
+              type="donut"
+              height="330"
+              class="my-1"
+              :options="chartOptions"
+              :series="series"
+            />
+          </b-col>
+
+          <b-col class="pt-4">
+            <!-- chart info -->
+            <div
+              v-for="(data, index) in topHolds"
+              :key="index"
+              class="d-flex justify-content-between"
+              :class="index === topHolds.length - 1 ? 'mb-0' : 'mb-1'"
+            >
+              <div class="series-info d-flex align-items-center">
+                <div class="img-container">
+                  <img :src="data.logoUrl" />
+                </div>
+                <span class="font-weight-bolder ml-75 mr-25"
+                  >{{ data.label.symbol }} ({{ data.percent }}%)</span
+                >
+              </div>
+            </div>
+          </b-col>
+        </b-row>
+        <template v-else>
+          <div class="view-state empty">No data found.</div>
+        </template>
+      </div>
     </b-card-body>
   </b-card>
 </template>
@@ -48,6 +61,7 @@ import {
   BDropdown,
   BDropdownItem,
   BCardBody,
+  BSpinner,
   BImg
 } from 'bootstrap-vue'
 import VueApexCharts from 'vue-apexcharts'
@@ -65,7 +79,8 @@ import { Getter } from 'vuex-class'
     BDropdownItem,
     BCardBody,
     VueApexCharts,
-    BImg
+    BImg,
+    BSpinner
   }
 })
 export default class CoinAllocation extends Vue {
@@ -120,6 +135,19 @@ export default class CoinAllocation extends Vue {
     object-fit: cover;
     width: 100%;
     height: 100%;
+  }
+}
+</style>
+
+<style lang="scss" scoped>
+.view-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &.loading,
+  &.empty {
+    height: 300px;
   }
 }
 </style>

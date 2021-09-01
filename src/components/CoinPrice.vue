@@ -140,7 +140,6 @@ export default {
             }
           })
         )
-        // options.theme.monochrome.color = $themeColors[this.color]
         return options
       }
       return this.chartOptions
