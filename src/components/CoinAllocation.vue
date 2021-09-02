@@ -92,12 +92,12 @@ export default class CoinAllocation extends Vue {
   }
   get chartLabels() {
     return this.topHolds.map((item) => {
-      return item.label
+      return item.label.symbol
     })
   }
   get series() {
     return this.topHolds.map((item) => {
-      return parseInt(item.percent)
+      return item.hold
     })
   }
   get chartOptions() {

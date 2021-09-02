@@ -42,7 +42,7 @@ export default {
                 : item.logoUrl,
             balance: `${convertToHumanUnit(item.balance, item.contractDecimals)}`,
             quoteRate: bigNumber(item.quoteRate),
-            quoteRate24H: item.quoteRate24H ? bigNumber(item.quoteRate24H) : ' N/A',
+            quoteRate24H: item.quoteRate24H ? bigNumber(item.quoteRate24H) : ' -',
             change: item.quoteRate24H ? percentChange(item.quoteRate24H, item.quoteRate) : '-',
             value: convertToHumanUnit(
               item.balance * item.quoteRate,
@@ -73,6 +73,7 @@ export default {
             name: item.contractName,
             symbol: item.contractTickerSymbol
           },
+          hold: item.quote,
           change: percentChange(item.quoteRate24H, item.quoteRate),
         }
       })
