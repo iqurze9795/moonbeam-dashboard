@@ -4,7 +4,7 @@
       <b-col lg="8" md="12">
         <coin-allocation />
       </b-col>
-      <b-col lg="4" md="12">
+      <b-col lg="4" md="4">
         <b-row>
           <coin-price
             chartColor="#F2B705"
@@ -13,6 +13,7 @@
             :chartData="coinPriceHistory"
             :change="change"
             :price="price"
+            :changePercent="changePercent"
             symbol="MOVR"
           />
         </b-row>
@@ -20,7 +21,7 @@
           <coin-price
             :name="`Moonbeam`"
             :icon="require('@/assets/images/icons/moonbeam-logo.png')"
-            symbol="GLEM"
+            symbol="GLMR"
           />
         </b-row>
       </b-col>
@@ -36,7 +37,6 @@
         <profit-loss />
       </b-col>
     </b-row> -->
-    <pre>Price::{{ price }}</pre>
     <b-row class="match-height">
       <b-col lg="12">
         <coin-holding />
@@ -91,6 +91,9 @@ export default class Home extends Vue {
   }
   get price() {
     return this.$store.getters['coinGecko/coinPrice']('moonriver')
+  }
+  get changePercent() {
+    return bigNumber(((this.change as any) / this.price) * 100)
   }
   async mounted() {
     await this.getCoinPriceHistory({ coin: 'moonriver' })

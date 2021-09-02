@@ -5,17 +5,17 @@
     right
     @show="fetchItems"
   >
-    <template #button-content>
+    <!-- <template #button-content>
       <feather-icon
         :badge="$store.state['app-ecommerce'].cartItemsCount"
         class="text-body"
         icon="ShoppingCartIcon"
         size="21"
       />
-    </template>
+    </template> -->
 
     <!-- Header -->
-    <li class="dropdown-menu-header">
+    <!-- <li class="dropdown-menu-header">
       <div class="dropdown-header d-flex">
         <h4 class="notification-title mb-0 mr-auto">
           My Cart
@@ -27,7 +27,7 @@
           {{ $store.state['app-ecommerce'].cartItemsCount }} Items
         </b-badge>
       </div>
-    </li>
+    </li> -->
 
     <!-- Cart Items -->
     <vue-perfect-scrollbar
@@ -118,7 +118,7 @@ import Ripple from 'vue-ripple-directive'
 export default {
   components: {
     BNavItemDropdown,
-    BBadge,
+    // BBadge,
     BMedia,
     BLink,
     BImg,

@@ -10,12 +10,20 @@
       </b-row>
       <b-row class="pl-1">
         <b-col class="d-flex justify-content-end">
-          <p
-            class="mb-25 font-weight-bolder price"
-            :class="change < 0 ? 'text-danger' : 'text-success'"
-          >
-            ${{ price }}
-          </p>
+          <div class="d-flex flex-column">
+            <p
+              class="mb-25 font-weight-bolder price"
+              :class="change < 0 ? 'text-danger' : 'text-success'"
+            >
+              ${{ price }}
+            </p>
+            <p
+              class="mb-25 font-weight-bolder d-flex justify-content-end"
+              :class="change < 0 ? 'text-danger' : 'text-success'"
+            >
+              {{ changePercent }} %
+            </p>
+          </div>
           <feather-icon
             v-if="price !== 'N/A'"
             size="1.5x"
@@ -78,6 +86,10 @@ export default {
     },
     change: {
       type: [Number, String]
+    },
+    changePercent: {
+      type: [Number, String],
+      default: '-'
     },
     chartData: {
       type: Array,

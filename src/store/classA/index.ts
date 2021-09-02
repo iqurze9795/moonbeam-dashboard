@@ -42,8 +42,8 @@ export default {
                 : item.logoUrl,
             balance: `${convertToHumanUnit(item.balance, item.contractDecimals)}`,
             quoteRate: bigNumber(item.quoteRate),
-            quoteRate24H: bigNumber(item.quoteRate24H),
-            change: percentChange(item.quoteRate24H, item.quoteRate),
+            quoteRate24H: item.quoteRate24H ? bigNumber(item.quoteRate24H) : ' N/A',
+            change: item.quoteRate24H ? percentChange(item.quoteRate24H, item.quoteRate) : '-',
             value: convertToHumanUnit(
               item.balance * item.quoteRate,
               item.contractDecimals
