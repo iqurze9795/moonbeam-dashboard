@@ -18,3 +18,8 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_MOONBEAM_DASHBOARD }}'
           channelId: live
           projectId: moonbeam-dashboard
+        env:
+          VUE_APP_COVALENT_API_KEY: ${{ secrets.COVALENT_API_KEY }}
+          VUE_APP_COVALENT_HOST: ${{ secrets.COVALENT_HOST }}
+          VUE_APP_NETWORK_ID=: ${{ secrets.NETWORK_ID }}
+          VUE_APP_COINGECKO=: ${{ secrets.COINGECKO }}
