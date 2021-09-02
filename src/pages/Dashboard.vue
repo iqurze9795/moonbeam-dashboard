@@ -4,25 +4,27 @@
       <b-col lg="8" md="12">
         <coin-allocation />
       </b-col>
-      <b-col lg="4" md="4">
-        <b-row>
-          <coin-price
-            chartColor="#F2B705"
-            :name="`Moonriver`"
-            :icon="require('@/assets/images/icons/moonriver-logo.png')"
-            :chartData="coinPriceHistory"
-            :change="change"
-            :price="price"
-            :changePercent="changePercent"
-            symbol="MOVR"
-          />
-        </b-row>
-        <b-row>
-          <coin-price
-            :name="`Moonbeam`"
-            :icon="require('@/assets/images/icons/moonbeam-logo.png')"
-            symbol="GLMR"
-          />
+      <b-col lg="4" md="12">
+        <b-row class="match-height">
+          <b-col lg="12" md="6">
+            <coin-price
+              chartColor="#F2B705"
+              :name="`Moonriver`"
+              :icon="require('@/assets/images/icons/moonriver-logo.png')"
+              :chartData="coinPriceHistory"
+              :change="change"
+              :price="price"
+              :changePercent="changePercent"
+              symbol="MOVR"
+            />
+          </b-col>
+          <b-col lg="12" md="6">
+            <coin-price
+              :name="`Moonbeam`"
+              :icon="require('@/assets/images/icons/moonbeam-logo.png')"
+              symbol="GLMR"
+            />
+          </b-col>
         </b-row>
       </b-col>
     </b-row>
