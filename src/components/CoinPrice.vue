@@ -7,8 +7,33 @@
             <img :src="icon" />
           </div>
         </b-col>
+        <b-col class="d-flex justify-content-end pt-1">
+          <div class="d-flex flex-column">
+            <p
+              class="mb-25 font-weight-bolder price"
+              :class="change < 0 ? 'text-danger' : 'text-success'"
+            >
+              ${{ price }}
+            </p>
+            <p
+              class="mb-25 font-weight-bolder d-flex justify-content-end"
+              :class="change < 0 ? 'text-danger' : 'text-success'"
+            >
+              <span v-if="change > 0"
+                >+ {{ change }}$ ({{ changePercent }} %)</span
+              >
+              <span v-else>- {{ change }}$ ({{ changePercent }} %)</span>
+            </p>
+          </div>
+          <feather-icon
+            v-if="price !== 'N/A'"
+            size="1.5x"
+            :icon="change < 0 ? 'ChevronsDownIcon' : 'ChevronsUpIcon'"
+            :class="change < 0 ? 'text-danger ml-1' : 'text-success ml-1'"
+          />
+        </b-col>
       </b-row>
-      <b-row class="pl-1">
+      <!-- <b-row class="pl-1">
         <b-col class="d-flex justify-content-end">
           <div class="d-flex flex-column">
             <p
@@ -31,8 +56,27 @@
             :class="change < 0 ? 'text-danger ml-1' : 'text-success ml-1'"
           />
         </b-col>
-      </b-row>
-
+      </b-row> -->
+      <div class="pt-1 pb-2">
+        <b-row class="pl-1">
+          <b-col class="p-0">
+            <b-card-text class="mb-50">
+              ${{ formatNumber(priceRange[0]) }}
+            </b-card-text>
+          </b-col>
+          <b-col class="d-flex justify-content-end">
+            <b-card-text class="mb-50">
+              ${{ formatNumber(priceRange[1]) }}
+            </b-card-text>
+          </b-col>
+        </b-row>
+        <b-progress
+          :value="price"
+          :max="priceRange[1]"
+          height="6px"
+          class="mt-25"
+        />
+      </div>
       <div class="truncate">
         <h2 class="mb-25 font-weight-bolder">{{ name }}</h2>
         <span>{{ symbol }}</span>
@@ -50,13 +94,15 @@
 </template>
 
 <script>
-import { BCard, BCardBody } from 'bootstrap-vue'
+import { BCard, BCardBody, BProgress } from 'bootstrap-vue'
 import VueApexCharts from 'vue-apexcharts'
+import { bigNumber } from '@/utils/helpers'
 export default {
   components: {
     VueApexCharts,
     BCard,
-    BCardBody
+    BCardBody,
+    BProgress
   },
   props: {
     chartColor: {
@@ -71,6 +117,10 @@ export default {
     name: {
       type: [Number, String],
       required: true
+    },
+    priceRange: {
+      type: Array,
+      default: () => [0, 0]
     },
     price: {
       type: [Number, String],
@@ -178,6 +228,11 @@ export default {
         return options
       }
       return this.chartOptions
+    }
+  },
+  methods: {
+    formatNumber(value) {
+      return bigNumber(value)
     }
   }
 }

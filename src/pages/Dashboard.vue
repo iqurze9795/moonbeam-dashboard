@@ -14,6 +14,7 @@
               :chartData="coinPriceHistory"
               :change="change"
               :price="price"
+              :priceRange="priceRange"
               :changePercent="changePercent"
               symbol="MOVR"
             />
@@ -93,6 +94,13 @@ export default class Home extends Vue {
   }
   get price() {
     return this.$store.getters['coinGecko/coinPrice']('moonriver')
+  }
+  get priceRange() {
+    const priceHistory = this.$store.getters['coinGecko/coinPriceHistory'](
+      'moonriver'
+    )
+    const maxPrice = Math.max(...priceHistory)
+    return [priceHistory[0], maxPrice]
   }
   get changePercent() {
     return bigNumber(((this.change as any) / this.price) * 100)
