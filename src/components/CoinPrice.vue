@@ -22,7 +22,7 @@
               <span v-if="change > 0"
                 >+ {{ change }}$ ({{ changePercent }} %)</span
               >
-              <span v-else>- {{ change }}$ ({{ changePercent }} %)</span>
+              <span v-else> {{ change }}$ ({{ changePercent }} %)</span>
             </p>
           </div>
           <feather-icon
@@ -63,6 +63,9 @@
             <b-card-text class="mb-50">
               ${{ formatNumber(priceRange[0]) }}
             </b-card-text>
+          </b-col>
+          <b-col class="p-0">
+            <b-card-text class="mb-50 d-flex justify-content-center"> 24 Hr </b-card-text>
           </b-col>
           <b-col class="d-flex justify-content-end">
             <b-card-text class="mb-50">

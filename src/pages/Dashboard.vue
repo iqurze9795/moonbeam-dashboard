@@ -1,9 +1,6 @@
 <template>
   <section id="dashboard-analytics">
     <b-row class="match-height">
-      <b-col lg="8" md="12">
-        <coin-allocation />
-      </b-col>
       <b-col lg="4" md="12">
         <b-row class="match-height">
           <b-col lg="12" md="6">
@@ -27,6 +24,9 @@
             />
           </b-col>
         </b-row>
+      </b-col>
+      <b-col lg="8" md="12">
+        <coin-allocation />
       </b-col>
     </b-row>
 
@@ -95,12 +95,16 @@ export default class Home extends Vue {
   get price() {
     return this.$store.getters['coinGecko/coinPrice']('moonriver')
   }
+  get p() {
+    return this.$store.getters['coinGecko/coinPriceHistory']('moonriver')
+  }
   get priceRange() {
     const priceHistory = this.$store.getters['coinGecko/coinPriceHistory'](
       'moonriver'
     )
     const maxPrice = Math.max(...priceHistory)
-    return [priceHistory[0], maxPrice]
+    const minPrice = Math.min(...priceHistory)
+    return [minPrice, maxPrice]
   }
   get changePercent() {
     return bigNumber(((this.change as any) / this.price) * 100)
