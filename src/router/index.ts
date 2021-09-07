@@ -15,9 +15,13 @@ const router = new VueRouter({
   },
   routes: [
     ...pages,
+    // {
+    //   path: "*",
+    //   redirect: "error-404",
+    // },
     {
-      path: "*",
-      redirect: "error-404",
+      path: "/",
+      redirect: "dashboard",
     },
   ],
 })

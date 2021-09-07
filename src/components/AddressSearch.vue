@@ -47,6 +47,7 @@ export default class AddressSearch extends Vue {
     const address = localStorage.getItem('address')
     if (address) {
       this.address = address
+      // this.$router.push({ path: '/dashboard', query: { address: this.address } })
       await this.requestUserBalances({
         address
       })

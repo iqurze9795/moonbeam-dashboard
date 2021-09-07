@@ -5,7 +5,7 @@ export default [
   {
     title: "Dashboard",
     icon: "ActivityIcon",
-    route: "home",
+    route: "dashboard",
   },
   {
     header: "Comming soon",

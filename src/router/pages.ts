@@ -48,8 +48,8 @@ export default [
   //   },
   // },
   {
-    path: "/",
-    name: "home",
+    path: "/dasbboard",
+    name: "dashboard",
     component: () => import("@/pages/Dashboard.vue"),
   },
 ]
