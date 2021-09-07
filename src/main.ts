@@ -1,8 +1,10 @@
 import Vue from "vue"
-import { ToastPlugin, ModalPlugin } from "bootstrap-vue"
 import VueCompositionAPI from "@vue/composition-api"
+import WalletConnectProvider from "@walletconnect/web3-provider";
+import Web3Modal from "web3modal";
+import { Network } from "./config"
+import { ToastPlugin, ModalPlugin } from "bootstrap-vue"
 
-import { config } from "./config"
 
 import i18n from "@/libs/i18n"
 import router from "./router"
@@ -48,6 +50,34 @@ require("@/assets/scss/style.scss")
 Vue.config.productionTip = false
 // Json editor
 Vue.use(JsonEditor)
+
+const providerOptions = {
+  walletconnect: {
+    package: WalletConnectProvider,
+    options: {
+      infuraId: atob(Network.ETHEREUM_NODE_URL).split('/').pop(),
+      rpc: {
+        56: "https://bsc-dataseed1.binance.org",
+        108: 'https://mainnet-rpc.thundercore.com',
+        128: "https://http-mainnet.hecochain.com",
+        137: "https://rpc-mainnet.matic.network",
+        100: "https://rpc.xdaichain.com",
+        43114: "https://api.avax.network/ext/bc/C/rpc",
+        250: "https://rpcapi.fantom.network",
+        1666600000: "https://api.harmony.one",
+        1666600001: "https://s1.api.harmony.one",
+        1666600002: "https://s2.api.harmony.one",
+        1666600003: "https://s3.api.harmony.one",
+      }
+    }
+  },
+};
+
+
+(window as any).web3Modal = new Web3Modal({
+  cacheProvider: false,
+  providerOptions
+});
 
 new Vue({
   router,

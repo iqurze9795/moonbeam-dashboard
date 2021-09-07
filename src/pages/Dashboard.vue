@@ -53,7 +53,7 @@ import { BRow, BCol } from 'bootstrap-vue'
 import { Component, Vue } from 'vue-property-decorator'
 import CoinPrice from '@/components/cards/CoinPrice.vue'
 import ProfitLoss from '@/components/ProfitLoss.vue'
-import CoinHolding from '@/components/CoinHoldingList.vue'
+import CoinHolding from '@/components/list/CoinHoldingList.vue'
 import CoinAllocation from '@/components/CoinAllocation.vue'
 import TrendingCoin from '@/components/TrendingCoin.vue'
 import { Action } from 'vuex-class'
@@ -109,6 +109,7 @@ export default class Home extends Vue {
   get changePercent() {
     return bigNumber(((this.change as any) / this.price) * 100)
   }
+
   async mounted() {
     await this.getCoinPriceHistory({ coin: 'moonriver' })
     await this.getCoinPrice({ coin: 'moonriver' })

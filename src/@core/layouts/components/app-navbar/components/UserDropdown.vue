@@ -5,22 +5,22 @@
     class="dropdown-user"
   >
     <template #button-content>
-      <div class="d-sm-flex d-none user-nav">
-        <p class="user-name font-weight-bolder mb-0">
-          Moonriver
-        </p>
-        <span class="user-status">Chain ID: 1285</span>
-      </div>
-      <b-avatar
-        size="40"
-        src="@/assets/images/icons/moonriver-logo.png"
-        variant="light-primary"
-        badge
-        class="badge-minimal"
-        badge-variant="success"
-      >
-        <!-- <feather-icon v-if="!userData.fullName" icon="UserIcon" size="22" /> -->
-      </b-avatar>
+      <wallet-connect />
+      <!-- <div class="d-flex align-items-center">
+        <div class="d-sm-flex d-none user-nav">
+          <p class="user-name font-weight-bolder mb-0">Moonriver</p>
+          <span class="user-status">Chain ID: 1285</span>
+        </div>
+        <b-avatar
+          size="40"
+          src="@/assets/images/icons/moonriver-logo.png"
+          variant="light-primary"
+          badge
+          class="badge-minimal"
+          badge-variant="success"
+        >
+        </b-avatar>
+      </div> -->
     </template>
 
     <template v-if="false">
@@ -90,23 +90,25 @@ import {
   BNavItemDropdown,
   BDropdownItem,
   BDropdownDivider,
-  BAvatar,
-} from "bootstrap-vue"
-import { initialAbility } from "@/libs/acl/config"
-import useJwt from "@/auth/jwt/useJwt"
-import { avatarText } from "@core/utils/filter"
+  BAvatar
+} from 'bootstrap-vue'
+import useJwt from '@/auth/jwt/useJwt'
+import { initialAbility } from '@/libs/acl/config'
+import { avatarText } from '@core/utils/filter'
+import WalletConnect from '@/components/wallet/WalletConnect.vue'
 
 export default {
   components: {
     BNavItemDropdown,
     BDropdownItem,
     BDropdownDivider,
-    BAvatar,
+    // BAvatar,
+    WalletConnect
   },
   data() {
     return {
-      userData: JSON.parse(localStorage.getItem("userData")),
-      avatarText,
+      userData: JSON.parse(localStorage.getItem('userData')),
+      avatarText
     }
   },
   methods: {
@@ -117,14 +119,14 @@ export default {
       localStorage.removeItem(useJwt.jwtConfig.storageRefreshTokenKeyName)
 
       // Remove userData from localStorage
-      localStorage.removeItem("userData")
+      localStorage.removeItem('userData')
 
       // Reset ability
       this.$ability.update(initialAbility)
 
       // Redirect to login page
-      this.$router.push({ name: "auth-login" })
-    },
-  },
+      this.$router.push({ name: 'auth-login' })
+    }
+  }
 }
 </script>
