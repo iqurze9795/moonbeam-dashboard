@@ -16,7 +16,7 @@
 
 <script lang="ts">
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
-import CoinCard from '@/components/CoinCard.vue'
+import CoinCard from '@/components/cards/CoinCard.vue'
 import 'swiper/css/swiper.css'
 import Vue from 'vue'
 import Component from 'vue-class-component'

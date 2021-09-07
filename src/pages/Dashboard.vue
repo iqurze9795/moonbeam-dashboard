@@ -51,7 +51,7 @@
 <script lang="ts">
 import { BRow, BCol } from 'bootstrap-vue'
 import { Component, Vue } from 'vue-property-decorator'
-import CoinPrice from '@/components/CoinPrice.vue'
+import CoinPrice from '@/components/cards/CoinPrice.vue'
 import ProfitLoss from '@/components/ProfitLoss.vue'
 import CoinHolding from '@/components/CoinHoldingList.vue'
 import CoinAllocation from '@/components/CoinAllocation.vue'
