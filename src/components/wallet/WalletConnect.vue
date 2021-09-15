@@ -3,13 +3,15 @@
     <template v-if="isConnectProvider">
       <!-- <wallet-connect /> -->
       <div class="d-flex align-items-center">
-        <div class="d-sm-flex d-none chain">
-          <p class="user-name font-weight-bolder mb-0">Moonriver</p>
+        <div class="d-sm-flex d-none chain pr-1">
+          <p class="user-name font-weight-bolder mb-0">
+            {{ mapChainName[chainId] }}
+          </p>
           <span class="user-status">Chain ID: {{ chainId }}</span>
         </div>
         <b-avatar
           size="40"
-          src="@/assets/images/icons/moonriver-logo.png"
+          :src="mapChainLogo[chainId]"
           variant="light-primary"
           badge
           class="badge-minimal"
@@ -50,6 +52,18 @@ export default class WalletConnect extends Vue {
   @Getter('account/isConnectProvider')
   private isConnectProvider
   private subportChainID = ['1284', '1285']
+  private mapChainLogo = {
+    1: require(`@/assets/images/chains/eth.png`),
+    56: require(`@/assets/images/chains/bsc.png`),
+    137: require(`@/assets/images/chains/matic.png`),
+    1285: require(`@/assets/images/chains/moonriver.png`)
+  }
+  private mapChainName = {
+    1: 'Ethereum Mainet',
+    56: 'Binance Smart Chain',
+    137: 'Matic(Polygon)',
+    1285: 'Moonriver'
+  }
   private async subscribeProvider(provider) {
     // Subscribe to accounts change
     provider.on('accountsChanged', async (info: any) => {
@@ -64,20 +78,21 @@ export default class WalletConnect extends Vue {
 
     // Subscribe to networkId change
     provider.on('networkChanged', async (chainId: any) => {
-      if (this.subportChainID.includes(chainId)) {
-        this.$store.dispatch('account/setChainId', chainId)
-      } else {
-        this.$toast({
-          component: ToastificationContent,
-          position: 'top-right',
-          props: {
-            title: `Error`,
-            icon: 'WifiOffIcon',
-            variant: 'danger',
-            text: `Unsupported chain id ${chainId}`
-          }
-        })
-      }
+      this.$store.dispatch('account/setChainId', chainId)
+      // if (this.subportChainID.includes(chainId)) {
+      //   this.$store.dispatch('account/setChainId', chainId)
+      // } else {
+      //   this.$toast({
+      //     component: ToastificationContent,
+      //     position: 'top-right',
+      //     props: {
+      //       title: `Error`,
+      //       icon: 'WifiOffIcon',
+      //       variant: 'danger',
+      //       text: `Unsupported chain id ${chainId}`
+      //     }
+      //   })
+      // }
     })
   }
   private async onInitAccount(provider) {

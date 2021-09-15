@@ -26,7 +26,7 @@ import {
 import Vue from 'vue'
 import Component from 'vue-class-component'
 import { Action, Getter } from 'vuex-class'
-import { get } from 'lodash'
+import { get, isEmpty } from 'lodash'
 @Component({
   components: {
     BFormInput,
@@ -59,10 +59,13 @@ export default class AddressSearch extends Vue {
     // }
     // this.onDebounce = debounce(async () => {
     //   localStorage.setItem('address', this.address as string)
-    //   await this.requestUserBalances({
-    //     address: this.address
-    //   })
+
     // }, 400)
+    if (!isEmpty(this.address)) {
+      await this.requestUserBalances({
+        address: this.address
+      })
+    }
   }
 }
 </script>
