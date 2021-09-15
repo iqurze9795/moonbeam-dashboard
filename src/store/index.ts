@@ -8,6 +8,7 @@ import verticalMenu from "./vertical-menu"
 import service from "./service"
 import classA from "./classA"
 import coinGecko from './coin-gecko'
+import account from './account'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -17,7 +18,8 @@ export default new Vuex.Store({
     verticalMenu,
     service,
     classA,
-    coinGecko
+    coinGecko,
+    account
   },
   strict: !!process.env.DEV,
 })

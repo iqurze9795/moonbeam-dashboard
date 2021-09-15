@@ -48,7 +48,7 @@ export default [
   //   },
   // },
   {
-    path: "/dasbboard",
+    path: "/dashboard",
     name: "dashboard",
     component: () => import("@/pages/Dashboard.vue"),
   },

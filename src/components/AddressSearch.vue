@@ -2,12 +2,12 @@
   <section>
     <b-input-group>
       <b-input-group-prepend is-text>
-        <feather-icon icon="SearchIcon" />
+        <feather-icon icon="LinkIcon" />
       </b-input-group-prepend>
       <b-form-input
-        v-model="address"
-        @input="onDebounce"
-        placeholder="Input your address here."
+        :value="address"
+        :disabled="true"
+        placeholder="Connect your wallet."
       />
     </b-input-group>
   </section>
@@ -25,8 +25,8 @@ import {
 
 import Vue from 'vue'
 import Component from 'vue-class-component'
-import debounce from 'lodash/debounce'
-import { Action } from 'vuex-class'
+import { Action, Getter } from 'vuex-class'
+import { get } from 'lodash'
 @Component({
   components: {
     BFormInput,
@@ -41,24 +41,28 @@ import { Action } from 'vuex-class'
 export default class AddressSearch extends Vue {
   @Action('classA/getUserBalances')
   private requestUserBalances
-  private address = ''
-  private onDebounce = () => {}
-  async mounted() {
-    const address = localStorage.getItem('address')
-    if (address) {
-      this.address = address
-      // this.$router.push({ path: '/dashboard', query: { address: this.address } })
-      await this.requestUserBalances({
-        address
-      })
-    }
+  @Getter('account/address')
+  private address
 
-    this.onDebounce = debounce(async () => {
-      localStorage.setItem('address', this.address)
-      await this.requestUserBalances({
-        address: this.address
-      })
-    }, 400)
+  async mounted() {
+    // console.log(this.$route.query.address)
+    // if (this.$route.query.address) {
+    //   this.address = this.$route.query.address
+    // } else if (localStorage.getItem('address')) {
+    //   this.address = localStorage.getItem('address')
+    // }
+    // if (isEmpty(this.address)) {
+    //   this.$router.push({ name: 'dashboard', query: { address: this.address } })
+    //   await this.requestUserBalances({
+    //     address: this.address
+    //   })
+    // }
+    // this.onDebounce = debounce(async () => {
+    //   localStorage.setItem('address', this.address as string)
+    //   await this.requestUserBalances({
+    //     address: this.address
+    //   })
+    // }, 400)
   }
 }
 </script>
