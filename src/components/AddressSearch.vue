@@ -39,33 +39,7 @@ import { get, isEmpty } from 'lodash'
   }
 })
 export default class AddressSearch extends Vue {
-  @Action('classA/getUserBalances')
-  private requestUserBalances
   @Getter('account/address')
   private address
-
-  async mounted() {
-    // console.log(this.$route.query.address)
-    // if (this.$route.query.address) {
-    //   this.address = this.$route.query.address
-    // } else if (localStorage.getItem('address')) {
-    //   this.address = localStorage.getItem('address')
-    // }
-    // if (isEmpty(this.address)) {
-    //   this.$router.push({ name: 'dashboard', query: { address: this.address } })
-    //   await this.requestUserBalances({
-    //     address: this.address
-    //   })
-    // }
-    // this.onDebounce = debounce(async () => {
-    //   localStorage.setItem('address', this.address as string)
-
-    // }, 400)
-    if (!isEmpty(this.address)) {
-      await this.requestUserBalances({
-        address: this.address
-      })
-    }
-  }
 }
 </script>

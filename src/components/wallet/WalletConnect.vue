@@ -38,15 +38,21 @@ import { BButton, BAvatar } from 'bootstrap-vue'
 import Vue from 'vue'
 import Component from 'vue-class-component'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
-import { Getter } from 'vuex-class'
+import { Action, Getter } from 'vuex-class'
+import Ripple from 'vue-ripple-directive'
 @Component({
   components: {
     BAvatar,
     BButton,
     ToastificationContent
+  },
+  directives: {
+    Ripple
   }
 })
 export default class WalletConnect extends Vue {
+  @Action('classA/getUserBalances')
+  private requestUserBalances
   @Getter('account/chainId')
   private chainId
   @Getter('account/isConnectProvider')
@@ -102,6 +108,10 @@ export default class WalletConnect extends Vue {
     this.$store.dispatch('account/setAddress', address)
     this.$store.dispatch('account/setChainId', chainId)
     this.$store.dispatch('account/setConnectProviderStatus', true)
+    await this.requestUserBalances({
+      address: address,
+      chainId: chainId
+    })
   }
   private async onConnect() {
     const web3Modal = (window as any).web3Modal

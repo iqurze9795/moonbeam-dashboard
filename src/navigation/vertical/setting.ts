@@ -8,6 +8,11 @@ export default [
     route: "dashboard",
   },
   {
+    title: "Approval",
+    icon: "ToggleLeftIcon",
+    route: "approval",
+  },
+  {
     header: "Comming soon",
   },
   {

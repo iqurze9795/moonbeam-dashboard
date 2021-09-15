@@ -95,10 +95,10 @@ export default {
       commit("isError", false)
       commit("errorMessage", "")
     },
-    async getUserBalances({ commit, dispatch }, { address }) {
+    async getUserBalances({ commit, dispatch }, { address, chainId }) {
       const action = async () => {
         try {
-          const resp = await classAService.getTokenBalanceForAddress({ address })
+          const resp = await classAService.getTokenBalanceForAddress({ address, chainId })
           if (!resp.isError) {
             const balances = get(resp, ["data", "items"])
             commit("userBalances", { balances })
