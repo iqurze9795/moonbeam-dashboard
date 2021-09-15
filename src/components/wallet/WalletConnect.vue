@@ -1,6 +1,25 @@
 <template>
   <section>
+    <template v-if="isConnectProvider">
+      <!-- <wallet-connect /> -->
+      <div class="d-flex align-items-center">
+        <div class="d-sm-flex d-none chain">
+          <p class="user-name font-weight-bolder mb-0">Moonriver</p>
+          <span class="user-status">Chain ID: {{ chainId }}</span>
+        </div>
+        <b-avatar
+          size="40"
+          src="@/assets/images/icons/moonriver-logo.png"
+          variant="light-primary"
+          badge
+          class="badge-minimal"
+          badge-variant="success"
+        >
+        </b-avatar>
+      </div>
+    </template>
     <b-button
+      v-else
       @click="onConnect"
       v-ripple.400="'rgba(0, 207, 232, 0.15)'"
       variant="info"
@@ -12,30 +31,53 @@
 </template>
 
 <script lang="ts">
-import { BButton } from 'bootstrap-vue'
+import { ethers } from 'ethers'
+import { BButton, BAvatar } from 'bootstrap-vue'
 import Vue from 'vue'
 import Component from 'vue-class-component'
-import { ethers } from 'ethers'
+import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
+import { Getter } from 'vuex-class'
 @Component({
   components: {
-    BButton
+    BAvatar,
+    BButton,
+    ToastificationContent
   }
 })
 export default class WalletConnect extends Vue {
+  @Getter('account/chainId')
+  private chainId
+  @Getter('account/isConnectProvider')
+  private isConnectProvider
+  private subportChainID = ['1284', '1285']
   private async subscribeProvider(provider) {
     // Subscribe to accounts change
     provider.on('accountsChanged', async (info: any) => {
-      console.log('accountsChanged', info)
+      const [address] = info
+      this.$store.dispatch('account/setAddress', address)
     })
 
     // Subscribe to chainId change
     provider.on('chainChanged', async (info: any) => {
-      console.log('accountsChanged', info)
+      console.log('chainChanged', info)
     })
 
     // Subscribe to networkId change
-    provider.on('networkChanged', async (info: any) => {
-      console.log('networkChanged', info)
+    provider.on('networkChanged', async (chainId: any) => {
+      if (this.subportChainID.includes(chainId)) {
+        this.$store.dispatch('account/setChainId', chainId)
+      } else {
+        this.$toast({
+          component: ToastificationContent,
+          position: 'top-right',
+          props: {
+            title: `Error`,
+            icon: 'WifiOffIcon',
+            variant: 'danger',
+            text: `Unsupported chain id ${chainId}`
+          }
+        })
+      }
     })
   }
   private async onInitAccount(provider) {
@@ -60,4 +102,8 @@ export default class WalletConnect extends Vue {
   }
 }
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.chain {
+  flex-direction: column;
+}
+</style>

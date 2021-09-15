@@ -18,6 +18,9 @@ export default {
     },
     isConnectProvider: (state) => {
       return get(state, "isConnectProvider", false)
+    },
+    isSupportChain: (state) => {
+      return get(state, "isSupportChain", false)
     }
   },
   mutations: {
@@ -30,6 +33,9 @@ export default {
     isConnectProvider(state, isConnectProvider) {
       Vue.set(state, "isConnectProvider", isConnectProvider)
     },
+    isSupportChain(state, isSupportChain) {
+      Vue.set(state, "isSupportChain", isSupportChain)
+    },
   },
   actions: {
     async setAddress({ commit }, address) {
@@ -40,6 +46,9 @@ export default {
     },
     async setConnectProviderStatus({ commit }, isConnectProvider) {
       commit("isConnectProvider", isConnectProvider)
+    },
+    async isSupportChain({ commit }, isSupportChain) {
+      commit("isSupportChain", isSupportChain)
     }
   },
 }

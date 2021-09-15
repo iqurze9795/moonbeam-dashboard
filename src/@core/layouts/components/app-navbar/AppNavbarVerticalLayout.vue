@@ -26,7 +26,7 @@
       <search-bar v-if="false" />
       <cart-dropdown />
       <notification-dropdown class="d-none" />
-      <user-dropdown />
+      <wallet-connect />
     </b-navbar-nav>
   </div>
 </template>
@@ -39,7 +39,7 @@ import SearchBar from './components/SearchBar.vue'
 import DarkToggler from './components/DarkToggler.vue'
 import CartDropdown from './components/CartDropdown.vue'
 import NotificationDropdown from './components/NotificationDropdown.vue'
-import UserDropdown from './components/UserDropdown.vue'
+import WalletConnect from '@/components/wallet/WalletConnect.vue'
 import AddressSearch from '@/components/AddressSearch.vue'
 export default {
   components: {
@@ -49,7 +49,7 @@ export default {
     DarkToggler,
     CartDropdown,
     NotificationDropdown,
-    UserDropdown,
+    WalletConnect,
     AddressSearch
   },
   props: {

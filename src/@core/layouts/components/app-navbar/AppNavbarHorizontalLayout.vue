@@ -23,7 +23,7 @@
       <search-bar />
       <cart-dropdown />
       <notification-dropdown class="d-none" />
-      <user-dropdown class="d-none" />
+      <!-- <user-dropdown class="d-none" /> -->
     </b-navbar-nav>
   </div>
 </template>
@@ -36,7 +36,7 @@ import DarkToggler from "./components/DarkToggler.vue"
 import SearchBar from "./components/SearchBar.vue"
 import CartDropdown from "./components/CartDropdown.vue"
 import NotificationDropdown from "./components/NotificationDropdown.vue"
-import UserDropdown from "./components/UserDropdown.vue"
+// import UserDropdown from "./components/UserDropdown.vue"
 
 export default {
   components: {
@@ -50,7 +50,7 @@ export default {
     SearchBar,
     CartDropdown,
     NotificationDropdown,
-    UserDropdown,
+    // UserDropdown,
   },
   props: {
     toggleVerticalMenuActive: {
