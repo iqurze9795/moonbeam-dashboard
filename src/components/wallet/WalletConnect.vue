@@ -53,8 +53,11 @@ import Ripple from 'vue-ripple-directive'
 export default class WalletConnect extends Vue {
   @Action('classA/getUserBalances')
   private requestUserBalances
+  @Getter('account/address')
+  private address
   @Getter('account/chainId')
   private chainId
+
   @Getter('account/isConnectProvider')
   private isConnectProvider
   private subportChainID = ['1284', '1285']
@@ -85,6 +88,7 @@ export default class WalletConnect extends Vue {
     // Subscribe to networkId change
     provider.on('networkChanged', async (chainId: any) => {
       this.$store.dispatch('account/setChainId', chainId)
+      this.getUserBalance()
       // if (this.subportChainID.includes(chainId)) {
       //   this.$store.dispatch('account/setChainId', chainId)
       // } else {
@@ -101,6 +105,12 @@ export default class WalletConnect extends Vue {
       // }
     })
   }
+  private async getUserBalance() {
+    await this.requestUserBalances({
+      address: this.address,
+      chainId: this.chainId
+    })
+  }
   private async onInitAccount(provider) {
     const web3Provider = new ethers.providers.Web3Provider(provider)
     const [address] = await web3Provider.listAccounts()
@@ -108,10 +118,7 @@ export default class WalletConnect extends Vue {
     this.$store.dispatch('account/setAddress', address)
     this.$store.dispatch('account/setChainId', chainId)
     this.$store.dispatch('account/setConnectProviderStatus', true)
-    await this.requestUserBalances({
-      address: address,
-      chainId: chainId
-    })
+    this.getUserBalance()
   }
   private async onConnect() {
     const web3Modal = (window as any).web3Modal

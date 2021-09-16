@@ -65,7 +65,9 @@
             </b-card-text>
           </b-col>
           <b-col class="p-0">
-            <b-card-text class="mb-50 d-flex justify-content-center"> 24 Hr </b-card-text>
+            <b-card-text class="mb-50 d-flex justify-content-center">
+              24 Hr
+            </b-card-text>
           </b-col>
           <b-col class="d-flex justify-content-end">
             <b-card-text class="mb-50">
@@ -74,8 +76,8 @@
           </b-col>
         </b-row>
         <b-progress
-          :value="price"
-          :max="priceRange[1]"
+          :value="priceRange[1] - priceRange[0] - (priceRange[1] - price)"
+          :max="priceRange[1] - priceRange[0]"
           height="6px"
           class="mt-25"
         />
