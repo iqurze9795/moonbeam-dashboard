@@ -77,6 +77,7 @@ export default class WalletConnect extends Vue {
     provider.on('accountsChanged', async (info: any) => {
       const [address] = info
       this.$store.dispatch('preference/setAddress', address)
+      this.getUserBalance()
     })
 
     // Subscribe to chainId change

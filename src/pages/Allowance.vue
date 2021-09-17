@@ -1,18 +1,28 @@
 <template>
-  <section>
-    <pre>{{ address }}</pre>
-    <pre>{{ allowances }}</pre>
+  <section id="dashboard-analytics">
+    <b-card no-body class="card-company-table">
+      <b-card-header> <h4>Token Allowance</h4> </b-card-header>
+      <transaction :txs="allowances" />
+    </b-card>
   </section>
 </template>
 <script lang="ts">
+import { BCard, BTable, BSpinner, BAvatar, BImg } from 'bootstrap-vue'
 import { isEmpty } from 'lodash'
-import Vue from 'vue'
-import Component from 'vue-class-component'
 import { Watch } from 'vue-property-decorator'
 import { Action, Getter } from 'vuex-class'
+import { Component, Vue } from 'vue-property-decorator'
+import Transaction from '@/components/list/Transaction.vue'
 import Web3 from 'web3'
 @Component({
-  components: {}
+  components: {
+    BCard,
+    BTable,
+    BAvatar,
+    BSpinner,
+    BImg,
+    Transaction
+  }
 })
 export default class Allowance extends Vue {
   @Action('blockScan/getTransactions')
@@ -82,10 +92,10 @@ export default class Allowance extends Vue {
           input: '',
           key: ''
         }
-        const contract = web3.utils.toChecksumAddress(item.to)
-        const tokenApproved = web3.utils.toChecksumAddress(
+        const contract = web3.utils.toChecksumAddress(
           '0x' + input.substring(34, 74)
         )
+        const tokenApproved = web3.utils.toChecksumAddress(item.to)
         approvedObj.input = input
         approvedObj.contract = contract
         approvedObj.tokenApproved = tokenApproved
@@ -117,6 +127,11 @@ export default class Allowance extends Vue {
   get allowances() {
     return this.getApproveTransaction(this.tx)
   }
+
+  get isLoading() {
+    return this.$store.getters['service/isLoading']('classA/getUserBalance')
+  }
+
   private async mounted() {
     if (this.address) {
       await this.getTransactions({ address: this.address })
@@ -129,3 +144,31 @@ export default class Allowance extends Vue {
   }
 }
 </script>
+<style lang="scss" scoped>
+.img-container {
+  width: 35px !important;
+  height: 35px !important;
+  display: inline-block;
+  border-radius: 100%;
+  overflow: hidden;
+  &:not(:first-child) {
+    margin-left: -15px;
+  }
+
+  > img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+}
+.view-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &.loading,
+  &.empty {
+    height: 300px;
+  }
+}
+</style>

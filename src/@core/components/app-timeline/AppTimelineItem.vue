@@ -1,12 +1,12 @@
 <template>
   <li
     class="timeline-item"
-    :class="[`timeline-variant-${variant}`, fillBorder ? `timeline-item-fill-border-${variant}` : null]"
+    :class="[
+      `timeline-variant-${variant}`,
+      fillBorder ? `timeline-item-fill-border-${variant}` : null
+    ]"
   >
-    <div
-      v-if="!icon"
-      class="timeline-item-point"
-    />
+    <div v-if="!icon" class="timeline-item-point" />
     <div
       v-else
       class="timeline-item-icon d-flex align-items-center justify-content-center rounded-circle"
@@ -15,49 +15,54 @@
     </div>
 
     <slot>
-      <div class="d-flex flex-sm-row flex-column flex-wrap justify-content-between mb-1 mb-sm-0">
+      <div
+        class="d-flex flex-sm-row flex-column flex-wrap justify-content-between mb-1 mb-sm-0"
+      >
         <h6 v-text="title" />
         <small
           class="timeline-item-time text-nowrap text-muted"
           v-text="time"
         />
       </div>
-      <p
-        class="mb-0"
-        v-text="subtitle"
-      />
+      <b-row class="pl-1 d-flex align-items-center">
+        <b-badge class="mb-0" variant="light-success">
+          {{ formatAddress(tokenAddress) }}
+        </b-badge>
+
+        <feather-icon icon="Link2Icon" />
+        <b-badge variant="light-info">
+          {{ formatAddress(contractAddress) }}
+        </b-badge>
+      </b-row>
     </slot>
   </li>
 </template>
 
-<script>
-export default {
-  props: {
-    variant: {
-      type: String,
-      default: 'primary',
-    },
-    title: {
-      type: String,
-      default: null,
-    },
-    subtitle: {
-      type: String,
-      default: null,
-    },
-    time: {
-      type: String,
-      default: null,
-    },
-    icon: {
-      type: String,
-      default: null,
-    },
-    fillBorder: {
-      type: Boolean,
-      default: false,
-    },
-  },
+<script lang="ts">
+import { BBadge } from 'bootstrap-vue'
+import Vue from 'vue'
+import Component from 'vue-class-component'
+import { Prop } from 'vue-property-decorator'
+
+@Component({
+  components: {
+    BBadge
+  }
+})
+export default class AppTimeLineItem extends Vue {
+  @Prop({ default: 'primary' }) variant
+  @Prop({ default: null }) title
+  @Prop({ default: null }) tokenAddress
+  @Prop({ default: null }) contractAddress
+  @Prop({ default: null }) time
+  @Prop({ default: null }) icon
+  @Prop({ default: false }) fillBorder
+  private formatAddress(address) {
+    return `${address.slice(0, 8)}...${address.slice(
+      address.length - 8,
+      address.length
+    )}`
+  }
 }
 </script>
 
@@ -165,7 +170,10 @@ $timeline-border-color: $border-color;
   .timeline-item {
     &:last-of-type {
       &:after {
-        background: linear-gradient($theme-dark-border-color, $theme-dark-card-bg);
+        background: linear-gradient(
+          $theme-dark-border-color,
+          $theme-dark-card-bg
+        );
       }
     }
     &:not(:last-of-type) {
@@ -177,5 +185,4 @@ $timeline-border-color: $border-color;
     }
   }
 }
-
 </style>
