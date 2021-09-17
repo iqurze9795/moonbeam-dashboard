@@ -1,20 +1,20 @@
 <template>
   <section id="dashboard-analytics">
+    <statistic-card :items="statisticsItems" />
     <b-card no-body class="card-company-table">
       <b-card-header> <h4>Token Allowance</h4> </b-card-header>
       <transaction :txs="allowances" />
-      {{ totalGasUse }}
     </b-card>
   </section>
 </template>
 <script lang="ts">
 import { BCard, BTable, BSpinner, BAvatar, BImg } from 'bootstrap-vue'
-import { isEmpty } from 'lodash'
 import { Watch } from 'vue-property-decorator'
 import { Action, Getter } from 'vuex-class'
 import { Component, Vue } from 'vue-property-decorator'
+import StatisticCard from '@/components/cards/StatisticCard.vue'
 import Transaction from '@/components/list/Transaction.vue'
-
+import Web3 from 'web3'
 @Component({
   components: {
     BCard,
@@ -22,7 +22,8 @@ import Transaction from '@/components/list/Transaction.vue'
     BAvatar,
     BSpinner,
     BImg,
-    Transaction
+    Transaction,
+    StatisticCard
   }
 })
 export default class Allowance extends Vue {
@@ -66,18 +67,74 @@ export default class Allowance extends Vue {
       type: 'function'
     }
   ]
-  
 
+  private mapChainNativeCoin = {
+    1: 'ETH',
+    56: 'BNB',
+    137: 'MATIC',
+    1285: 'MOVR'
+  }
+  get successTx() {
+    return this.rawTx.reduce((sum, next) => {
+      if (next.isError === '0') {
+        return sum + 1
+      } else {
+        return sum
+      }
+    }, 0)
+  }
+  get failedTx() {
+    return this.rawTx.reduce((sum, next) => {
+      if (next.isError === '1') {
+        return sum + 1
+      } else {
+        return sum
+      }
+    }, 0)
+  }
   get totalGasUse() {
+    console.log(this.rawTx)
     const totalGasUse = this.rawTx.reduce((sum, next) => {
-      console.log(next.gasUsed)
       return sum + parseInt(next.gasUsed)
     }, 0)
-    return totalGasUse
+    const wei = Web3.utils.toWei(`${totalGasUse}`, 'gwei')
+    return Web3.utils.fromWei(`${wei}`, 'ether')
   }
 
   get isLoading() {
     return this.$store.getters['service/isLoading']('classA/getUserBalance')
+  }
+  get statisticsItems() {
+    return [
+      {
+        icon: 'TrendingUpIcon',
+        color: 'light-primary',
+        title: this.rawTx.length,
+        subtitle: 'Total Transaction',
+        customClass: 'mb-2 mb-xl-0'
+      },
+      {
+        icon: 'CheckCircleIcon',
+        color: 'light-success',
+        title: this.successTx,
+        subtitle: 'Total success tx',
+        customClass: 'mb-2 mb-xl-0'
+      },
+      {
+        icon: 'InfoIcon',
+        color: 'light-danger',
+        title: this.failedTx,
+        subtitle: 'Total failed tx',
+        customClass: 'mb-2 mb-sm-0'
+      },
+      {
+        icon: 'DollarSignIcon',
+        color: 'light-warning',
+        title: `${this.totalGasUse}`,
+        subtitle: `Total ${this.mapChainNativeCoin[this.chainId]} used in GAS`,
+        customClass: 'mb-2 mb-sm-0'
+      }
+    ]
   }
 
   private async mounted() {
