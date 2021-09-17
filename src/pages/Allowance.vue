@@ -3,6 +3,7 @@
     <b-card no-body class="card-company-table">
       <b-card-header> <h4>Token Allowance</h4> </b-card-header>
       <transaction :txs="allowances" />
+      {{ totalGasUse }}
     </b-card>
   </section>
 </template>
@@ -13,7 +14,7 @@ import { Watch } from 'vue-property-decorator'
 import { Action, Getter } from 'vuex-class'
 import { Component, Vue } from 'vue-property-decorator'
 import Transaction from '@/components/list/Transaction.vue'
-import Web3 from 'web3'
+
 @Component({
   components: {
     BCard,
@@ -33,12 +34,10 @@ export default class Allowance extends Vue {
   private address
   @Getter('preference/chainId')
   private chainId
-  @Getter('blockScan/tx')
-  private tx
-
-  private approvalHash = '0x095ea7b3'
-  private unlimitedAllowance =
-    'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+  @Getter('blockScan/rawTx')
+  private rawTx
+  @Getter('blockScan/allowances')
+  private allowances
   private approvalABI = [
     {
       constant: false,
@@ -67,65 +66,14 @@ export default class Allowance extends Vue {
       type: 'function'
     }
   ]
+  
 
-  private getApproveTransaction(txs) {
-    type ApprovedObject = {
-      contract: string
-      tokenApproved: string
-      allowance: string
-      input: string
-      key: string
-    }
-    const web3 = new Web3(this.provider)
-    const approveTxs = txs.filter((item) => {
-      const { input } = item
-      return String(input).includes(this.approvalHash)
-    })
-    //https://api.coingecko.com/api/v3/coins/binance-smart-chain/contract/0xe9e7cea3dedca5984780bafc599bd69add087d56
-    const approveTransactions = approveTxs
-      .map((item) => {
-        const { input } = item
-        let approvedObj: ApprovedObject = {
-          contract: '',
-          tokenApproved: '',
-          allowance: '',
-          input: '',
-          key: ''
-        }
-        const contract = web3.utils.toChecksumAddress(
-          '0x' + input.substring(34, 74)
-        )
-        const tokenApproved = web3.utils.toChecksumAddress(item.to)
-        approvedObj.input = input
-        approvedObj.contract = contract
-        approvedObj.tokenApproved = tokenApproved
-        approvedObj.key = contract + tokenApproved
-
-        let allowance = input.substring(74)
-
-        if (allowance.includes(this.unlimitedAllowance)) {
-          approvedObj.allowance = 'unlimited'
-        } else {
-          approvedObj.allowance = 'limited'
-        }
-        return approvedObj
-      })
-      .reduce((pre, next) => {
-        const records = pre.find((item) => {
-          return next.key == item.key
-        })
-        if (isEmpty(records)) {
-          return [...pre, next]
-        } else {
-          return [...pre]
-        }
-      }, [])
-
-    return approveTransactions
-  }
-
-  get allowances() {
-    return this.getApproveTransaction(this.tx)
+  get totalGasUse() {
+    const totalGasUse = this.rawTx.reduce((sum, next) => {
+      console.log(next.gasUsed)
+      return sum + parseInt(next.gasUsed)
+    }, 0)
+    return totalGasUse
   }
 
   get isLoading() {

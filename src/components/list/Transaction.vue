@@ -9,7 +9,7 @@
           :tokenAddress="item.tokenApproved"
           :contractAddress="item.contract"
           icon="ActivityIcon"
-          time="few minutes ago"
+          :time="item.timeStamp"
           :variant="`${item.allowance === 'unlimited' ? 'danger' : 'warning'}`"
         />
       </app-timeline>

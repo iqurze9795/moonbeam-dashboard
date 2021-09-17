@@ -1,8 +1,7 @@
 import { blockScanService } from "@/services/blockScanService"
 import { get } from "lodash"
-import camelcaseKeys from "camelcase-keys"
+import { getApproveTransaction } from './utils'
 import Vue from "vue"
-const approvalHash = "0x095ea7b3";
 
 export default {
   namespaced: true,
@@ -10,8 +9,11 @@ export default {
     userBalance: {}
   },
   getters: {
-    tx: (state) => {
-      return get(state, "tx", [])
+    rawTx: (state) => {
+      return get(state, "rawTx", [])
+    },
+    allowances: (state) => {
+      return get(state, "allowances", [])
     },
     isError: (state) => {
       return get(state, "isError", false)
@@ -21,8 +23,12 @@ export default {
     },
   },
   mutations: {
-    tx(state, tx = []) {
-      Vue.set(state, "tx", tx)
+    rawTx(state, tx = []) {
+      Vue.set(state, "rawTx", tx)
+    },
+    allowances(state, tx = []) {
+      console.log("allowances::")
+      Vue.set(state, "allowances", getApproveTransaction(tx))
     },
     isError(state, isError) {
       Vue.set(state, "isError", isError)
@@ -44,7 +50,8 @@ export default {
       const action = async () => {
         try {
           const resp = await blockScanService.getTransaction({ address })
-          commit("tx", get(resp, ["data", "result"]))
+          commit("rawTx", get(resp, ["data", "result"]))
+          commit("allowances", get(resp, ["data", "result"]))
         }
         catch (e) {
           commit("isError", true)

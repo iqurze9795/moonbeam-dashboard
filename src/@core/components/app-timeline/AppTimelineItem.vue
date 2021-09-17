@@ -18,35 +18,51 @@
       <div
         class="d-flex flex-sm-row flex-column flex-wrap justify-content-between mb-1 mb-sm-0"
       >
-        <h6 v-text="title" />
-        <small
-          class="timeline-item-time text-nowrap text-muted"
-          v-text="time"
-        />
+        <b-row class="pl-1 d-flex align-items-center mb-2">
+          <div class="d-flex align-items-center">
+            {{ formatAddress(tokenAddress) }}
+          </div>
+          <b-badge class="mb-0" variant="light-danger">
+            <feather-icon icon="Link2Icon" />
+          </b-badge>
+          <b-badge class="mb-0" variant="light-warning">
+            <feather-icon icon="Link2Icon" />
+          </b-badge>
+          <div class="d-flex flex-direction-row">
+            {{ formatAddress(contractAddress) }}
+          </div>
+        </b-row>
+        <b-button
+          v-ripple.400="'rgba(234, 84, 85, 0.15)'"
+          variant="danger"
+          pill
+          @click="callback"
+        >
+          <feather-icon icon="EditIcon" class="mr-50" />
+          <span class="align-middle">Revoke</span>
+        </b-button>
       </div>
-      <b-row class="pl-1 d-flex align-items-center">
-        <b-badge class="mb-0" variant="light-success">
-          {{ formatAddress(tokenAddress) }}
-        </b-badge>
-
-        <feather-icon icon="Link2Icon" />
-        <b-badge variant="light-info">
-          {{ formatAddress(contractAddress) }}
-        </b-badge>
-      </b-row>
+      <small class="timeline-item-time text-nowrap text-muted">
+        {{ transformDate(time) }} ({{ formatDate(time) }})
+      </small>
     </slot>
   </li>
 </template>
 
 <script lang="ts">
-import { BBadge } from 'bootstrap-vue'
+import { BBadge, BButton } from 'bootstrap-vue'
 import Vue from 'vue'
 import Component from 'vue-class-component'
 import { Prop } from 'vue-property-decorator'
-
+import { fromUnixTime, formatDistance, format } from 'date-fns'
+import Ripple from 'vue-ripple-directive'
 @Component({
   components: {
-    BBadge
+    BBadge,
+    BButton
+  },
+  directives: {
+    Ripple
   }
 })
 export default class AppTimeLineItem extends Vue {
@@ -57,11 +73,19 @@ export default class AppTimeLineItem extends Vue {
   @Prop({ default: null }) time
   @Prop({ default: null }) icon
   @Prop({ default: false }) fillBorder
+  @Prop({ default: () => {} }) callback
   private formatAddress(address) {
-    return `${address.slice(0, 8)}...${address.slice(
-      address.length - 8,
-      address.length
-    )}`
+    return address
+    // return `${address.slice(0, 8)}...${address.slice(
+    //   address.length - 8,
+    //   address.length
+    // )}`
+  }
+  private transformDate(unixtime) {
+    return format(fromUnixTime(unixtime), 'dd MM yyyy HH:mm')
+  }
+  private formatDate(unixtime) {
+    return formatDistance(fromUnixTime(unixtime), new Date())
   }
 }
 </script>
