@@ -16,6 +16,9 @@ export default {
     chainId: (state) => {
       return get(state, "chainId", "")
     },
+    provider: (state) => {
+      return get(state, "provider", "")
+    },
     isConnectProvider: (state) => {
       return get(state, "isConnectProvider", false)
     },
@@ -29,6 +32,9 @@ export default {
     },
     chainId(state, chainId) {
       Vue.set(state, "chainId", chainId)
+    },
+    provider(state, provider) {
+      Vue.set(state, "provider", provider)
     },
     isConnectProvider(state, isConnectProvider) {
       Vue.set(state, "isConnectProvider", isConnectProvider)
@@ -46,6 +52,10 @@ export default {
     },
     async setConnectProviderStatus({ commit }, isConnectProvider) {
       commit("isConnectProvider", isConnectProvider)
+    },
+    async setProvider({ commit }, provider) {
+
+      commit("provider", provider)
     },
     async isSupportChain({ commit }, isSupportChain) {
       commit("isSupportChain", isSupportChain)

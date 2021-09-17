@@ -53,12 +53,11 @@ import Ripple from 'vue-ripple-directive'
 export default class WalletConnect extends Vue {
   @Action('classA/getUserBalances')
   private requestUserBalances
-  @Getter('account/address')
+  @Getter('preference/address')
   private address
-  @Getter('account/chainId')
+  @Getter('preference/chainId')
   private chainId
-
-  @Getter('account/isConnectProvider')
+  @Getter('preference/isConnectProvider')
   private isConnectProvider
   private subportChainID = ['1284', '1285']
   private mapChainLogo = {
@@ -77,7 +76,7 @@ export default class WalletConnect extends Vue {
     // Subscribe to accounts change
     provider.on('accountsChanged', async (info: any) => {
       const [address] = info
-      this.$store.dispatch('account/setAddress', address)
+      this.$store.dispatch('preference/setAddress', address)
     })
 
     // Subscribe to chainId change
@@ -87,7 +86,7 @@ export default class WalletConnect extends Vue {
 
     // Subscribe to networkId change
     provider.on('networkChanged', async (chainId: any) => {
-      this.$store.dispatch('account/setChainId', chainId)
+      this.$store.dispatch('preference/setChainId', chainId)
       this.getUserBalance()
       // if (this.subportChainID.includes(chainId)) {
       //   this.$store.dispatch('account/setChainId', chainId)
@@ -115,16 +114,17 @@ export default class WalletConnect extends Vue {
     const web3Provider = new ethers.providers.Web3Provider(provider)
     const [address] = await web3Provider.listAccounts()
     const { chainId } = await web3Provider.getNetwork()
-    this.$store.dispatch('account/setAddress', address)
-    this.$store.dispatch('account/setChainId', chainId)
-    this.$store.dispatch('account/setConnectProviderStatus', true)
+    this.$store.dispatch('preference/setAddress', address)
+    this.$store.dispatch('preference/setChainId', chainId)
+    this.$store.dispatch('preference/setConnectProviderStatus', true)
     this.getUserBalance()
   }
   private async onConnect() {
     const web3Modal = (window as any).web3Modal
-    const result = await web3Modal.connect()
-    await this.onInitAccount(result)
-    await this.subscribeProvider(result)
+    const provider = await web3Modal.connect()
+    this.$store.dispatch('preference/setProvider', provider)
+    await this.onInitAccount(provider)
+    await this.subscribeProvider(provider)
   }
   private mounted() {
     const web3Modal = (window as any).web3Modal

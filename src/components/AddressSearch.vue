@@ -39,7 +39,7 @@ import { get, isEmpty } from 'lodash'
   }
 })
 export default class AddressSearch extends Vue {
-  @Getter('account/address')
+  @Getter('preference/address')
   private address
 }
 </script>

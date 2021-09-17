@@ -52,4 +52,9 @@ export default [
     name: "dashboard",
     component: () => import("@/pages/Dashboard.vue"),
   },
+  {
+    path: "/allowance",
+    name: "allowance",
+    component: () => import("@/pages/Allowance.vue"),
+  },
 ]

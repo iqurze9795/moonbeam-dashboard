@@ -8,9 +8,9 @@ export default [
     route: "dashboard",
   },
   {
-    title: "Approval",
+    title: "Allowance",
     icon: "ToggleLeftIcon",
-    route: "approval",
+    route: "allowance",
   },
   {
     header: "Comming soon",
