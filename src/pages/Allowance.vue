@@ -3,7 +3,20 @@
     <statistic-card :items="statisticsItems" />
     <b-card no-body class="card-company-table">
       <b-card-header> <h4>Token Allowance</h4> </b-card-header>
-      <transaction :txs="allowances" />
+      <section v-if="isLoading">
+        <div class="view-state loading">
+          <div class="text-center text-danger">
+            <b-spinner class="align-middle mr-1"></b-spinner>
+            <strong>Loading...</strong>
+          </div>
+        </div>
+      </section>
+      <section v-else>
+        <transaction v-if="allowances.length > 0" :txs="allowances" />
+        <b-card v-else>
+          <div class="view-state empty">No data found.</div>
+        </b-card>
+      </section>
     </b-card>
   </section>
 </template>
@@ -102,7 +115,7 @@ export default class Allowance extends Vue {
   }
 
   get isLoading() {
-    return this.$store.getters['service/isLoading']('classA/getUserBalance')
+    return this.$store.getters['service/isLoading']('blockScan/getTransactions')
   }
   get statisticsItems() {
     return [

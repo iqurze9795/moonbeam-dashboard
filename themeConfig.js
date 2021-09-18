@@ -11,27 +11,27 @@ export const $themeConfig = {
   app: {
     // Will update name in navigation menu (Branding)
     // eslint-disable-next-line global-require
-    appLogoImage: require("@/assets/images/logo/logo.png"), // Will update logo in navigation menu (Branding)
+    appLogoImage: require('@/assets/images/logo/logo.png') // Will update logo in navigation menu (Branding)
   },
   layout: {
     isRTL: false,
-    skin: "dark", // light, dark, bordered, semi-dark
-    routerTransition: "fade", // zoom-fade, slide-fade, fade-bottom, fade, zoom-out, none
-    type: "vertical", // vertical, horizontal
-    contentWidth: "full", // full, boxed
+    skin: 'dark', // light, dark, bordered, semi-dark
+    routerTransition: 'fade', // zoom-fade, slide-fade, fade-bottom, fade, zoom-out, none
+    type: 'vertical', // vertical, horizontal
+    contentWidth: 'full', // full, boxed
     menu: {
       hidden: false,
-      isCollapsed: false,
+      isCollapsed: false
     },
     navbar: {
       // ? For horizontal menu, navbar type will work for navMenu type
-      type: "floating", // static , sticky , floating, hidden
-      backgroundColor: "", // BS color options [primary, success, etc]
+      type: 'floating', // static , sticky , floating, hidden
+      backgroundColor: '' // BS color options [primary, success, etc]
     },
     footer: {
-      type: "static", // static, sticky, hidden
+      type: 'static' // static, sticky, hidden
     },
     customizer: false,
-    enableScrollToTop: true,
-  },
+    enableScrollToTop: true
+  }
 }
