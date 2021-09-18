@@ -52,34 +52,6 @@ export default class Allowance extends Vue {
   private rawTx
   @Getter('blockScan/allowances')
   private allowances
-  private approvalABI = [
-    {
-      constant: false,
-      inputs: [
-        {
-          internalType: 'address',
-          name: 'spender',
-          type: 'address'
-        },
-        {
-          internalType: 'uint256',
-          name: 'tokens',
-          type: 'uint256'
-        }
-      ],
-      name: 'approve',
-      outputs: [
-        {
-          internalType: 'bool',
-          name: 'success',
-          type: 'bool'
-        }
-      ],
-      payable: false,
-      stateMutability: 'nonpayable',
-      type: 'function'
-    }
-  ]
 
   private mapChainNativeCoin = {
     1: 'ETH',

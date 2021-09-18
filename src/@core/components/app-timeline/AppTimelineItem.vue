@@ -52,7 +52,7 @@
             v-ripple.400="'rgba(234, 84, 85, 0.15)'"
             variant="danger"
             pill
-            @click="callback"
+            @click="onRevoke"
           >
             <feather-icon icon="EditIcon" class="mr-50" />
             <span class="align-middle">Revoke</span>
@@ -64,12 +64,15 @@
 </template>
 
 <script lang="ts">
-import { BBadge, BButton } from 'bootstrap-vue'
 import Vue from 'vue'
 import Component from 'vue-class-component'
+import Ripple from 'vue-ripple-directive'
+import Web3 from 'web3'
+import ABI from '@/utils/api.json'
+import { BBadge, BButton } from 'bootstrap-vue'
 import { Prop } from 'vue-property-decorator'
 import { fromUnixTime, formatDistance, format } from 'date-fns'
-import Ripple from 'vue-ripple-directive'
+import { Getter } from 'vuex-class'
 @Component({
   components: {
     BBadge,
@@ -80,6 +83,10 @@ import Ripple from 'vue-ripple-directive'
   }
 })
 export default class AppTimeLineItem extends Vue {
+  @Getter('preference/address')
+  private address
+  @Getter('preference/provider')
+  private provider
   @Prop({ default: 'primary' }) variant
   @Prop({ default: null }) symbol
   @Prop({ default: null }) allowance
@@ -102,6 +109,27 @@ export default class AppTimeLineItem extends Vue {
   }
   private formatDate(unixtime) {
     return formatDistance(fromUnixTime(unixtime), new Date())
+  }
+  private onRevoke() {
+    console.log('button click')
+    const web3 = new Web3(this.provider)
+    let contract = new web3.eth.Contract(
+      ABI.APPROVED as any,
+      this.tokenAddress,
+      {
+        gas: 100000
+      }
+    )
+    console.log('contract', contract)
+    contract.methods
+      .approve(this.contractAddress, 0)
+      .send({ from: this.address })
+      .then((receipt) => {
+        console.log('revoked: ' + JSON.stringify(receipt))
+      })
+      .catch((err) => {
+        console.log('failed: ' + JSON.stringify(err))
+      })
   }
 }
 </script>

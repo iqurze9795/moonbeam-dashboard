@@ -72,13 +72,14 @@ const getApproveTransaction = async (txs) => {
       const records = pre.find((item) => {
         return next.key == item.key
       })
-      if (isEmpty(records) && next.check > 0) {
-        return [...pre, next]
-      } else {
-        return [...pre]
-      }
+      return [...pre, next]
+      // if (isEmpty(records) && next.check > 0) {
+      //   return [...pre, next]
+      // } else {
+      //   return [...pre]
+      // }
     }, [])
-  console.log(approveTransactions)
+  // console.log("",approveTransactions)
   return approveTransactions
 }
 
