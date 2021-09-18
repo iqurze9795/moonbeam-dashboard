@@ -6,45 +6,59 @@
       fillBorder ? `timeline-item-fill-border-${variant}` : null
     ]"
   >
-    <div v-if="!icon" class="timeline-item-point" />
     <div
-      v-else
       class="timeline-item-icon d-flex align-items-center justify-content-center rounded-circle"
     >
       <feather-icon :icon="icon" />
     </div>
 
     <slot>
-      <div
-        class="d-flex flex-sm-row flex-column flex-wrap justify-content-between mb-1 mb-sm-0"
-      >
-        <b-row class="pl-1 d-flex align-items-center mb-2">
-          <div class="d-flex align-items-center">
-            {{ formatAddress(tokenAddress) }}
-          </div>
-          <b-badge class="mb-0" variant="light-danger">
-            <feather-icon icon="Link2Icon" />
-          </b-badge>
-          <b-badge class="mb-0" variant="light-warning">
-            <feather-icon icon="Link2Icon" />
-          </b-badge>
-          <div class="d-flex flex-direction-row">
-            {{ formatAddress(contractAddress) }}
-          </div>
-        </b-row>
-        <b-button
-          v-ripple.400="'rgba(234, 84, 85, 0.15)'"
-          variant="danger"
-          pill
-          @click="callback"
-        >
-          <feather-icon icon="EditIcon" class="mr-50" />
-          <span class="align-middle">Revoke</span>
-        </b-button>
-      </div>
-      <small class="timeline-item-time text-nowrap text-muted">
-        {{ transformDate(time) }} ({{ formatDate(time) }})
-      </small>
+      <!-- class="d-flex flex-sm-row flex-column flex-wrap justify-content-between mb-1 mb-sm-0" -->
+      <b-row>
+        <b-col md="8">
+          <b-row>
+            <b-badge
+              :variant="`${allowance === 'Unlimited' ? 'danger' : 'warning'}`"
+            >
+              {{ allowance }}
+            </b-badge>
+          </b-row>
+          <b-row>
+            <span class="title">Binance token has been approve</span>
+          </b-row>
+          <b-row>
+            <div class="d-flex">
+              <div class="d-flex align-items-center">
+                {{ formatAddress(tokenAddress) }}
+              </div>
+              <div class="space">
+                <b-badge variant="light-info">
+                  <feather-icon icon="FastForwardIcon" />
+                </b-badge>
+              </div>
+              <div class="d-flex align-items-center">
+                {{ formatAddress(contractAddress) }}
+              </div>
+            </div>
+          </b-row>
+          <b-row>
+            <small class="timeline-item-time text-nowrap text-muted">
+              {{ transformDate(time) }} ({{ formatDate(time) }})
+            </small>
+          </b-row>
+        </b-col>
+        <b-col md="4" class="d-flex justify-content-end align-items-center">
+          <b-button
+            v-ripple.400="'rgba(234, 84, 85, 0.15)'"
+            variant="danger"
+            pill
+            @click="callback"
+          >
+            <feather-icon icon="EditIcon" class="mr-50" />
+            <span class="align-middle">Revoke</span>
+          </b-button>
+        </b-col>
+      </b-row>
     </slot>
   </li>
 </template>
@@ -68,6 +82,7 @@ import Ripple from 'vue-ripple-directive'
 export default class AppTimeLineItem extends Vue {
   @Prop({ default: 'primary' }) variant
   @Prop({ default: null }) title
+  @Prop({ default: null }) allowance
   @Prop({ default: null }) tokenAddress
   @Prop({ default: null }) contractAddress
   @Prop({ default: null }) time
@@ -75,11 +90,11 @@ export default class AppTimeLineItem extends Vue {
   @Prop({ default: false }) fillBorder
   @Prop({ default: () => {} }) callback
   private formatAddress(address) {
-    return address
-    // return `${address.slice(0, 8)}...${address.slice(
-    //   address.length - 8,
-    //   address.length
-    // )}`
+    // return address
+    return `${address.slice(0, 8)}...${address.slice(
+      address.length - 8,
+      address.length
+    )}`
   }
   private transformDate(unixtime) {
     return format(fromUnixTime(unixtime), 'dd MM yyyy HH:mm')
@@ -130,7 +145,15 @@ $timeline-border-color: $border-color;
     }
   }
 }
-
+.title {
+  padding-top: 4px;
+  font-size: 16px;
+  font-weight: 800;
+}
+.space {
+  padding-right: 5px;
+  padding-left: 5px;
+}
 .timeline-item {
   padding-left: 2.5rem;
   position: relative;

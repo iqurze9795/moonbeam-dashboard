@@ -43,9 +43,9 @@ const getApproveTransaction = (txs) => {
       const allowance = input.substring(74)
       approvedObj.check = parseInt(allowance, 16)
       if (allowance.includes(unlimitedAllowance)) {
-        approvedObj.allowance = 'unlimited'
+        approvedObj.allowance = 'Unlimited'
       } else {
-        approvedObj.allowance = 'limited'
+        approvedObj.allowance = 'Limited'
       }
       return approvedObj
     })

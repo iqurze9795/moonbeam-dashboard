@@ -5,12 +5,12 @@
         <app-timeline-item
           v-for="(item, index) in txs"
           :key="index"
-          :title="item.allowance"
+          :allowance="item.allowance"
           :tokenAddress="item.tokenApproved"
           :contractAddress="item.contract"
-          icon="ActivityIcon"
+          icon="CompassIcon"
           :time="item.timeStamp"
-          :variant="`${item.allowance === 'unlimited' ? 'danger' : 'warning'}`"
+          :variant="`${item.allowance === 'Unlimited' ? 'danger' : 'warning'}`"
         />
       </app-timeline>
     </b-card-body>
