@@ -152,13 +152,19 @@ export default class Allowance extends Vue {
 
   private async mounted() {
     if (this.address) {
-      await this.getTransactions({ address: this.address })
+      await this.getTransactions({
+        address: this.address,
+        provider: this.provider
+      })
     }
   }
 
   @Watch('address')
   private async addressChange() {
-    await this.getTransactions({ address: this.address })
+    await this.getTransactions({
+      address: this.address,
+      provider: this.provider
+    })
   }
 }
 </script>

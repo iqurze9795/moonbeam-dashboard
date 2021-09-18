@@ -14,7 +14,7 @@
 
     <slot>
       <!-- class="d-flex flex-sm-row flex-column flex-wrap justify-content-between mb-1 mb-sm-0" -->
-      <b-row>
+      <b-row class="pl-1">
         <b-col md="8">
           <b-row>
             <b-badge
@@ -24,7 +24,7 @@
             </b-badge>
           </b-row>
           <b-row>
-            <span class="title">Binance token has been approve</span>
+            <span class="title">{{ symbol }} token has been allowanced</span>
           </b-row>
           <b-row>
             <div class="d-flex">
@@ -81,7 +81,7 @@ import Ripple from 'vue-ripple-directive'
 })
 export default class AppTimeLineItem extends Vue {
   @Prop({ default: 'primary' }) variant
-  @Prop({ default: null }) title
+  @Prop({ default: null }) symbol
   @Prop({ default: null }) allowance
   @Prop({ default: null }) tokenAddress
   @Prop({ default: null }) contractAddress
@@ -89,10 +89,11 @@ export default class AppTimeLineItem extends Vue {
   @Prop({ default: null }) icon
   @Prop({ default: false }) fillBorder
   @Prop({ default: () => {} }) callback
+
   private formatAddress(address) {
     // return address
-    return `${address.slice(0, 8)}...${address.slice(
-      address.length - 8,
+    return `${address.slice(0, 10)}....${address.slice(
+      address.length - 10,
       address.length
     )}`
   }

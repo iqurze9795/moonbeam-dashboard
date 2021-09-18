@@ -1,6 +1,6 @@
 import { blockScanService } from "@/services/blockScanService"
 import { get } from "lodash"
-import { getApproveTransaction } from './utils'
+import { getApproveTransaction, getConntractInfo } from './utils'
 import Vue from "vue"
 
 export default {
@@ -27,8 +27,7 @@ export default {
       Vue.set(state, "rawTx", tx)
     },
     allowances(state, tx = []) {
-      console.log("allowances::")
-      Vue.set(state, "allowances", getApproveTransaction(tx))
+      Vue.set(state, "allowances", tx)
     },
     isError(state, isError) {
       Vue.set(state, "isError", isError)
@@ -46,12 +45,17 @@ export default {
       commit("isError", false)
       commit("errorMessage", "")
     },
-    async getTransactions({ commit, dispatch }, { address }) {
+    async getTransactions({ commit, dispatch }, { address, provider }) {
       const action = async () => {
         try {
           const resp = await blockScanService.getTransaction({ address })
+          let allowance = await getApproveTransaction(get(resp, ["data", "result"]))
+          allowance = await Promise.all(allowance.map(async (item) => {
+            const symbol = await getConntractInfo({ address: item.tokenApproved, provider })
+            return { ...item, symbol }
+          }))
           commit("rawTx", get(resp, ["data", "result"]))
-          commit("allowances", get(resp, ["data", "result"]))
+          commit("allowances", allowance)
         }
         catch (e) {
           commit("isError", true)
@@ -62,6 +66,6 @@ export default {
         action,
         moduleName: "blockScan/getTransactions"
       })
-    }
+    },
   },
 }

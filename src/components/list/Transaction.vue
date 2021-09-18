@@ -10,6 +10,7 @@
           :contractAddress="item.contract"
           icon="CompassIcon"
           :time="item.timeStamp"
+          :symbol="item.symbol"
           :variant="`${item.allowance === 'Unlimited' ? 'danger' : 'warning'}`"
         />
       </app-timeline>
@@ -17,7 +18,7 @@
   </b-card>
 </template>
 
-<script>
+<script lang="ts">
 import {
   BCard,
   BCardBody,
@@ -25,7 +26,7 @@ import {
   BCardTitle,
   VBTooltip
 } from 'bootstrap-vue'
-import AppTimeline from '@/components/timeline/TimeLine.vue'
+import AppTimeline from '@core/components/app-timeline/AppTimeline.vue'
 import AppTimelineItem from '@core/components/app-timeline/AppTimelineItem.vue'
 import Vue from 'vue'
 import Component from 'vue-class-component'

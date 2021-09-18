@@ -1,9 +1,27 @@
 import { isEmpty } from "lodash"
 import Web3 from 'web3'
+import { ethers } from 'ethers'
+import ABI from '@/utils/api.json'
 const approvalHash = '0x095ea7b3'
 const unlimitedAllowance =
   'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
-const getApproveTransaction = (txs) => {
+
+const getConntractInfo = async ({ provider, address }) => {
+  const web3Provider = new ethers.providers.Web3Provider(provider)
+  try {
+    const contract = new ethers.Contract(
+      address,
+      ABI.ERC_TOKEN,
+      web3Provider
+    )
+    const name = await contract.symbol()
+    return name
+  } catch (e) {
+    return "Unknown"
+  }
+
+}
+const getApproveTransaction = async (txs) => {
   type ApprovedObject = {
     contract: string
     tokenApproved: string
@@ -12,6 +30,7 @@ const getApproveTransaction = (txs) => {
     key: string
     timeStamp: number
     check: number
+    symbol: string
   }
   const approveTxs = txs.filter((item) => {
     const { input } = item
@@ -28,7 +47,8 @@ const getApproveTransaction = (txs) => {
         input: '',
         key: '',
         timeStamp: new Date().getTime(),
-        check: 999
+        check: 999,
+        symbol: "Unknow"
       }
       const contract = Web3.utils.toChecksumAddress(
         '0x' + input.substring(34, 74)
@@ -39,7 +59,6 @@ const getApproveTransaction = (txs) => {
       approvedObj.tokenApproved = tokenApproved
       approvedObj.key = contract + tokenApproved
       approvedObj.timeStamp = item.timeStamp
-
       const allowance = input.substring(74)
       approvedObj.check = parseInt(allowance, 16)
       if (allowance.includes(unlimitedAllowance)) {
@@ -63,4 +82,4 @@ const getApproveTransaction = (txs) => {
   return approveTransactions
 }
 
-export { getApproveTransaction }
+export { getApproveTransaction, getConntractInfo }

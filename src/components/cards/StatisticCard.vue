@@ -10,7 +10,6 @@
           :key="item.icon"
           md="3"
           sm="6"
-          class="center mb-2 mb-md-0"
           :class="item.customClass"
         >
           <b-media no-body>
@@ -34,8 +33,8 @@
   </b-card>
 </template>
 <script lang="ts">
-import Vue from "vue"
-import Component from "vue-class-component"
+import Vue from 'vue'
+import Component from 'vue-class-component'
 import {
   BCard,
   BCardHeader,
@@ -47,9 +46,9 @@ import {
   BMedia,
   BMediaAside,
   BAvatar,
-  BMediaBody,
-} from "bootstrap-vue"
-import { Prop } from "vue-property-decorator"
+  BMediaBody
+} from 'bootstrap-vue'
+import { Prop } from 'vue-property-decorator'
 @Component({
   components: {
     BRow,
@@ -62,8 +61,8 @@ import { Prop } from "vue-property-decorator"
     BMedia,
     BAvatar,
     BMediaAside,
-    BMediaBody,
-  },
+    BMediaBody
+  }
 })
 export default class StatisticCard extends Vue {
   @Prop({ default: () => {} }) items
