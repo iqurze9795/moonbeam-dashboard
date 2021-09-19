@@ -47,15 +47,35 @@
             </small>
           </b-row>
         </b-col>
-        <b-col md="4" class="d-flex justify-content-end align-items-center">
+        <b-col
+          v-if="revoked"
+          md="4"
+          class="d-flex justify-content-end align-items-center"
+        >
+          <b-badge variant="light-success">
+            <div class="d-flex align-items-center">
+              <feather-icon icon="CheckCircleIcon" class="mr-50" />
+              <span class="align-middle revoked">Revoked</span>
+            </div>
+          </b-badge>
+        </b-col>
+        <b-col
+          v-else
+          md="4"
+          class="d-flex justify-content-end align-items-center"
+        >
           <b-button
             v-ripple.400="'rgba(234, 84, 85, 0.15)'"
             variant="danger"
             pill
             @click="onRevoke"
+            class="d-flex"
           >
-            <feather-icon icon="EditIcon" class="mr-50" />
-            <span class="align-middle">Revoke</span>
+            <div class="d-flex align-items-center mr-1">
+              <b-spinner v-if="loading" class="loading mr-50" />
+              <feather-icon v-else icon="EditIcon" class="mr-50" />
+              <span class="align-middle">Revoke</span>
+            </div>
           </b-button>
         </b-col>
       </b-row>
@@ -69,20 +89,25 @@ import Component from 'vue-class-component'
 import Ripple from 'vue-ripple-directive'
 import Web3 from 'web3'
 import ABI from '@/utils/api.json'
-import { BBadge, BButton } from 'bootstrap-vue'
+import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
+import { BBadge, BButton, BSpinner } from 'bootstrap-vue'
 import { Prop } from 'vue-property-decorator'
 import { fromUnixTime, formatDistance, format } from 'date-fns'
-import { Getter } from 'vuex-class'
+import { Action, Getter } from 'vuex-class'
 @Component({
   components: {
     BBadge,
-    BButton
+    BButton,
+    BSpinner,
+    ToastificationContent
   },
   directives: {
     Ripple
   }
 })
 export default class AppTimeLineItem extends Vue {
+  @Action('blockScan/getTransactions')
+  private getTransactions
   @Getter('preference/address')
   private address
   @Getter('preference/provider')
@@ -96,13 +121,20 @@ export default class AppTimeLineItem extends Vue {
   @Prop({ default: null }) icon
   @Prop({ default: false }) fillBorder
   @Prop({ default: () => {} }) callback
-
+  private isLoading = false
+  private isRevoked = false
   private formatAddress(address) {
     // return address
     return `${address.slice(0, 10)}....${address.slice(
       address.length - 10,
       address.length
     )}`
+  }
+  get loading() {
+    return this.isLoading
+  }
+  get revoked() {
+    return this.isRevoked
   }
   private transformDate(unixtime) {
     return format(fromUnixTime(unixtime), 'dd MM yyyy HH:mm')
@@ -112,6 +144,7 @@ export default class AppTimeLineItem extends Vue {
   }
   private onRevoke() {
     console.log('button click')
+    this.isLoading = true
     const web3 = new Web3(this.provider)
     let contract = new web3.eth.Contract(
       ABI.APPROVED as any,
@@ -120,14 +153,37 @@ export default class AppTimeLineItem extends Vue {
         gas: 100000
       }
     )
-    console.log('contract', contract)
+
     contract.methods
       .approve(this.contractAddress, 0)
       .send({ from: this.address })
-      .then((receipt) => {
+      .then(async (receipt) => {
+        this.isLoading = false
+        this.$toast({
+          component: ToastificationContent,
+          position: 'top-right',
+          props: {
+            title: `Successfully`,
+            icon: 'EditIcon',
+            variant: 'success',
+            text: `${this.symbol} has been revoked`
+          }
+        })
+        this.isRevoked = true
         console.log('revoked: ' + JSON.stringify(receipt))
       })
       .catch((err) => {
+        this.isLoading = false
+        this.$toast({
+          component: ToastificationContent,
+          position: 'top-right',
+          props: {
+            title: `Error`,
+            icon: 'EditIcon',
+            variant: 'danger',
+            text: `${JSON.stringify(err.message)}`
+          }
+        })
         console.log('failed: ' + JSON.stringify(err))
       })
   }
@@ -178,6 +234,13 @@ $timeline-border-color: $border-color;
   padding-top: 4px;
   font-size: 16px;
   font-weight: 800;
+}
+.revoked {
+  font-size: 12px;
+}
+.loading {
+  height: 15px;
+  width: 15px;
 }
 .space {
   padding-right: 5px;

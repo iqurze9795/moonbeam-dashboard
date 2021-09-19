@@ -36,6 +36,7 @@ const getApproveTransaction = async (txs) => {
     const { input } = item
     return String(input).includes(approvalHash)
   })
+  const revokedList: string[] = []
   const approveTransactions = approveTxs
     .reverse()
     .map((item) => {
@@ -72,12 +73,16 @@ const getApproveTransaction = async (txs) => {
       const records = pre.find((item) => {
         return next.key == item.key
       })
-      return [...pre, next]
-      // if (isEmpty(records) && next.check > 0) {
-      //   return [...pre, next]
-      // } else {
-      //   return [...pre]
-      // }
+      // return [...pre, next]
+      if (next.check === 0) {
+        revokedList.push(next.key)
+        return [...pre]
+      }
+      else if (isEmpty(records) && !revokedList.includes(next.key)) {
+        return [...pre, next]
+      } else {
+        return [...pre]
+      }
     }, [])
   // console.log("",approveTransactions)
   return approveTransactions
