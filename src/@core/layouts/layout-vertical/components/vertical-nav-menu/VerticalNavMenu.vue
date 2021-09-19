@@ -65,6 +65,7 @@
       <vertical-nav-menu-items :items="navMenuItems" class="navigation navigation-main" />
     </vue-perfect-scrollbar>
     <!-- /main menu content-->
+
   </div>
 </template>
 

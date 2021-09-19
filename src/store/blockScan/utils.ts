@@ -31,6 +31,8 @@ const getApproveTransaction = async (txs) => {
     timeStamp: number
     check: number
     symbol: string
+    blockNumber: string
+    blockHash: string
   }
   const approveTxs = txs.filter((item) => {
     const { input } = item
@@ -41,25 +43,23 @@ const getApproveTransaction = async (txs) => {
     // .reverse()
     .map((item) => {
       const { input } = item
-      const approvedObj: ApprovedObject = {
-        contract: '',
-        tokenApproved: '',
-        allowance: '',
-        input: '',
-        key: '',
-        timeStamp: new Date().getTime(),
-        check: 999,
-        symbol: "Unknow"
-      }
       const contract = Web3.utils.toChecksumAddress(
         '0x' + input.substring(34, 74)
       )
       const tokenApproved = Web3.utils.toChecksumAddress(item.to)
-      approvedObj.input = input
-      approvedObj.contract = contract
-      approvedObj.tokenApproved = tokenApproved
-      approvedObj.key = contract + tokenApproved
-      approvedObj.timeStamp = item.timeStamp
+      const approvedObj: ApprovedObject = {
+        contract,
+        tokenApproved,
+        allowance: '',
+        input,
+        key: contract + tokenApproved,
+        timeStamp: item.timeStamp,
+        check: 999,
+        symbol: "Unknown",
+        blockNumber: item.blockNumber,
+        blockHash: item.blockHash
+      }
+
       const allowance = input.substring(74)
       approvedObj.check = parseInt(allowance, 16)
       if (allowance.includes(unlimitedAllowance)) {
@@ -84,7 +84,6 @@ const getApproveTransaction = async (txs) => {
         return [...pre]
       }
     }, [])
-  // console.log("",approveTransactions)
   return approveTransactions
 }
 

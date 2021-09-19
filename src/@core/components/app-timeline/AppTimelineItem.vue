@@ -17,11 +17,16 @@
       <b-row class="pl-1">
         <b-col md="8">
           <b-row>
-            <b-badge
-              :variant="`${allowance === 'Unlimited' ? 'danger' : 'warning'}`"
-            >
-              {{ allowance }}
-            </b-badge>
+            <div>
+              <b-badge
+                :variant="`${allowance === 'Unlimited' ? 'danger' : 'warning'}`"
+              >
+                {{ allowance }}
+              </b-badge>
+            </div>
+            <div class="pl-1">
+              <b-badge variant="dark"> Block: {{ blockNumber }} </b-badge>
+            </div>
           </b-row>
           <b-row>
             <span class="title">{{ symbol }} token has been allowanced</span>
@@ -52,7 +57,7 @@
           </b-row>
         </b-col>
         <b-col
-          v-if="revoked"
+          v-if="revoked || isMarked()"
           md="4"
           class="d-flex justify-content-end align-items-center"
         >
@@ -120,6 +125,8 @@ export default class AppTimeLineItem extends Vue {
   private provider
   @Prop({ default: 'primary' }) variant
   @Prop({ default: null }) symbol
+  @Prop({ default: null }) blockNumber
+  @Prop({ default: null }) blockHash
   @Prop({ default: null }) allowance
   @Prop({ default: null }) tokenAddress
   @Prop({ default: null }) contractAddress
@@ -148,8 +155,28 @@ export default class AppTimeLineItem extends Vue {
   private formatDate(unixtime) {
     return formatDistance(fromUnixTime(unixtime), new Date())
   }
+  private markRevoked() {
+    const txs = localStorage.getItem('revoke_tx')
+    if (txs === null) {
+      localStorage.setItem('revoke_tx', JSON.stringify([this.blockHash]))
+    } else {
+      const parseTxs = JSON.parse(txs)
+      localStorage.setItem(
+        'revoke_tx',
+        JSON.stringify([...parseTxs, this.blockHash])
+      )
+    }
+  }
+  private isMarked() {
+    const txs = localStorage.getItem('revoke_tx')
+    if (txs) {
+      const parseTxs = JSON.parse(txs)
+      console.log("parseTxs",parseTxs)
+      return parseTxs.includes(this.blockHash)
+    }
+    return false
+  }
   private onRevoke() {
-    console.log('button click')
     this.isLoading = true
     const web3 = new Web3(this.provider)
     let contract = new web3.eth.Contract(
@@ -176,6 +203,7 @@ export default class AppTimeLineItem extends Vue {
           }
         })
         this.isRevoked = true
+        this.markRevoked()
         console.log('revoked: ' + JSON.stringify(receipt))
       })
       .catch((err) => {

@@ -11,6 +11,8 @@
           icon="CompassIcon"
           :time="item.timeStamp"
           :symbol="item.symbol"
+          :blockNumber="item.blockNumber"
+          :blockHash="item.blockHash"
           :variant="`${item.allowance === 'Unlimited' ? 'danger' : 'warning'}`"
         />
       </app-timeline>
