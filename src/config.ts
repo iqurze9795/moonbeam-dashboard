@@ -3,7 +3,8 @@ export const config = {
   covalentApiKey: process.env.VUE_APP_COVALENT_API_KEY,
   networkId: process.env.VUE_APP_NETWORK_ID,
   coinGeckoHost: process.env.VUE_APP_COINGECKO,
-  bscHost: process.env.VUE_APP_BSC_HOST
+  blockScanHost: process.env.VUE_APP_BLOCK_SCAN_HOST,
+  blockScoutHost: process.env.VUE_APP_BLOCK_SCOUT_HOST
 }
 
 

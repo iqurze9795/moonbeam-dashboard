@@ -38,7 +38,7 @@ const getApproveTransaction = async (txs) => {
   })
   const revokedList: string[] = []
   const approveTransactions = approveTxs
-    .reverse()
+    // .reverse()
     .map((item) => {
       const { input } = item
       const approvedObj: ApprovedObject = {

@@ -9,8 +9,8 @@ const covalentApi = axios.create({
   }
 })
 
-const bscApi = axios.create({
-  baseURL: config.bscHost,
+const blockScanApi = axios.create({
+  baseURL: config.blockScanHost,
 })
 
 const coinGeckoApi = axios.create({
@@ -29,4 +29,4 @@ services.forEach((service) => {
   )
 })
 
-export { covalentApi, coinGeckoApi, bscApi }
+export { covalentApi, coinGeckoApi, blockScanApi }

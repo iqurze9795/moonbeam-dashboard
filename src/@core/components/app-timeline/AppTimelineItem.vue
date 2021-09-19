@@ -29,7 +29,9 @@
           <b-row>
             <div class="d-flex">
               <div class="d-flex align-items-center">
-                {{ formatAddress(tokenAddress) }}
+                <a :href="getLink(tokenAddress)" target="_blank">{{
+                  formatAddress(tokenAddress)
+                }}</a>
               </div>
               <div class="space">
                 <b-badge variant="light-info">
@@ -37,7 +39,9 @@
                 </b-badge>
               </div>
               <div class="d-flex align-items-center">
-                {{ formatAddress(contractAddress) }}
+                <a :href="getLink(contractAddress)" target="_blank">{{
+                  formatAddress(contractAddress)
+                }}</a>
               </div>
             </div>
           </b-row>
@@ -69,6 +73,7 @@
             variant="danger"
             pill
             @click="onRevoke"
+            :disabled="loading"
             class="d-flex"
           >
             <div class="d-flex align-items-center mr-1">
@@ -94,6 +99,7 @@ import { BBadge, BButton, BSpinner } from 'bootstrap-vue'
 import { Prop } from 'vue-property-decorator'
 import { fromUnixTime, formatDistance, format } from 'date-fns'
 import { Action, Getter } from 'vuex-class'
+import { config } from '@/config'
 @Component({
   components: {
     BBadge,
@@ -186,6 +192,9 @@ export default class AppTimeLineItem extends Vue {
         })
         console.log('failed: ' + JSON.stringify(err))
       })
+  }
+  public getLink(address) {
+    return `${config.blockScoutHost}/address/${address}`
   }
 }
 </script>
