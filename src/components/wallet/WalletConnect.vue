@@ -5,13 +5,13 @@
       <div class="d-flex align-items-center">
         <div class="d-sm-flex d-none chain pr-1">
           <p class="user-name font-weight-bolder mb-0">
-            {{ mapChainName[chainId] }}
+            {{ mapChainName(chainId) }}
           </p>
           <span class="user-status">Chain ID: {{ chainId }}</span>
         </div>
         <b-avatar
           size="40"
-          :src="mapChainLogo[chainId]"
+          :src="mapChainLogo(chainId)"
           variant="light-primary"
           badge
           class="badge-minimal"
@@ -39,6 +39,7 @@ import Vue from 'vue'
 import Component from 'vue-class-component'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import { Action, Getter } from 'vuex-class'
+import { mapChainLogo, mapChainName, supportChainID } from '@/utils/chainInfo'
 import Ripple from 'vue-ripple-directive'
 @Component({
   components: {
@@ -59,19 +60,6 @@ export default class WalletConnect extends Vue {
   private chainId
   @Getter('preference/isConnectProvider')
   private isConnectProvider
-  private subportChainID = ['1284', '1285']
-  private mapChainLogo = {
-    1: require(`@/assets/images/chains/eth.png`),
-    56: require(`@/assets/images/chains/bsc.png`),
-    137: require(`@/assets/images/chains/matic.png`),
-    1285: require(`@/assets/images/chains/moonriver.png`)
-  }
-  private mapChainName = {
-    1: 'Ethereum Mainet',
-    56: 'Binance Smart Chain',
-    137: 'Matic(Polygon)',
-    1285: 'Moonriver'
-  }
   private async subscribeProvider(provider) {
     // Subscribe to accounts change
     provider.on('accountsChanged', async (info: any) => {
@@ -132,6 +120,13 @@ export default class WalletConnect extends Vue {
     if (web3Modal.cachedProvider) {
       this.onConnect()
     }
+  }
+
+  private mapChainLogo(chainId) {
+    return mapChainLogo[chainId]
+  }
+  private mapChainName(chainId) {
+    return mapChainName[chainId]
   }
 }
 </script>
