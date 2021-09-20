@@ -48,8 +48,13 @@ export default {
     async getTransactions({ commit, dispatch }, { address, chainId, provider }) {
       const action = async () => {
         try {
+          const reverseChainId = [56, 137, "56", "137"]
           const resp = await blockScanService.getTransaction({ address, chainId })
-          let allowance = await getApproveTransaction(get(resp, ["data", "result"]))
+          let txs = get(resp, ["data", "result"])
+          if (reverseChainId.includes(chainId)) {
+            txs = txs.reverse()
+          }
+          let allowance = await getApproveTransaction(txs)
           allowance = await Promise.all(allowance.map(async (item) => {
             const symbol = await getConntractInfo({ address: item.tokenApproved, provider })
             return { ...item, symbol }
