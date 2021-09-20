@@ -2,6 +2,7 @@ import axios from "axios"
 import { config } from "@/config"
 import camelcaseKeys from "camelcase-keys"
 
+
 const covalentApi = axios.create({
   baseURL: config.covalentHost,
   params: {
@@ -9,8 +10,29 @@ const covalentApi = axios.create({
   }
 })
 
-const blockScanApi = axios.create({
-  baseURL: config.blockScanHost,
+const ethBlockScanApi = axios.create({
+  baseURL: config.ethBlockScanHost,
+  params: {
+    apiKey: config.ethBlockScanApiKey
+  }
+})
+const moonriverBlockScanApi = axios.create({
+  baseURL: config.moonriverBlockScanHost,
+})
+const moonbaseBlockScanApi = axios.create({
+  baseURL: config.moonbaseBlockScanHost,
+})
+const polygonBlockScanApi = axios.create({
+  baseURL: config.polygonBlockScanHost,
+  params: {
+    apiKey: config.polygonBlockScanApiKey
+  }
+})
+const bscBlockScanApi = axios.create({
+  baseURL: config.bscBlockScanHost,
+  params: {
+    apiKey: config.bscBlockScanApiKey
+  }
 })
 
 const coinGeckoApi = axios.create({
@@ -29,4 +51,12 @@ services.forEach((service) => {
   )
 })
 
-export { covalentApi, coinGeckoApi, blockScanApi }
+export {
+  covalentApi,
+  coinGeckoApi,
+  ethBlockScanApi,
+  moonriverBlockScanApi,
+  moonbaseBlockScanApi,
+  polygonBlockScanApi,
+  bscBlockScanApi,
+}

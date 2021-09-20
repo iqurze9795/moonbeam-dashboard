@@ -45,10 +45,10 @@ export default {
       commit("isError", false)
       commit("errorMessage", "")
     },
-    async getTransactions({ commit, dispatch }, { address, provider }) {
+    async getTransactions({ commit, dispatch }, { address, chainId, provider }) {
       const action = async () => {
         try {
-          const resp = await blockScanService.getTransaction({ address })
+          const resp = await blockScanService.getTransaction({ address, chainId })
           let allowance = await getApproveTransaction(get(resp, ["data", "result"]))
           allowance = await Promise.all(allowance.map(async (item) => {
             const symbol = await getConntractInfo({ address: item.tokenApproved, provider })

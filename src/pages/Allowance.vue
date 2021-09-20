@@ -57,7 +57,12 @@ import { BCard, BTable, BSpinner, BAvatar, BImg } from 'bootstrap-vue'
 import { Watch } from 'vue-property-decorator'
 import { Action, Getter } from 'vuex-class'
 import { Component, Vue } from 'vue-property-decorator'
-import { mapChainLogo, mapChainName, supportChainID } from '@/utils/chainInfo'
+import {
+  mapChainLogo,
+  mapChainName,
+  supportChainID,
+  mapChainNativeCoin
+} from '@/utils/chainInfo'
 import StatisticCard from '@/components/cards/StatisticCard.vue'
 import Transaction from '@/components/list/Transaction.vue'
 import Web3 from 'web3'
@@ -86,12 +91,6 @@ export default class Allowance extends Vue {
   @Getter('blockScan/allowances')
   private allowances
 
-  private mapChainNativeCoin = {
-    1: 'ETH',
-    56: 'BNB',
-    137: 'MATIC',
-    1285: 'MOVR'
-  }
   get successTx() {
     return this.rawTx.reduce((sum, next) => {
       if (next.isError === '0') {
@@ -149,7 +148,7 @@ export default class Allowance extends Vue {
         icon: 'DollarSignIcon',
         color: 'light-warning',
         title: `${this.totalGasUse}`,
-        subtitle: `Total ${this.mapChainNativeCoin[this.chainId]} used in GAS`,
+        subtitle: `Total ${mapChainNativeCoin[this.chainId]} used in GAS`,
         customClass: 'mb-2 mb-sm-0'
       }
     ]
@@ -164,7 +163,8 @@ export default class Allowance extends Vue {
     if (this.address && this.isSupportChainId) {
       await this.getTransactions({
         address: this.address,
-        provider: this.provider
+        provider: this.provider,
+        chainId: this.chainId
       })
     }
   }
@@ -190,7 +190,8 @@ export default class Allowance extends Vue {
     if (this.isSupportChainId) {
       await this.getTransactions({
         address: this.address,
-        provider: this.provider
+        provider: this.provider,
+        chainId: this.chainId
       })
     }
   }
