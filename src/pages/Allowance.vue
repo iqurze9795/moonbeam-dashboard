@@ -110,7 +110,6 @@ export default class Allowance extends Vue {
     }, 0)
   }
   get totalGasUse() {
-    console.log(this.rawTx)
     const totalGasUse = this.rawTx.reduce((sum, next) => {
       return sum + parseInt(next.gasUsed)
     }, 0)
@@ -155,7 +154,6 @@ export default class Allowance extends Vue {
   }
 
   get isSupportChainId() {
-    console.log(this.chainId)
     return supportChainID.includes(this.chainId)
   }
 

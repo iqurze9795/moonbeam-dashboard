@@ -1,3 +1,11 @@
+import { config } from '@/config'
+import {
+  ethBlockScanApi,
+  moonriverBlockScanApi,
+  moonbaseBlockScanApi,
+  polygonBlockScanApi,
+  bscBlockScanApi,
+} from '@/services/httpClient'
 const supportChainID = ['1', '56', '137', '1284', '1287', '1285', 1, 56, 137, 1284, 1285, 1287]
 const mapChainLogo = {
   1: require(`@/assets/images/chains/eth.png`),
@@ -22,4 +30,27 @@ const mapChainNativeCoin = {
   1287: 'DEV'
 }
 
-export { supportChainID, mapChainLogo, mapChainName, mapChainNativeCoin }
+const mapChainHost = {
+  1: config.etherScanHost,
+  56: config.bscScanHost,
+  137: config.polygonScanHost,
+  1285: config.moonriverBlockScoutHost,
+  1287: config.moonbaseBlockScoutHost
+}
+
+const mapChainClient = {
+  1: ethBlockScanApi,
+  56: bscBlockScanApi,
+  137: polygonBlockScanApi,
+  1285: moonriverBlockScanApi,
+  1287: moonbaseBlockScanApi
+}
+
+export {
+  supportChainID,
+  mapChainLogo,
+  mapChainName,
+  mapChainNativeCoin,
+  mapChainHost,
+  mapChainClient
+}

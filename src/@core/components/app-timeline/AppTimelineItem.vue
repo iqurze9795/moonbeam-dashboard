@@ -104,7 +104,7 @@ import { BBadge, BButton, BSpinner } from 'bootstrap-vue'
 import { Prop } from 'vue-property-decorator'
 import { fromUnixTime, formatDistance, format } from 'date-fns'
 import { Action, Getter } from 'vuex-class'
-import { config } from '@/config'
+import { mapChainHost } from '@/utils/chainInfo'
 @Component({
   components: {
     BBadge,
@@ -121,6 +121,8 @@ export default class AppTimeLineItem extends Vue {
   private getTransactions
   @Getter('preference/address')
   private address
+  @Getter('preference/chainId')
+  private chainId
   @Getter('preference/provider')
   private provider
   @Prop({ default: 'primary' }) variant
@@ -136,6 +138,7 @@ export default class AppTimeLineItem extends Vue {
   @Prop({ default: () => {} }) callback
   private isLoading = false
   private isRevoked = false
+
   private formatAddress(address) {
     // return address
     return `${address.slice(0, 10)}....${address.slice(
@@ -171,7 +174,6 @@ export default class AppTimeLineItem extends Vue {
     const txs = localStorage.getItem('revoke_tx')
     if (txs) {
       const parseTxs = JSON.parse(txs)
-      console.log("parseTxs",parseTxs)
       return parseTxs.includes(this.blockHash)
     }
     return false
@@ -222,7 +224,7 @@ export default class AppTimeLineItem extends Vue {
       })
   }
   public getLink(address) {
-    return `${config.blockScoutHost}/address/${address}`
+    return `${mapChainHost[this.chainId]}/address/${address}`
   }
 }
 </script>

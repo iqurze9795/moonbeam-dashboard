@@ -85,7 +85,6 @@ export default {
       const action = async () => {
         try {
           const resp = await coinGeckoService.getCoinPrice({ coin })
-          console.log("resp::", resp)
           commit("coinPrice", { coin, price: get(resp, ["data", coin, "usd"]) })
 
         }
@@ -103,7 +102,6 @@ export default {
       const action = async () => {
         try {
           const resp = await coinGeckoService.getCoinPriceHistory({ coin })
-          console.log("resp::", resp)
           commit("coinPriceHistory", { coin, history: get(resp, ["data", "prices"]) })
 
         }

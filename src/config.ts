@@ -11,7 +11,8 @@ export const config = {
   ethBlockScanApiKey: process.env.VUE_APP_ETH_BLOCK_SCAN_API_KEY,
   polygonBlockScanHost: process.env.VUE_APP_POLYGON_BLOCK_SCAN_HOST,
   polygonBlockScanApiKey: process.env.VUE_APP_POLYGON_BLOCK_SCAN_API_KEY,
-  blockScoutHost: process.env.VUE_APP_BLOCK_SCOUT_HOST,
+  moonriverBlockScoutHost: process.env.VUE_APP_MOONRIVER_BLOCK_SCOUT_HOST,
+  moonbaseBlockScoutHost: process.env.VUE_APP_MOONBASE_BLOCK_SCOUT_HOST,
   etherScanHost: process.env.VUE_APP_ETHER_SCAN_HOST,
   bscScanHost: process.env.VUE_APP_BSC_SCAN_HOST,
   polygonScanHost: process.env.VUE_APP_POLYGON_SCAN_HOST
