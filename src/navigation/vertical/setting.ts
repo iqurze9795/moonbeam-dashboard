@@ -16,8 +16,13 @@ export default [
     header: "Comming soon",
   },
   {
-    title: "Transaction",
-    icon: "SendIcon",
+    title: "Staking",
+    icon: "LayersIcon",
+    disabled: true
+  },
+  {
+    title: "Defi board",
+    icon: "AnchorIcon",
     disabled: true
   },
   {
