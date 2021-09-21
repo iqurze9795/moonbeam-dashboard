@@ -13,9 +13,9 @@ export const dateFormat = (value, template = "YYYY-MM-DD HH:mm") => {
 
 export const defaultValue = (value, defaultValue = "-") => _.defaultTo(value, defaultValue)
 
-export const convertToHumanUnit = (value: number, digit: number) => {
+export const convertToHumanUnit = (value: number, digit: number,decimal) => {
   const div = value / (Math.pow(10, digit))
-  return new BigNumber(div).toFormat(2)
+  return new BigNumber(div).toFormat(decimal)
 }
 
 export const bigNumber = (value) => {

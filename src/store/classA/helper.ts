@@ -10,6 +10,7 @@ const mapMoonriverChainSymbol = {
   "ETH": "ethereum",
   "USDT": "tether",
   "DAI": "dai",
+  "BNB": "wbnb"
 }
 
 export { mapMoonriverChainSymbol }

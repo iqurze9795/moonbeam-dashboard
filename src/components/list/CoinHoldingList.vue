@@ -92,8 +92,8 @@ export default class CoinHoldingList extends Vue {
       { key: 'balance', label: 'Balance' },
       { key: 'value', label: 'Value' },
       { key: 'quoteRate', label: 'Price' },
-      // { key: 'quoteRate24H', label: 'Price 24H' },
-      // { key: 'change', label: 'Change' }
+      { key: 'quoteRate24H', label: 'Price 24H' },
+      { key: 'change', label: 'Change' }
     ]
   }
 

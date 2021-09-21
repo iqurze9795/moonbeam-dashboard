@@ -4,6 +4,7 @@ import { convertToHumanUnit, bigNumber, percentChange } from "@/utils/helpers"
 import { get } from "lodash"
 import { mapMoonriverChainSymbol } from '@/store/classA/helper'
 import { moonRiver } from '@/utils/chainInfo'
+import camelcaseKeys from "camelcase-keys"
 import CoinGecko from 'coingecko-api';
 import Vue from "vue"
 
@@ -32,6 +33,9 @@ export default {
         .filter((item) => {
           return item.quoteRate && parseInt(item.balance) > 0
         })
+        .sort((a, b) => {
+          return (b.balance * b.quoteRate) - (a.balance * a.quoteRate)
+        })
         .map((item) => {
           return {
             ...item,
@@ -43,13 +47,14 @@ export default {
               item.logoUrl === ''
                 ? require('@/assets/images/icons/notfound.png')
                 : item.logoUrl,
-            balance: `${convertToHumanUnit(item.balance, item.contractDecimals)}`,
+            balance: `${convertToHumanUnit(item.balance, item.contractDecimals, 4)}`,
             quoteRate: bigNumber(item.quoteRate),
             quoteRate24H: item.quoteRate24H ? bigNumber(item.quoteRate24H) : ' -',
             change: item.quoteRate24H ? percentChange(item.quoteRate24H, item.quoteRate) : '-',
             value: convertToHumanUnit(
               item.balance * item.quoteRate,
-              item.contractDecimals
+              item.contractDecimals,
+              2
             )
           }
         })
@@ -61,7 +66,10 @@ export default {
       }, 0)
       balances = balances.filter((item) => {
         return item.quoteRate && parseInt(item.balance) > 0
+      }).sort((a, b) => {
+        return (b.balance * b.quoteRate) - (a.balance * a.quoteRate)
       })
+
       if (balances.length >= 6) {
         balances = balances.splice(0, 6)
       }
@@ -106,13 +114,40 @@ export default {
             let balances = get(resp, ["data", "items"], [])
             if (moonRiver.includes(chainId)) {
               const price = await moonfarmService.getTokenPrice()
-              console.log("price::", price)
               const CoinGeckoClient = new CoinGecko();
               balances = await Promise.all(balances.map(async item => {
-                const data = await CoinGeckoClient.coins.fetch(mapMoonriverChainSymbol[item.contractTickerSymbol], {})
+                if (get(price, mapMoonriverChainSymbol[item.contractTickerSymbol])) {
+                  const tokenPrice = get(price, mapMoonriverChainSymbol[item.contractTickerSymbol])
+                  return {
+                    ...item,
+                    quote: (item.balance * tokenPrice.price) / (Math.pow(10, item.contractDecimals)),
+                    quoteRate: tokenPrice.price,
+                    logoUrl: tokenPrice.pic
+                  }
+                }
+                else {
+                  try {
+                    const id = mapMoonriverChainSymbol[item.contractTickerSymbol]
+                    if (id) {
+                      const data = await CoinGeckoClient.coins.fetch(id, {})
+                      const { image, marketData, name, symbol } = camelcaseKeys(get(data, ["data"], {}), { deep: true })
+                      console.log(marketData)
+                      return {
+                        ...item,
+                        quoteRate24H: get(marketData, ["high24H", "usd"]),
+                        contractName: name,
+                        contractTickerSymbol: symbol,
+                        quote: (item.balance * get(marketData, ["currentPrice", "usd"])) / (Math.pow(10, item.contractDecimals)),
+                        quoteRate: get(marketData, ["currentPrice", "usd"]),
+                        logoUrl: get(image, ["thumb"])
+                      }
+                    }
+                  } catch (e) {
+                    console.log(e)
+                  }
+                }
                 return item
               }))
-              console.log("balance::", balances)
             }
 
             commit("userBalances", { balances })
