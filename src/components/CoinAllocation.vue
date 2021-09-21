@@ -39,7 +39,7 @@
       <b-row class="d-flex justify-content-center">
         <b-col md="6" class="pb-2">
           <div class="pb-1">
-            <h4>TOTAL ASSETS</h4>
+            <h4>NET WORTH</h4>
           </div>
           <b-media no-body>
             <b-media-aside class="mr-2">
@@ -187,7 +187,7 @@ export default class CoinAllocation extends Vue {
 
   &.loading,
   &.empty {
-    height: 380px;
+    height: 305px;
   }
 }
 </style>
