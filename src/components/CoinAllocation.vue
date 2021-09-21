@@ -1,56 +1,80 @@
 <template>
-  <b-card no-body>
-    <b-card-header>
-      <b-card-title>Portfolio Exposure</b-card-title>
-    </b-card-header>
+  <section>
+    <b-card no-body>
+      <b-card-header>
+        <b-card-title>Portfolio Exposure</b-card-title>
+      </b-card-header>
 
-    <b-card-body>
-      <!-- apex chart -->
-      <template v-if="isLoading">
-        <div class="view-state loading">
-          <div class="text-center text-danger">
-            <b-spinner class="align-middle mr-1"></b-spinner>
-            <strong>Loading...</strong>
-          </div>
-        </div>
-      </template>
-      <div v-else>
-        <b-row v-if="topHolds.length > 0">
-          <b-col md="8" lg="8">
-            <vue-apex-charts
-              type="donut"
-              height="330"
-              class="my-1"
-              :options="chartOptions"
-              :series="series"
-            />
-          </b-col>
-
-          <b-col class="pt-4">
-            <!-- chart info -->
-            <div
-              v-for="(data, index) in topHolds"
-              :key="index"
-              class="d-flex justify-content-between"
-              :class="index === topHolds.length - 1 ? 'mb-0' : 'mb-1'"
-            >
-              <div class="series-info d-flex align-items-center">
-                <div class="img-container">
-                  <img :src="data.logoUrl" />
-                </div>
-                <span class="font-weight-bolder ml-75 mr-25"
-                  >{{ data.label.symbol }} ({{ data.percent }}%)</span
-                >
-              </div>
+      <b-card-body>
+        <!-- apex chart -->
+        <template v-if="isLoading">
+          <div class="view-state loading">
+            <div class="text-center text-danger">
+              <b-spinner class="align-middle mr-1"></b-spinner>
+              <strong>Loading...</strong>
             </div>
-          </b-col>
-        </b-row>
-        <template v-else>
-          <div class="view-state empty">No data found.</div>
+          </div>
         </template>
-      </div>
-    </b-card-body>
-  </b-card>
+        <div v-else>
+          <section v-if="topHolds.length > 0">
+            <b-row>
+              <b-col md="12" lg="12">
+                <vue-apex-charts
+                  type="donut"
+                  height="250"
+                  class="my-1"
+                  :options="chartOptions"
+                  :series="series"
+                />
+              </b-col>
+            </b-row>
+          </section>
+          <template v-else>
+            <div class="view-state empty">No data found.</div>
+          </template>
+        </div>
+      </b-card-body>
+    </b-card>
+    <b-card class="p-2">
+      <b-row class="d-flex justify-content-center">
+        <b-col md="6" class="pb-2">
+          <div class="pb-1">
+            <h4>TOTAL ASSETS</h4>
+          </div>
+          <b-media no-body>
+            <b-media-aside class="mr-2">
+              <b-avatar size="74" variant="light-success">
+                <feather-icon size="34" icon="DollarSignIcon" />
+              </b-avatar>
+            </b-media-aside>
+            <b-media-body class="my-auto">
+              <h2 class="font-weight-bolder mb-0">{{ networth }}</h2>
+              <b-card-text class="font-small-3 mb-0">
+                Holding {{ balances.length }} Assets
+              </b-card-text>
+            </b-media-body>
+          </b-media>
+        </b-col>
+        <b-col class="pl-3">
+          <div
+            v-for="(data, index) in topHolds"
+            :key="index"
+            class="d-flex justify-content-between"
+            :class="index === topHolds.length - 1 ? 'mb-0' : 'mb-1'"
+          >
+            <div class="series-info d-flex align-items-center">
+              <div class="img-container">
+                <img :src="data.logoUrl" />
+              </div>
+              <span class="font-weight-bolder ml-75 mr-25"
+                >{{ data.label.symbol }} ({{ data.percent }}%)</span
+              >
+            </div>
+          </div>
+        </b-col>
+      </b-row>
+    </b-card>
+  </section>
 </template>
 
 <script lang="ts">
@@ -62,13 +86,18 @@ import {
   BDropdownItem,
   BCardBody,
   BSpinner,
-  BImg
+  BImg,
+  BMedia,
+  BMediaAside,
+  BAvatar,
+  BMediaBody
 } from 'bootstrap-vue'
 import VueApexCharts from 'vue-apexcharts'
 import { $themeColors } from '@themeConfig'
 import Component from 'vue-class-component'
 import Vue from 'vue'
 import { Getter } from 'vuex-class'
+import { bigNumber, convertToHumanUnit } from '@/utils/helpers'
 
 @Component({
   components: {
@@ -80,12 +109,19 @@ import { Getter } from 'vuex-class'
     BCardBody,
     VueApexCharts,
     BImg,
-    BSpinner
+    BSpinner,
+    BMedia,
+    BMediaAside,
+    BAvatar,
+    BMediaBody
   }
 })
 export default class CoinAllocation extends Vue {
   @Getter('classA/topHolds')
   private topHolds
+
+  @Getter('classA/userBalances')
+  private balances
 
   get isLoading() {
     return this.$store.getters['service/isLoading']('classA/getUserBalance')
@@ -99,6 +135,10 @@ export default class CoinAllocation extends Vue {
     return this.topHolds.map((item) => {
       return item.hold
     })
+  }
+  get networth() {
+    const sum = this.balances.reduce((sum, next) => sum + next.rawValue, 0)
+    return bigNumber(sum)
   }
   get chartOptions() {
     return {

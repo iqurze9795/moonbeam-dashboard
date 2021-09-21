@@ -67,8 +67,8 @@ export default {
         return item.quoteRate && parseInt(item.balance) > 0
       })
 
-      if (balances.length >= 6) {
-        balances = balances.splice(0, 6)
+      if (balances.length >= 4) {
+        balances = balances.splice(0, 4)
       }
       let topHolds = balances.map((item) => {
         return {
@@ -114,7 +114,7 @@ export default {
             if (moonRiver.includes(chainId)) {
               const price = await moonfarmService.getTokenPrice()
               const CoinGeckoClient = new CoinGecko();
-              balances = await Promise.all(balances.map(async item => {
+              balances = await Promise.all(await balances.map(async item => {
                 if (get(price, mapMoonriverChainSymbol[item.contractTickerSymbol])) {
                   const tokenPrice = get(price, mapMoonriverChainSymbol[item.contractTickerSymbol])
                   return {
@@ -148,7 +148,6 @@ export default {
                 return item
               }))
             }
-
             commit("userBalances", { balances })
             commit("topHolds", { balances })
           }
