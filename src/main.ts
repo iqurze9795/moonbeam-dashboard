@@ -4,9 +4,6 @@ import WalletConnectProvider from "@walletconnect/web3-provider";
 import Web3Modal from "web3modal";
 import { Network } from "./config"
 import { ToastPlugin, ModalPlugin } from "bootstrap-vue"
-
-
-import i18n from "@/libs/i18n"
 import router from "./router"
 import store from "./store"
 import App from "./App.vue"
@@ -30,6 +27,9 @@ import "@/libs/tour"
 // Axios Mock Adapter
 import "@/@fake-db/db"
 import JsonEditor from 'vue-json-edit'
+import { config } from "@/config"
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
 // BSV Plugin Registration
 Vue.use(ToastPlugin)
 Vue.use(ModalPlugin)
@@ -50,6 +50,20 @@ require("@/assets/scss/style.scss")
 Vue.config.productionTip = false
 // Json editor
 Vue.use(JsonEditor)
+
+const firebaseConfig = {
+  apiKey: config.firebaseApiKey,
+  authDomain: config.firebaseAuthDomain,
+  projectId: config.firebaseProjectId,
+  storageBucket: config.firebaseStorageBucket,
+  messagingSenderId: config.firebaseMessagingSenderId,
+  appId: config.firebaseAppId,
+  measurementId: config.firebaseMeasurementId
+};
+
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+console.log(analytics)
 
 const providerOptions = {
   walletconnect: {

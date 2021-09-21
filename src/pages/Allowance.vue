@@ -22,7 +22,7 @@
         </section>
       </b-card>
     </template>
-    <template v-else>
+    <template v-else-if="chainId !== ''">
       <section>
         <b-card>
           <div class="view-state empty">
@@ -44,6 +44,31 @@
                   {{ mapChainName(chainId) }}
                 </p>
                 <span class="user-status">Chain ID: {{ chainId }}</span>
+              </div>
+            </div>
+          </div>
+        </b-card>
+      </section>
+    </template>
+    <template v-else>
+      <section>
+        <b-card>
+          <div class="view-state empty">
+            <div class="d-flex align-items-center">
+              <b-avatar
+                size="40"
+                src="@/assets/images/chains/metamask.png"
+                variant="light-primary"
+                badge
+                class="badge-minimal"
+                badge-variant="danger"
+              >
+              </b-avatar>
+              <div class="d-flex flex-column pl-1">
+                <p class="user-name font-weight-bolder mb-0">
+                  Network not found.
+                </p>
+                <span class="user-status">Please connect your wallet.</span>
               </div>
             </div>
           </div>
