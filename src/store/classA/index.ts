@@ -29,12 +29,9 @@ export default {
   },
   mutations: {
     userBalances(state, { balances }) {
-      const formatted = balances
+      let formatted = balances
         .filter((item) => {
           return item.quoteRate && parseInt(item.balance) > 0
-        })
-        .sort((a, b) => {
-          return (b.balance * b.quoteRate) - (a.balance * a.quoteRate)
         })
         .map((item) => {
           return {
@@ -47,7 +44,7 @@ export default {
               item.logoUrl === ''
                 ? require('@/assets/images/icons/notfound.png')
                 : item.logoUrl,
-            balance: `${convertToHumanUnit(item.balance, item.contractDecimals, 4)}`,
+            balance: `${convertToHumanUnit(item.balance, item.contractDecimals, 5)}`,
             quoteRate: bigNumber(item.quoteRate),
             quoteRate24H: item.quoteRate24H ? bigNumber(item.quoteRate24H) : ' -',
             change: item.quoteRate24H ? percentChange(item.quoteRate24H, item.quoteRate) : '-',
@@ -55,9 +52,11 @@ export default {
               item.balance * item.quoteRate,
               item.contractDecimals,
               2
-            )
+            ),
+            rawValue: (item.balance * item.quoteRate) / (Math.pow(10, item.contractDecimals)),
           }
         })
+      formatted = formatted.sort((a, b) => b.rawValue - a.rawValue)
       Vue.set(state, 'balances', formatted)
     },
     topHolds(state, { balances }) {
@@ -66,14 +65,12 @@ export default {
       }, 0)
       balances = balances.filter((item) => {
         return item.quoteRate && parseInt(item.balance) > 0
-      }).sort((a, b) => {
-        return (b.balance * b.quoteRate) - (a.balance * a.quoteRate)
       })
 
       if (balances.length >= 6) {
         balances = balances.splice(0, 6)
       }
-      const topHolds = balances.map((item) => {
+      let topHolds = balances.map((item) => {
         return {
           logoUrl:
             item.logoUrl === ''
@@ -86,8 +83,10 @@ export default {
           },
           hold: item.quote,
           change: percentChange(item.quoteRate24H, item.quoteRate),
+          rawValue: (item.balance * item.quoteRate) / (Math.pow(10, item.contractDecimals)),
         }
       })
+      topHolds = topHolds.sort((a, b) => b.rawValue - a.rawValue)
       Vue.set(state, 'topHolds', topHolds)
     },
     isError(state, isError) {
