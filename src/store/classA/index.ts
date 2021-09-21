@@ -1,7 +1,10 @@
 import { classAService } from "@/services/classAService"
-import camelcaseKeys from "camelcase-keys"
+import { moonfarmService } from "@/services/moonfarmService"
 import { convertToHumanUnit, bigNumber, percentChange } from "@/utils/helpers"
 import { get } from "lodash"
+import { mapMoonriverChainSymbol } from '@/store/classA/helper'
+import { moonRiver } from '@/utils/chainInfo'
+import CoinGecko from 'coingecko-api';
 import Vue from "vue"
 
 export default {
@@ -100,7 +103,18 @@ export default {
         try {
           const resp = await classAService.getTokenBalanceForAddress({ address, chainId })
           if (!resp.isError) {
-            const balances = get(resp, ["data", "items"])
+            let balances = get(resp, ["data", "items"], [])
+            if (moonRiver.includes(chainId)) {
+              const price = await moonfarmService.getTokenPrice()
+              console.log("price::", price)
+              const CoinGeckoClient = new CoinGecko();
+              balances = await Promise.all(balances.map(async item => {
+                const data = await CoinGeckoClient.coins.fetch(mapMoonriverChainSymbol[item.contractTickerSymbol], {})
+                return item
+              }))
+              console.log("balance::", balances)
+            }
+
             commit("userBalances", { balances })
             commit("topHolds", { balances })
           }

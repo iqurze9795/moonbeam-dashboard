@@ -22,7 +22,8 @@ export const config = {
   firebaseStorageBucket: process.env.VUE_APP_FIREBASE_STORAGE_BUCKET,
   firebaseMessagingSenderId: process.env.VUE_APP_FIREBASE_MESSAGING_SENDER_ID,
   firebaseAppId: process.env.VUE_APP_FIREBASE_APP_ID,
-  firebaseMeasurementId: process.env.VUE_APP_FIREBASE_MEASUREMENT_ID
+  firebaseMeasurementId: process.env.VUE_APP_FIREBASE_MEASUREMENT_ID,
+  moonfarmHost: process.env.VUE_APP_MOONFARM_HOST
 }
 
 export const Network = {

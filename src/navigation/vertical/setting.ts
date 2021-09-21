@@ -21,7 +21,7 @@ export default [
     disabled: true
   },
   {
-    title: "Defi board",
+    title: "DeFi board",
     icon: "AnchorIcon",
     disabled: true
   },

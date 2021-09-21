@@ -33,6 +33,7 @@
     "camelcase-keys": "^6.2.2",
     "chart.js": "2.9.4",
     "cloudinary": "^1.25.1",
+    "coingecko-api": "^1.0.10",
     "core-js": "3.8.1",
     "csvtojson": "^2.0.10",
     "date-fns": "^2.22.1",

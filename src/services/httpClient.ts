@@ -40,7 +40,11 @@ const coinGeckoApi = axios.create({
 
 })
 
-const services = [covalentApi, coinGeckoApi]
+const moonfarmApi = axios.create({
+  baseURL: config.moonfarmHost,
+})
+
+const services = [covalentApi, coinGeckoApi, moonfarmApi]
 services.forEach((service) => {
   service.interceptors.response.use(
     (response) => ({
@@ -54,6 +58,7 @@ services.forEach((service) => {
 export {
   covalentApi,
   coinGeckoApi,
+  moonfarmApi,
   ethBlockScanApi,
   moonriverBlockScanApi,
   moonbaseBlockScanApi,

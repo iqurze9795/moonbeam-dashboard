@@ -7,6 +7,8 @@ import {
   bscBlockScanApi,
 } from '@/services/httpClient'
 const supportChainID = ['1', '56', '137', '1284', '1287', '1285', 1, 56, 137, 1284, 1285, 1287]
+const moonRiver = ['1285', 1285]
+const moonBeam = ['1284', '1287', 1284, 1287]
 const mapChainLogo = {
   1: require(`@/assets/images/chains/eth.png`),
   56: require(`@/assets/images/chains/bsc.png`),
@@ -52,5 +54,7 @@ export {
   mapChainName,
   mapChainNativeCoin,
   mapChainHost,
-  mapChainClient
+  mapChainClient,
+  moonBeam,
+  moonRiver
 }
