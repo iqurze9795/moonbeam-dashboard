@@ -66,10 +66,6 @@ export default {
       balances = balances.filter((item) => {
         return item.quoteRate && parseInt(item.balance) > 0
       })
-
-      if (balances.length >= 4) {
-        balances = balances.splice(0, 4)
-      }
       let topHolds = balances.map((item) => {
         return {
           logoUrl:
@@ -87,6 +83,9 @@ export default {
         }
       })
       topHolds = topHolds.sort((a, b) => b.rawValue - a.rawValue)
+      if (topHolds.length >= 4) {
+        topHolds = topHolds.splice(0, 4)
+      }
       Vue.set(state, 'topHolds', topHolds)
     },
     isError(state, isError) {
@@ -130,7 +129,6 @@ export default {
                     if (id) {
                       const data = await CoinGeckoClient.coins.fetch(id, {})
                       const { image, marketData, name, symbol } = camelcaseKeys(get(data, ["data"], {}), { deep: true })
-                      console.log(marketData)
                       return {
                         ...item,
                         quoteRate24H: get(marketData, ["high24H", "usd"]),

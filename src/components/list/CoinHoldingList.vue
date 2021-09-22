@@ -19,7 +19,7 @@
       </template>
 
       <template #empty>
-        <div class="view-state empty">No data found.</div>
+        <div class="view-state empty">There's no balances in your wallet.</div>
       </template>
       <!-- company -->
       <template #cell(logoUrl)="{ value }">
@@ -92,8 +92,8 @@ export default class CoinHoldingList extends Vue {
       { key: 'balance', label: 'Balance' },
       { key: 'value', label: 'Value' },
       { key: 'quoteRate', label: 'Price' },
-      { key: 'quoteRate24H', label: 'Price 24H' },
-      { key: 'change', label: 'Change' }
+      // { key: 'quoteRate24H', label: 'Price 24H' },
+      // { key: 'change', label: 'Change' }
     ]
   }
 

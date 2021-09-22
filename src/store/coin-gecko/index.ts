@@ -73,12 +73,12 @@ export default {
         }
         catch (e) {
           commit("isError", true)
-          commit("errorMessage", e.message)
+          commit("errorMessage", e)
         }
       }
       await dispatch("invocation", {
         action,
-        moduleName: "classA/getUserBalance"
+        moduleName: "coingecko/getTrending"
       })
     },
     async getCoinPrice({ commit, dispatch }, { coin }) {
@@ -90,12 +90,12 @@ export default {
         }
         catch (e) {
           commit("isError", true)
-          commit("errorMessage", e.message)
+          commit("errorMessage", e)
         }
       }
       await dispatch("invocation", {
         action,
-        moduleName: "classA/getUserBalance"
+        moduleName: "coingecko/getCoinPrice"
       })
     },
     async getCoinPriceHistory({ commit, dispatch }, { coin }) {
@@ -107,12 +107,12 @@ export default {
         }
         catch (e) {
           commit("isError", true)
-          commit("errorMessage", e.message)
+          commit("errorMessage", e)
         }
       }
       await dispatch("invocation", {
         action,
-        moduleName: "classA/getUserBalance"
+        moduleName: "coingecko/getCoinPriceHistory"
       })
     }
   },

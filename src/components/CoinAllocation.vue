@@ -30,49 +30,64 @@
             </b-row>
           </section>
           <template v-else>
-            <div class="view-state empty">No data found.</div>
+            <div class="view-state empty">There's no balances in your wallet.</div>
           </template>
         </div>
       </b-card-body>
     </b-card>
     <b-card class="p-2">
-      <b-row class="d-flex justify-content-center">
-        <b-col md="6" class="pb-2">
-          <div class="pb-1">
-            <h4>NET WORTH</h4>
+      <template v-if="isLoading">
+        <div class="view-networth-state loading">
+          <div class="text-center text-danger">
+            <b-spinner class="align-middle mr-1"></b-spinner>
+            <strong>Loading...</strong>
           </div>
-          <b-media no-body>
-            <b-media-aside class="mr-2">
-              <b-avatar size="74" variant="light-success">
-                <feather-icon size="34" icon="DollarSignIcon" />
-              </b-avatar>
-            </b-media-aside>
-            <b-media-body class="my-auto">
-              <h2 class="font-weight-bolder mb-0">{{ networth }}</h2>
-              <b-card-text class="font-small-3 mb-0">
-                Holding {{ balances.length }} Assets
-              </b-card-text>
-            </b-media-body>
-          </b-media>
-        </b-col>
-        <b-col class="pl-3">
-          <div
-            v-for="(data, index) in topHolds"
-            :key="index"
-            class="d-flex justify-content-between"
-            :class="index === topHolds.length - 1 ? 'mb-0' : 'mb-1'"
-          >
-            <div class="series-info d-flex align-items-center">
-              <div class="img-container">
-                <img :src="data.logoUrl" />
-              </div>
-              <span class="font-weight-bolder ml-75 mr-25"
-                >{{ data.label.symbol }} ({{ data.percent }}%)</span
-              >
+        </div>
+      </template>
+      <section v-else>
+        <b-row v-if="topHolds.length > 0" class="d-flex justify-content-center">
+          <b-col md="6" class="pb-2">
+            <div class="pb-1">
+              <h4>NET WORTH</h4>
             </div>
+            <b-media no-body>
+              <b-media-aside class="mr-2">
+                <b-avatar size="74" variant="light-success">
+                  <feather-icon size="34" icon="DollarSignIcon" />
+                </b-avatar>
+              </b-media-aside>
+              <b-media-body class="my-auto">
+                <h2 class="font-weight-bolder mb-0">{{ networth }}</h2>
+                <b-card-text class="font-small-3 mb-0">
+                  Holding {{ balances.length }} Assets
+                </b-card-text>
+              </b-media-body>
+            </b-media>
+          </b-col>
+          <b-col class="pl-3">
+            <div
+              v-for="(data, index) in topHolds"
+              :key="index"
+              class="d-flex justify-content-between"
+              :class="index === topHolds.length - 1 ? 'mb-0' : 'mb-1'"
+            >
+              <div class="series-info d-flex align-items-center">
+                <div class="img-container">
+                  <img :src="data.logoUrl" />
+                </div>
+                <span class="font-weight-bolder ml-75 mr-25"
+                  >{{ data.label.symbol }} ({{ data.percent }}%)</span
+                >
+              </div>
+            </div>
+          </b-col>
+        </b-row>
+        <template v-else>
+          <div class="view-networth-state empty">
+            There's no balances in your wallet.
           </div>
-        </b-col>
-      </b-row>
+        </template>
+      </section>
     </b-card>
   </section>
 </template>
@@ -155,7 +170,7 @@ export default class CoinAllocation extends Vue {
       legend: { show: false },
       comparedResult: [2, -3, 8],
       stroke: { width: 0 },
-      colors: [$themeColors.primary, $themeColors.warning, $themeColors.danger]
+      colors: ["#64C9CF","#FDE49C", "#FFB740","#DF711B"]
     }
   }
 }
@@ -187,7 +202,20 @@ export default class CoinAllocation extends Vue {
 
   &.loading,
   &.empty {
-    height: 305px;
+    height: 258px;
   }
+}
+.view-networth-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &.loading,
+  &.empty {
+    min-height: 176.1px;
+  }
+}
+.min-height {
+  min-height: 249.1px;
 }
 </style>
