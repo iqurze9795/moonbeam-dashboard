@@ -67,7 +67,7 @@
     <!--/ Content -->
 
     <!-- Footer -->
-    <footer class="footer footer-light" :class="[footerTypeClass]"></footer>
+    <app-footer class="footer footer-light" :class="[footerTypeClass]"></app-footer>
     <!-- /Footer -->
 
     <slot name="customizer" />
@@ -75,17 +75,17 @@
 </template>
 
 <script>
-import { onUnmounted } from "@vue/composition-api"
-import AppNavbarVerticalLayout from "@core/layouts/components/app-navbar/AppNavbarVerticalLayout.vue"
-import AppFooter from "@core/layouts/components/AppFooter.vue"
-import useAppConfig from "@core/app-config/useAppConfig"
-import { BNavbar } from "bootstrap-vue"
-import LayoutContentRendererDefault from "@core/layouts/components/layout-content-renderer/LayoutContentRendererDefault.vue"
-import LayoutContentRendererLeft from "@core/layouts/components/layout-content-renderer/LayoutContentRendererLeft.vue"
-import LayoutContentRendererLeftDetached from "@core/layouts/components/layout-content-renderer/LayoutContentRendererLeftDetached.vue"
-import VerticalNavMenu from "./components/vertical-nav-menu/VerticalNavMenu.vue"
-import useVerticalLayout from "./useVerticalLayout"
-import mixinVerticalLayout from "./mixinVerticalLayout"
+import { onUnmounted } from '@vue/composition-api'
+import AppNavbarVerticalLayout from '@core/layouts/components/app-navbar/AppNavbarVerticalLayout.vue'
+import AppFooter from '@core/layouts/components/AppFooter.vue'
+import useAppConfig from '@core/app-config/useAppConfig'
+import { BNavbar } from 'bootstrap-vue'
+import LayoutContentRendererDefault from '@core/layouts/components/layout-content-renderer/LayoutContentRendererDefault.vue'
+import LayoutContentRendererLeft from '@core/layouts/components/layout-content-renderer/LayoutContentRendererLeft.vue'
+import LayoutContentRendererLeftDetached from '@core/layouts/components/layout-content-renderer/LayoutContentRendererLeftDetached.vue'
+import VerticalNavMenu from './components/vertical-nav-menu/VerticalNavMenu.vue'
+import useVerticalLayout from './useVerticalLayout'
+import mixinVerticalLayout from './mixinVerticalLayout'
 
 export default {
   components: {
@@ -121,9 +121,9 @@ export default {
 
     // Resize handler
     resizeHandler()
-    window.addEventListener("resize", resizeHandler)
+    window.addEventListener('resize', resizeHandler)
     onUnmounted(() => {
-      window.removeEventListener("resize", resizeHandler)
+      window.removeEventListener('resize', resizeHandler)
     })
 
     return {
@@ -144,15 +144,15 @@ export default {
   computed: {
     layoutContentRenderer() {
       const rendererType = this.$route.meta.contentRenderer
-      if (rendererType === "sidebar-left") return "layout-content-renderer-left"
-      if (rendererType === "sidebar-left-detached")
-        return "layout-content-renderer-left-detached"
-      return "layout-content-renderer-default"
+      if (rendererType === 'sidebar-left') return 'layout-content-renderer-left'
+      if (rendererType === 'sidebar-left-detached')
+        return 'layout-content-renderer-left-detached'
+      return 'layout-content-renderer-default'
     }
   }
 }
 </script>
 
 <style lang="scss">
-@import "~@core/scss/base/themes/bordered-layout.scss";
+@import '~@core/scss/base/themes/bordered-layout.scss';
 </style>

@@ -30,7 +30,9 @@
             </b-row>
           </section>
           <template v-else>
-            <div class="view-state empty">There's no balances in your wallet.</div>
+            <div class="view-state empty">
+              There's no balances in your wallet.
+            </div>
           </template>
         </div>
       </b-card-body>
@@ -45,7 +47,10 @@
         </div>
       </template>
       <section v-else>
-        <b-row v-if="topHolds.length > 0" class="d-flex justify-content-center">
+        <b-row
+          v-if="topHolds.length > 0"
+          class="min-height d-flex justify-content-center"
+        >
           <b-col md="6" class="pb-2">
             <div class="pb-1">
               <h4>NET WORTH</h4>
@@ -170,7 +175,7 @@ export default class CoinAllocation extends Vue {
       legend: { show: false },
       comparedResult: [2, -3, 8],
       stroke: { width: 0 },
-      colors: ["#64C9CF","#FDE49C", "#FFB740","#DF711B"]
+      colors: ['#64C9CF', '#FDE49C', '#FFB740', '#DF711B']
     }
   }
 }
@@ -216,6 +221,6 @@ export default class CoinAllocation extends Vue {
   }
 }
 .min-height {
-  min-height: 249.1px;
+  min-height: 176.1px;
 }
 </style>

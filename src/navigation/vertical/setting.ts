@@ -16,6 +16,11 @@ export default [
     header: "Comming soon",
   },
   {
+    title: "Transactions",
+    icon: "SendIcon",
+    disabled: true
+  },
+  {
     title: "Staking",
     icon: "LayersIcon",
     disabled: true
