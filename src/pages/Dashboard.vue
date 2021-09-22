@@ -18,7 +18,7 @@
           </b-col>
           <b-col lg="12" md="6">
             <coin-price
-              :name="`Moonbeam`"
+              :name="`Glimmer`"
               :icon="require('@/assets/images/icons/moonbeam-logo.png')"
               symbol="GLMR"
             />
