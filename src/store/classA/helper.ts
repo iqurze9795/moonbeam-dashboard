@@ -2,7 +2,7 @@
 const mapMoonriverChainSymbol = {
   "USDC": "usd-coin",
   "BUSD": "binance-usd",
-  "DEV": "moonriver",
+  "DEV": "moonbeam",
   "mSWAP": "mswap",
   "MOON": "moon",
   "RIB": "rip",

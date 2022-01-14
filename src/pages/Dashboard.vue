@@ -8,11 +8,11 @@
               chartColor="#F2B705"
               :name="`Moonriver`"
               :icon="require('@/assets/images/icons/moonriver-logo.png')"
-              :chartData="coinPriceHistory"
-              :change="change"
-              :price="price"
-              :priceRange="priceRange"
-              :changePercent="changePercent"
+              :chartData="coinMovrPriceHistory"
+              :change="movrPriceChange"
+              :price="movrPrice"
+              :priceRange="movrPriceRange"
+              :changePercent="movrChangePercent"
               symbol="MOVR"
             />
           </b-col>
@@ -20,6 +20,11 @@
             <coin-price
               :name="`Glimmer`"
               :icon="require('@/assets/images/icons/moonbeam-logo.png')"
+              :chartData="coinGlmrPriceHistory"
+              :change="glmrPriceChange"
+              :price="glmrPrice"
+              :priceRange="glmrPriceRange"
+              :changePercent="glmrChangePercent"
               symbol="GLMR"
             />
           </b-col>
@@ -67,52 +72,85 @@ import { bigNumber } from '@/utils/helpers'
     ProfitLoss,
     CoinHolding,
     CoinAllocation,
-    TrendingCoin
-  }
+    TrendingCoin,
+  },
 })
 export default class Home extends Vue {
   @Action('coinGecko/getCoinPriceHistory')
   private getCoinPriceHistory
   @Action('coinGecko/getCoinPrice')
   private getCoinPrice
-  get coinPriceHistory() {
+  get coinMovrPriceHistory() {
     return [
       {
         name: 'Moonriver',
-        data: this.$store.getters['coinGecko/coinPriceHistory']('moonriver')
-      }
+        data: this.$store.getters['coinGecko/coinPriceHistory']('moonriver'),
+      },
     ]
   }
-  get change() {
+  get movrPriceChange() {
     const priceHistory = this.$store.getters['coinGecko/coinPriceHistory'](
-      'moonriver'
+      'moonriver',
     )
     if (priceHistory.length > 0) {
       return bigNumber(priceHistory[priceHistory.length - 1] - priceHistory[0])
     }
     return 0
   }
-  get price() {
+  get movrPrice() {
     return this.$store.getters['coinGecko/coinPrice']('moonriver')
   }
-  get p() {
-    return this.$store.getters['coinGecko/coinPriceHistory']('moonriver')
-  }
-  get priceRange() {
+  get movrPriceRange() {
     const priceHistory = this.$store.getters['coinGecko/coinPriceHistory'](
-      'moonriver'
+      'moonriver',
     )
     const maxPrice = Math.max(...priceHistory)
     const minPrice = Math.min(...priceHistory)
     return [minPrice, maxPrice]
   }
-  get changePercent() {
-    return bigNumber(((this.change as any) / this.price) * 100)
+  get movrChangePercent() {
+    return bigNumber(((this.movrPriceChange as any) / this.movrPrice) * 100)
+  }
+  //---
+    get coinGlmrPriceHistory() {
+    return [
+      {
+        name: 'Moonbeam',
+        data: this.$store.getters['coinGecko/coinPriceHistory']('moonbeam'),
+      },
+    ]
+  }
+  get glmrPriceChange() {
+    const priceHistory = this.$store.getters['coinGecko/coinPriceHistory'](
+      'moonbeam',
+    )
+    if (priceHistory.length > 0) {
+      return bigNumber(priceHistory[priceHistory.length - 1] - priceHistory[0])
+    }
+    return 0
+  }
+  get glmrPrice() {
+    return this.$store.getters['coinGecko/coinPrice']('moonbeam')
+  }
+  get glmrPriceRange() {
+    const priceHistory = this.$store.getters['coinGecko/coinPriceHistory'](
+      'moonbeam',
+    )
+    const maxPrice = Math.max(...priceHistory)
+    const minPrice = Math.min(...priceHistory)
+    return [minPrice, maxPrice]
+  }
+  get glmrChangePercent() {
+    return bigNumber(((this.glmrPriceChange as any) / this.glmrPrice) * 100)
   }
 
   async mounted() {
-    await this.getCoinPriceHistory({ coin: 'moonriver' })
-    await this.getCoinPrice({ coin: 'moonriver' })
+    await Promise.all([
+      this.getCoinPriceHistory({ coin: 'moonriver' }),
+      this.getCoinPrice({ coin: 'moonriver' }),
+      this.getCoinPriceHistory({ coin: 'moonbeam' }),
+      this.getCoinPrice({ coin: 'moonbeam' }),
+    ])
   }
 }
 </script>

@@ -29,6 +29,7 @@ export default {
   },
   mutations: {
     userBalances(state, { balances }) {
+      console.log("balances::",balances)
       let formatted = balances
         .filter((item) => {
           return item.quoteRate && parseInt(item.balance) > 0

@@ -1,5 +1,5 @@
 <template>
-  <b-card v-if="symbol === 'MOVR'" no-body>
+  <b-card no-body>
     <b-card-body class="pb-0">
       <b-row>
         <b-col>
@@ -95,25 +95,6 @@
       :options="chartOptionsComputed"
       :series="chartData"
     />
-  </b-card>
-  <b-card v-else class="empty">
-    <b-row>
-      <b-col>
-        <div class="img-container pr-2">
-          <img :src="icon" />
-        </div>
-      </b-col>
-    </b-row>
-    <div class="truncate pb-2">
-      <h2 class="mb-25 font-weight-bolder">{{ name }}</h2>
-      <span>{{ symbol }}</span>
-    </div>
-    <div class="d-flex flex-column">
-      <span style="font-size: 14px">Moonbeam Network is not live yet.</span>
-      <a href="https://moonbeam.foundation/glimmer-token/" target="_blank"
-        >More Detail</a
-      >
-    </div>
   </b-card>
 </template>
 
