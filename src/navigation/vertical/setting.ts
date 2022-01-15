@@ -1,6 +1,6 @@
 export default [
   {
-    header: "Moonbeam Portfolio traking",
+    header: "Moonbeam Portfolio tracking",
   },
   {
     title: "Dashboard",
