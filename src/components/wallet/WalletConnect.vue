@@ -52,7 +52,7 @@ import Ripple from 'vue-ripple-directive'
   }
 })
 export default class WalletConnect extends Vue {
-  @Action('classA/getUserBalances')
+  @Action('debank/getUserBalances')
   private requestUserBalances
   @Getter('preference/address')
   private address

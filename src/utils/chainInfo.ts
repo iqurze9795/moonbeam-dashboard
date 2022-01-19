@@ -37,6 +37,14 @@ const mapChainNativeCoin = {
   1287: 'DEV'
 }
 
+const mapDeBankChainId = {
+  1: 'eth',
+  56: 'bsc',
+  137: 'matic',
+  1284: 'mobm',
+  1285: 'movr',
+}
+
 const mapChainHost = {
   1: config.etherScanHost,
   56: config.bscScanHost,
@@ -56,6 +64,7 @@ const mapChainClient = {
 }
 
 export {
+  mapDeBankChainId,
   supportChainID,
   mapChainLogo,
   mapChainName,

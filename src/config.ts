@@ -1,7 +1,6 @@
 export const config = {
-  covalentHost: process.env.VUE_APP_COVALENT_HOST,
-  covalentApiKey: process.env.VUE_APP_COVALENT_API_KEY,
   networkId: process.env.VUE_APP_NETWORK_ID,
+  deBankHost: process.env.VUE_APP_DE_BANK_HOST,
   coinGeckoHost: process.env.VUE_APP_COINGECKO,
   moonriverBlockScanHost: process.env.VUE_APP_MOONRIVER_BLOCK_SCAN_HOST,
   moonbeamBlockScanHost: process.env.VUE_APP_MOONBEAM_BLOCK_SCAN_HOST,
@@ -25,7 +24,6 @@ export const config = {
   firebaseMessagingSenderId: process.env.VUE_APP_FIREBASE_MESSAGING_SENDER_ID,
   firebaseAppId: process.env.VUE_APP_FIREBASE_APP_ID,
   firebaseMeasurementId: process.env.VUE_APP_FIREBASE_MEASUREMENT_ID,
-  moonfarmHost: process.env.VUE_APP_MOONFARM_HOST
 }
 
 export const Network = {

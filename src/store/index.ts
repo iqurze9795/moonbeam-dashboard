@@ -6,7 +6,7 @@ import app from "./app"
 import appConfig from "./app-config"
 import verticalMenu from "./vertical-menu"
 import service from "./service"
-import classA from "./classA"
+import debank from "./debank"
 import coinGecko from './coin-gecko'
 import preference from './preference'
 import blockScan from './blockScan'
@@ -18,7 +18,7 @@ export default new Vuex.Store({
     appConfig,
     verticalMenu,
     service,
-    classA,
+    debank,
     coinGecko,
     preference,
     blockScan

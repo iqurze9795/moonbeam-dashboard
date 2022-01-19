@@ -81,7 +81,7 @@
                   <img :src="data.logoUrl" />
                 </div>
                 <span class="font-weight-bolder ml-75 mr-25"
-                  >{{ data.label.symbol }} ({{ data.percent }}%)</span
+                  >{{ data.name }} ({{ data.percent }}%)</span
                 >
               </div>
             </div>
@@ -137,27 +137,27 @@ import { bigNumber, convertToHumanUnit } from '@/utils/helpers'
   }
 })
 export default class CoinAllocation extends Vue {
-  @Getter('classA/topHolds')
+  @Getter('debank/topHolds')
   private topHolds
 
-  @Getter('classA/userBalances')
+  @Getter('debank/userBalances')
   private balances
 
   get isLoading() {
-    return this.$store.getters['service/isLoading']('classA/getUserBalance')
+    return this.$store.getters['service/isLoading']('debank/getUserBalance')
   }
   get chartLabels() {
     return this.topHolds.map((item) => {
-      return item.label.symbol
+      return item.name
     })
   }
   get series() {
     return this.topHolds.map((item) => {
-      return item.hold
+      return item.value
     })
   }
   get networth() {
-    const sum = this.balances.reduce((sum, next) => sum + next.rawValue, 0)
+    const sum = this.balances.reduce((sum, next) => sum + next.value, 0)
     return bigNumber(sum)
   }
   get chartOptions() {

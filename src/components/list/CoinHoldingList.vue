@@ -1,6 +1,6 @@
 <template>
   <b-card v-if="balances" no-body class="card-company-table">
-    <b-card-header> <h4>Wallet Holding</h4> </b-card-header>
+    <b-card-header><h4>Wallet Holding</h4></b-card-header>
     <b-table
       :items="balances"
       :busy="isLoading"
@@ -32,21 +32,21 @@
       <template #cell(label)="{ value }">
         <div class="d-flex flex-column">
           <span class="font-weight-bolder mb-25">{{ value.name }}</span>
-          <span class="font-small-2 text-muted text-nowrap">{{
-            value.type
-          }}</span>
+          <span class="font-small-2 text-muted text-nowrap">
+            {{ value.type }}
+          </span>
         </div>
       </template>
 
-      <template #cell(quoteRate)="{ value }">
-        {{ '$' + value }}
-      </template>
-      <template #cell(quoteRate24H)="{ value }">
-        {{ '$' + value }}
+      <template #cell(price)="{ value }">
+        {{ '$' + format(value) }}
       </template>
 
       <template #cell(value)="{ value }">
-        {{ '$' + value }}
+        {{ '$' + format(value) }}
+      </template>
+      <template #cell(amount)="{ value }">
+        {{ format(value) }}
       </template>
       <!-- sales -->
       <template #cell(change)="{ value }">
@@ -65,6 +65,7 @@
 <script lang="ts">
 import { BCard, BTable, BSpinner, BAvatar, BImg } from 'bootstrap-vue'
 import { Getter } from 'vuex-class'
+import BigNumber from 'bignumber.js'
 import Vue from 'vue'
 import Component from 'vue-class-component'
 
@@ -74,42 +75,36 @@ import Component from 'vue-class-component'
     BTable,
     BAvatar,
     BSpinner,
-    BImg
-  }
+    BImg,
+  },
 })
 export default class CoinHoldingList extends Vue {
-  @Getter('classA/userBalances')
+  @Getter('debank/userBalances')
   private balances
 
   get isLoading() {
-    return this.$store.getters['service/isLoading']('classA/getUserBalance')
+    return this.$store.getters['service/isLoading']('debank/getUserBalance')
   }
 
   get fields() {
     return [
       { key: 'logoUrl', label: 'Logo' },
-      { key: 'label', label: 'Asset' },
-      { key: 'balance', label: 'Balance' },
+      { key: 'name', label: 'Asset' },
+      { key: 'amount', label: 'Balance' },
+      { key: 'price', label: 'Price' },
       { key: 'value', label: 'Value' },
-      { key: 'quoteRate', label: 'Price' },
-      // { key: 'quoteRate24H', label: 'Price 24H' },
-      // { key: 'change', label: 'Change' }
+      
     ]
   }
-
-  // {
-  //         avatarImg: require('@/assets/images/icons/toolbox.svg'),
-  //         title: 'Dixons',
-  //         subtitle: 'meguc@ruj.io',
-  //         avatarIcon: 'MonitorIcon',
-  //         avatarColor: 'light-primary',
-  //         avatarTitle: 'Technology',
-  //         viewTitle: '23.4k',
-  //         viewsub: 'in 24 hours',
-  //         revenue: '891.2',
-  //         sales: '68',
-  //         loss: true
-  //       },
+  private format(value) {
+    if (value >= 1) {
+      return new BigNumber(value).toFormat(2)
+    }
+    if (value < 1 && value > 0.1) {
+      return new BigNumber(value).toFormat(4)
+    }
+    return new BigNumber(value).toFormat(6)
+  }
 }
 </script>
 

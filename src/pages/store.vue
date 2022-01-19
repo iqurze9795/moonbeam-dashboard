@@ -7,7 +7,7 @@ import { Component } from 'vue-property-decorator'
 import { Action, Getter } from 'vuex-class'
 @Component({ name: 'store' })
 export default class Store extends Vue {
-  @Action('classA/getUserBalances')
+  @Action('debank/getUserBalances')
   private getUserBalances
 
   async mounted() {
