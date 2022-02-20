@@ -136,7 +136,7 @@ export default class Allowance extends Vue {
   }
   get totalGasUse() {
     const totalGasUse = this.rawTx.reduce((sum, next) => {
-      return sum + parseInt(next.gasUsed)
+      return sum + parseInt(next.cumulativeGasUsed)
     }, 0)
     const wei = Web3.utils.toWei(`${totalGasUse}`, 'gwei')
     return Web3.utils.fromWei(`${wei}`, 'ether')

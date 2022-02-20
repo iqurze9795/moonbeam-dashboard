@@ -13,12 +13,15 @@ const ethBlockScanApi = axios.create({
 })
 const moonriverBlockScanApi = axios.create({
   baseURL: config.moonriverBlockScanHost,
+  params: {
+    apiKey: config.moonriverBlockScanApiKey,
+  },
 })
 const moonbeamBlockScanApi = axios.create({
   baseURL: config.moonbeamBlockScanHost,
-})
-const moonbaseBlockScanApi = axios.create({
-  baseURL: config.moonbaseBlockScanHost,
+  params: {
+    apiKey: config.moonbeamBlockScanApiKey,
+  },
 })
 const polygonBlockScanApi = axios.create({
   baseURL: config.polygonBlockScanHost,
@@ -54,7 +57,6 @@ export {
   ethBlockScanApi,
   moonriverBlockScanApi,
   moonbeamBlockScanApi,
-  moonbaseBlockScanApi,
   polygonBlockScanApi,
   bscBlockScanApi,
 }

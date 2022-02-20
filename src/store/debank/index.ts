@@ -79,7 +79,7 @@ export default {
           })
           const balances = get(resp, ['data'], [])
 
-          const formatted = balances
+          let formatted = balances
             .map((item: BalanceItem) => {
               return {
                 ...item,
@@ -87,6 +87,9 @@ export default {
               }
             })
             .sort((a, b) => b.value - a.value)
+          formatted = formatted.filter((item) => {
+            return item.value > 0
+          })
           commit('userBalances', { balances: formatted })
           commit('topHolds', { balances: formatted })
         } catch (e) {

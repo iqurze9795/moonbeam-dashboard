@@ -2,12 +2,24 @@ import { config } from '@/config'
 import {
   ethBlockScanApi,
   moonriverBlockScanApi,
-  moonbaseBlockScanApi,
   moonbeamBlockScanApi,
   polygonBlockScanApi,
   bscBlockScanApi,
 } from '@/services/httpClient'
-const supportChainID = ['1', '56', '137', '1284', '1287', '1285', 1, 56, 137, 1284, 1285, 1287]
+const supportChainID = [
+  '1',
+  '56',
+  '137',
+  '1284',
+  '1287',
+  '1285',
+  1,
+  56,
+  137,
+  1284,
+  1285,
+  1287,
+]
 const moonRiver = ['1285', 1285]
 const moonBeam = ['1284', '1287', 1284, 1287]
 const mapChainLogo = {
@@ -16,8 +28,7 @@ const mapChainLogo = {
   137: require(`@/assets/images/chains/matic.png`),
   1284: require(`@/assets/images/chains/moonbeam.png`),
   1285: require(`@/assets/images/chains/moonriver.png`),
-  1287: require(`@/assets/images/chains/moonbeam.png`)
-  
+  1287: require(`@/assets/images/chains/moonbeam.png`),
 }
 const mapChainName = {
   1: 'Ethereum Mainet',
@@ -25,7 +36,7 @@ const mapChainName = {
   137: 'Matic(Polygon)',
   1284: 'Moonbeam',
   1285: 'Moonriver',
-  1287: 'Moonbase Alpha'
+  1287: 'Moonbase Alpha',
 }
 
 const mapChainNativeCoin = {
@@ -34,7 +45,7 @@ const mapChainNativeCoin = {
   137: 'MATIC',
   1284: 'GLMR',
   1285: 'MOVR',
-  1287: 'DEV'
+  1287: 'DEV',
 }
 
 const mapDeBankChainId = {
@@ -49,9 +60,9 @@ const mapChainHost = {
   1: config.etherScanHost,
   56: config.bscScanHost,
   137: config.polygonScanHost,
-  1284: config.moonbeamBlockScoutHost,
-  1285: config.moonriverBlockScoutHost,
-  1287: config.moonbaseBlockScoutHost
+  1284: config.moonbeamScanHost,
+  1285: config.moonriverScanHost,
+  1287: config.moonbaseBlockScoutHost,
 }
 
 const mapChainClient = {
@@ -60,7 +71,6 @@ const mapChainClient = {
   137: polygonBlockScanApi,
   1284: moonbeamBlockScanApi,
   1285: moonriverBlockScanApi,
-  1287: moonbaseBlockScanApi
 }
 
 export {
@@ -72,5 +82,5 @@ export {
   mapChainHost,
   mapChainClient,
   moonBeam,
-  moonRiver
+  moonRiver,
 }
